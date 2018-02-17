@@ -40,8 +40,8 @@ func clearTable() {
 const tableCreationQuery = `CREATE TABLE IF NOT EXISTS users (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     Username VARCHAR(50) NOT NULL,
-    password VARCHAR(60) NOT NULL,
-    Email VARCHAR(100)
+    Password VARCHAR(60) NOT NULL,
+    Email VARCHAR(100) UNIQUE
 );`
 
 func executeRequest(req *http.Request) *httptest.ResponseRecorder {
@@ -89,15 +89,12 @@ func TestCreateUser(t *testing.T) {
 	if m["Username"] != "chance" {
 		t.Errorf("Expected user name to be 'chance'. Got '%v'", m["Username"])
 	}
-	if m["Password"] != "booboo" {
-		t.Errorf("Expected password to be booboo. Got '%v'", m["Password"])
-	}
 	if m["Email"] != "chance@test.com" {
 		t.Errorf("Expected password to be chance@test.com. Got '%v'", m["Email"])
 	}
 	// the ID is compared to 1.0 because JSON unmarshaling converts numbers to
 	// floats, when the target is a map[string]interface{}
-	if m["ID"] != 1 {
+	if m["ID"] != 1.0 {
 		t.Errorf("Expected user ID to be '1'. Got '%v'", m["ID"])
 	}
 }
@@ -107,7 +104,7 @@ func addUsers(count int) {
 		count = 1
 	}
 	for i := 0; i < count; i++ {
-		statement := fmt.Sprintf("INSERT INTO users(Username, Password, Email) VALUES('%s')", ("chance, booboo, chance@test.com"), ((i + 1) * 10))
+		statement := fmt.Sprintf("INSERT INTO users(Username, Password, Email) VALUES(%s)", ("'chance', 'booboo', 'chance@test.com'"))
 		a.DB.Exec(statement)
 	}
 }
@@ -120,6 +117,15 @@ func TestGetUser(t *testing.T) {
 	checkResponseCode(t, http.StatusOK, response.Code)
 }
 
+func TestGetUserByEmail(t *testing.T) {
+	clearTable()
+	addUsers(1)
+	payload := []byte(`{"Email": "chance@test.com", "Password": "booboo"}`)
+	req, _ := http.NewRequest("POST", "/user/email", bytes.NewBuffer(payload))
+	response := executeRequest(req)
+	checkResponseCode(t, http.StatusOK, response.Code)
+}
+
 func TestUpdateUser(t *testing.T) {
 	clearTable()
 	addUsers(1)
@@ -127,7 +133,7 @@ func TestUpdateUser(t *testing.T) {
 	response := executeRequest(req)
 	var originalUser map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &originalUser)
-	payload := []byte(`{"Username":"new chance who dis","Password":"booboo2"}`)
+	payload := []byte(`{"Username":"chance2","Password":"booboo2", "Email": "new@test.com"}`)
 	req, _ = http.NewRequest("PUT", "/user/1", bytes.NewBuffer(payload))
 	response = executeRequest(req)
 	checkResponseCode(t, http.StatusOK, response.Code)

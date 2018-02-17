@@ -4,13 +4,24 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type user struct {
 	ID       int    `json:"ID"`
 	Username string `json:"Username"`
-	Password int    `json:"Password"`
+	Password string `json:"Password"`
 	Email    string `json:"Email"`
+}
+
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 10)
+	return string(bytes), err
+}
+
+func CheckPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
 }
 
 func (u *user) getUser(db *sql.DB) error {
@@ -18,8 +29,19 @@ func (u *user) getUser(db *sql.DB) error {
 	return db.QueryRow(statement).Scan(&u.Username, &u.Password, &u.Email)
 }
 
+func (u *user) retrieveUserByEmail(db *sql.DB) error {
+	statement := fmt.Sprintf("SELECT ID, Username, Password, Email FROM users WHERE Email='%v'", u.Email)
+	return db.QueryRow(statement).Scan(&u.ID, &u.Username, &u.Password, &u.Email)
+}
+
 func (u *user) updateUser(db *sql.DB) error {
-	statement := fmt.Sprintf("UPDATE users SET Username='%s', Password=%d WHERE ID=%d", u.Username, u.Password, u.ID)
+	hash, err1 := HashPassword(u.Password)
+	if err1 != nil {
+		return err1
+	}
+	u.Password = hash
+
+	statement := fmt.Sprintf("UPDATE users SET Username='%s', Password='%s', Email='%s' WHERE ID=%d", u.Username, u.Password, u.Email, u.ID)
 	_, err := db.Exec(statement)
 	return err
 }
@@ -31,6 +53,13 @@ func (u *user) deleteUser(db *sql.DB) error {
 }
 
 func (u *user) createUser(db *sql.DB) error {
+
+	hash, err1 := HashPassword(u.Password)
+	if err1 != nil {
+		return err1
+	}
+	u.Password = hash
+
 	statement := fmt.Sprintf("INSERT INTO users(Username, Password, Email) VALUES('%s', '%s', '%s')", u.Username, u.Password, u.Email)
 	_, err := db.Exec(statement)
 	if err != nil {

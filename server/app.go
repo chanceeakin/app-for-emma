@@ -46,6 +46,28 @@ func (a *App) getUser(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, u)
 }
 
+func (a *App) retrieveUserByEmail(w http.ResponseWriter, r *http.Request) {
+	var u user
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&u); err != nil {
+		fmt.Print(err)
+		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
+		return
+	}
+	defer r.Body.Close()
+	if err := u.retrieveUserByEmail(a.DB); err != nil {
+		fmt.Print(err)
+		switch err {
+		case sql.ErrNoRows:
+			respondWithError(w, http.StatusNotFound, "User not found")
+		default:
+			respondWithError(w, http.StatusInternalServerError, err.Error())
+		}
+		return
+	}
+	respondWithJSON(w, http.StatusOK, u)
+}
+
 func (a *App) getUsers(w http.ResponseWriter, r *http.Request) {
 	count, _ := strconv.Atoi(r.FormValue("count"))
 	start, _ := strconv.Atoi(r.FormValue("start"))
@@ -80,7 +102,7 @@ func (a *App) createUser(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) updateUser(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	id, err := strconv.Atoi(vars["id"])
+	id, err := strconv.Atoi(vars["ID"])
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, "Invalid user ID")
 		return
@@ -102,7 +124,7 @@ func (a *App) updateUser(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) deleteUser(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	id, err := strconv.Atoi(vars["id"])
+	id, err := strconv.Atoi(vars["ID"])
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, "Invalid User ID")
 		return
@@ -118,6 +140,7 @@ func (a *App) deleteUser(w http.ResponseWriter, r *http.Request) {
 func (a *App) initializeRoutes() {
 	a.Router.HandleFunc("/users", a.getUsers).Methods("GET")
 	a.Router.HandleFunc("/user", a.createUser).Methods("POST")
+	a.Router.HandleFunc("/user/email", a.retrieveUserByEmail).Methods("POST")
 	a.Router.HandleFunc("/user/{ID:[0-9]+}", a.getUser).Methods("GET")
 	a.Router.HandleFunc("/user/{ID:[0-9]+}", a.updateUser).Methods("PUT")
 	a.Router.HandleFunc("/user/{ID:[0-9]+}", a.deleteUser).Methods("DELETE")

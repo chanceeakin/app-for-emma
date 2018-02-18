@@ -6,6 +6,7 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
 	"log"
 	"net/http"
 	"strconv"
@@ -19,11 +20,71 @@ type App struct {
 func respondWithError(w http.ResponseWriter, code int, message string) {
 	respondWithJSON(w, code, map[string]string{"error": message})
 }
+
 func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	response, _ := json.Marshal(payload)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
 	w.Write(response)
+}
+
+var (
+	// key must be 16, 24 or 32 bytes long (AES-128, AES-192 or AES-256)
+	key   = []byte("super-secret-key")
+	store = sessions.NewCookieStore(key)
+)
+
+func (a *App) secret(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, "cookie-name")
+
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
+
+	// Print secret message
+	fmt.Fprintln(w, "The cake is a lie!")
+}
+
+func (a *App) login(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, "cookie-name")
+	var u user
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&u); err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
+		return
+	}
+	inputPassword := u.Password
+	defer r.Body.Close()
+	if err := u.retrieveUserByEmail(a.DB); err != nil {
+		switch err {
+		case sql.ErrNoRows:
+			respondWithError(w, http.StatusNotFound, "User not found")
+		default:
+			respondWithError(w, http.StatusInternalServerError, err.Error())
+		}
+		return
+	}
+	checkedHash := CheckPasswordHash(inputPassword, u.Password)
+	fmt.Println(checkedHash)
+	if !checkedHash {
+		respondWithError(w, http.StatusForbidden, "User not authorized")
+	}
+	session.Values["authenticated"] = true
+	session.Save(r, w)
+	// Authentication goes here
+	// ...
+
+	// Set user as authenticated
+}
+
+func (a *App) logout(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, "cookie-name")
+
+	// Revoke users authentication
+	session.Values["authenticated"] = false
+	session.Save(r, w)
 }
 
 func (a *App) getUser(w http.ResponseWriter, r *http.Request) {
@@ -50,13 +111,11 @@ func (a *App) retrieveUserByEmail(w http.ResponseWriter, r *http.Request) {
 	var u user
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&u); err != nil {
-		fmt.Print(err)
 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
 	if err := u.retrieveUserByEmail(a.DB); err != nil {
-		fmt.Print(err)
 		switch err {
 		case sql.ErrNoRows:
 			respondWithError(w, http.StatusNotFound, "User not found")
@@ -138,6 +197,9 @@ func (a *App) deleteUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) initializeRoutes() {
+	a.Router.HandleFunc("/secret", a.secret)
+	a.Router.HandleFunc("/login", a.login).Methods("POST")
+	a.Router.HandleFunc("/logout", a.logout)
 	a.Router.HandleFunc("/users", a.getUsers).Methods("GET")
 	a.Router.HandleFunc("/user", a.createUser).Methods("POST")
 	a.Router.HandleFunc("/user/email", a.retrieveUserByEmail).Methods("POST")
@@ -146,8 +208,9 @@ func (a *App) initializeRoutes() {
 	a.Router.HandleFunc("/user/{ID:[0-9]+}", a.deleteUser).Methods("DELETE")
 }
 
-func (a *App) Initialize(user, password, dbname string) {
-	connectionString := fmt.Sprintf("%s:%s@/%s", user, password, dbname)
+func (a *App) Initialize(host, port, user, password, dbname string) {
+	fmt.Println("initializing......")
+	connectionString := fmt.Sprintf("%s:%s@tcp(%v:%v)/%s", user, password, host, port, dbname)
 	var err error
 	a.DB, err = sql.Open("mysql", connectionString)
 	if err != nil {
@@ -157,5 +220,6 @@ func (a *App) Initialize(user, password, dbname string) {
 	a.initializeRoutes()
 }
 func (a *App) Run(addr string) {
+	fmt.Printf("Running on %s\n", addr)
 	log.Fatal(http.ListenAndServe(addr, a.Router))
 }

@@ -17,3 +17,12 @@ export const mainPage = () => {
     )
   }
 }
+
+export const signupPage = () => {
+  return dispatch => {
+    dispatch(NavigationActions.navigate({
+      routeName: 'Signup'
+    })
+    )
+  }
+}

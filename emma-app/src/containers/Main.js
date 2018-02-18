@@ -4,12 +4,10 @@ import React, {
 import {
   Text,
   View,
-  TouchableOpacity,
   StyleSheet
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-import {loginPage} from './../actions/navigation'
 
 const styles = StyleSheet.create({
   container: {
@@ -45,19 +43,15 @@ const styles = StyleSheet.create({
   }
 })
 
-export default class Screen1View extends Component {
+export default class MainView extends Component {
   static navigationOptions = {
     header: null
-  }
-
-  navigate = () => {
-    this.props.navigation.dispatch(loginPage)
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Foodie</Text>
+        <Text style={styles.text}>Home</Text>
         <View style={styles.row}>
           <Icon
             name="glass"
@@ -65,14 +59,6 @@ export default class Screen1View extends Component {
             size={50}
           />
         </View>
-        <TouchableOpacity
-          style={styles.bigButton}
-          onPress={this.navigate}
-        >
-          <Text style={styles.bigButtonText}>
-            Login
-          </Text>
-        </TouchableOpacity>
       </View>
     )
   }

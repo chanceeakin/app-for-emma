@@ -11,23 +11,21 @@ import {connect} from 'react-redux'
 import {
   updateUserNameText,
   updatePasswordText
-} from './../actions/login'
+} from './../actions/signup'
 
 import {
-  mainPage,
-  signupPage
+  mainPage
 } from './../actions/navigation'
 
 const mapStateToProps = state => ({
-  userName: state.login.username,
-  password: state.login.password
+  userName: state.signup.username,
+  password: state.signup.password
 })
 
 const mapDispatchToProps = {
   updateUserNameText,
   updatePasswordText,
-  mainPage,
-  signupPage
+  mainPage
 }
 
 
@@ -85,7 +83,7 @@ class LoginView extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.row}>
-          <Text style={styles.title}>Login</Text>
+          <Text style={styles.title}>Signup</Text>
           <TextInput
             style={styles.input}
             onChangeText={(text) => this.props.updateUserNameText(text)}
@@ -103,19 +101,11 @@ class LoginView extends Component {
             onPress={this.props.mainPage}
           >
             <Text style={styles.bigButtonText}>
-              Login
+              Signup
             </Text>
           </TouchableOpacity>
 
         </View>
-        <TouchableOpacity
-          onPress={this.props.signupPage}
-        >
-          <Text>
-            No Account? Signup
-          </Text>
-        </TouchableOpacity>
-
       </View>
     )
   }

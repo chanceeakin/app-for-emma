@@ -10,7 +10,9 @@ import {connect} from 'react-redux'
 
 import {
   updateUserNameText,
-  updatePasswordText
+  updatePasswordText,
+  updateEmailText,
+  signupUser
 } from './../actions/signup'
 
 import {
@@ -18,13 +20,16 @@ import {
 } from './../actions/navigation'
 
 const mapStateToProps = state => ({
-  userName: state.signup.username,
-  password: state.signup.password
+  username: state.signup.username,
+  password: state.signup.password,
+  email: state.signup.email
 })
 
 const mapDispatchToProps = {
   updateUserNameText,
   updatePasswordText,
+  updateEmailText,
+  signupUser,
   mainPage
 }
 
@@ -79,7 +84,11 @@ class LoginView extends Component {
   }
 
   render() {
-    const {userName, password} = this.props
+    const {
+      username,
+      password,
+      email
+    } = this.props
     return (
       <View style={styles.container}>
         <View style={styles.row}>
@@ -87,20 +96,33 @@ class LoginView extends Component {
           <TextInput
             style={styles.input}
             onChangeText={(text) => this.props.updateUserNameText(text)}
-            value={userName}
-            placeholder="User Name"
+            value={username}
+            placeholder="Name"
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => this.props.updateEmailText(text)}
+            value={email}
+            placeholder="Email"
           />
           <TextInput
             style={styles.input}
             onChangeText={(text) => this.props.updatePasswordText(text)}
             value={password}
             secureTextEntry
+            placeholder="Password"
           />
           <TouchableOpacity
             style={styles.bigButton}
-            onPress={this.props.mainPage}
+            onPress={() => this.props.signupUser({
+              username: username,
+              email: email,
+              password: password
+            })}
           >
-            <Text style={styles.bigButtonText}>
+            <Text
+              style={styles.bigButtonText}
+            >
               Signup
             </Text>
           </TouchableOpacity>

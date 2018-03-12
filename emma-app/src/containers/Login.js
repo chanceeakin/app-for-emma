@@ -6,7 +6,10 @@ import {
   Text,
   TouchableOpacity
 } from 'react-native'
+import classnames from 'classnames'
 import {connect} from 'react-redux'
+import {LinearGradient} from 'expo'
+
 
 import {
   updateUserNameText,
@@ -20,7 +23,8 @@ import {
 
 const mapStateToProps = state => ({
   userName: state.login.username,
-  password: state.login.password
+  password: state.login.password,
+  isFontLoaded: state.app.isFontLoaded
 })
 
 const mapDispatchToProps = {
@@ -47,7 +51,11 @@ var styles = StyleSheet.create({
   title:{
     fontSize: 48,
     fontWeight: '600',
-    marginBottom: 30
+    marginBottom: 30,
+    color: '#C5CC08'
+  },
+  font: {
+    'fontFamily': 'Skia'
   },
   description:{
     marginTop: 5,
@@ -70,7 +78,10 @@ var styles = StyleSheet.create({
   bigButtonText: {
     fontSize: 23,
     fontWeight: '600',
-    color: 'white'
+    color: '#C5CC08'
+  },
+  signupButton: {
+    padding: 5
   }
 })
 
@@ -83,9 +94,16 @@ class LoginView extends Component {
   render() {
     const {userName, password} = this.props
     return (
-      <View style={styles.container}>
+      <LinearGradient
+        colors={['#041069', '#69044E']}
+        start={[0, 0]}
+        end={[1, 1]}
+        location={[0.25, 0.4, 1]}
+        style={styles.container}
+      >
         <View style={styles.row}>
-          <Text style={styles.title}>Login</Text>
+          <Text style={[styles.title,(this.props.isFontLoaded ? styles.font : null)]
+          }>Login</Text>
           <TextInput
             style={styles.input}
             onChangeText={(text) => this.props.updateUserNameText(text)}
@@ -110,13 +128,14 @@ class LoginView extends Component {
         </View>
         <TouchableOpacity
           onPress={this.props.signupPage}
+          style={styles.signupButton}
         >
           <Text>
             No Account? Signup
           </Text>
         </TouchableOpacity>
 
-      </View>
+      </LinearGradient>
     )
   }
 }

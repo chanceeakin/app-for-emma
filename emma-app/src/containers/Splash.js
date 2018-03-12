@@ -1,3 +1,4 @@
+// @flow
 import React, {
   Component
 } from 'react'
@@ -7,12 +8,14 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome'
 import {connect} from 'react-redux'
+import {LinearGradient} from 'expo'
 
 import {loginPage} from './../actions/navigation'
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+  isFontLoaded: state.app.isFontLoaded
+})
 
 const mapDispatchToProps = {
   loginPage
@@ -21,19 +24,14 @@ const mapDispatchToProps = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9f9f9',
     justifyContent: 'center',
     alignItems: 'center'
   },
-  icon: {
-    margin: 10
-  },
   text: {
-    fontSize: 72
-  },
-  row: {
-    height: 100,
-    flexDirection: 'row'
+    fontSize: 72,
+    color: '#C5CC08',
+    textAlign: 'center',
+    fontFamily: 'Skia'
   },
   bigNumber: {
     fontSize: 48
@@ -48,7 +46,8 @@ const styles = StyleSheet.create({
   bigButtonText: {
     fontSize: 23,
     fontWeight: '600',
-    color: 'white'
+    color: 'white',
+    textAlign: 'center'
   }
 })
 
@@ -57,26 +56,31 @@ class SplashView extends Component {
     header: null
   }
 
-  render() {
+  render () {
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>Foodie</Text>
-        <View style={styles.row}>
-          <Icon
-            name="glass"
-            style={styles.icon}
-            size={50}
-          />
-        </View>
-        <TouchableOpacity
-          style={styles.bigButton}
-          onPress={this.props.loginPage}
-        >
-          <Text style={styles.bigButtonText}>
+      <LinearGradient
+        colors={['#041069', '#69044E']}
+        start={[0, 0]}
+        end={[1, 1]}
+        location={[0.25, 0.4, 1]}
+        style={styles.container}
+      >
+        <View style={styles.innerContainer}>
+          {this.props.isFontLoaded ? (
+            <Text style={styles.text}>Daily Practice</Text>
+          ) : null
+          }
+          <TouchableOpacity
+            style={styles.bigButton}
+            onPress={this.props.loginPage}
+          >
+            <Text style={styles.bigButtonText}>
             Login
-          </Text>
-        </TouchableOpacity>
-      </View>
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </LinearGradient>
+
     )
   }
 }

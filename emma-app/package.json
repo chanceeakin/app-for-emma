@@ -13,6 +13,7 @@
     "eslint-plugin-react": "7.6.1",
     "flow-bin": "0.56.0",
     "jest-expo": "25.0.0",
+    "prettier": "1.11.1",
     "react-native-scripts": "1.11.1",
     "react-test-renderer": "16.2.0"
   },
@@ -29,6 +30,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "classnames": "2.2.5",
     "expo": "^25.0.0",
     "react": "16.2.0",
     "react-icons": "2.2.7",
@@ -38,6 +40,7 @@
     "react-navigation-redux-helpers": "1.0.1",
     "react-redux": "5.0.7",
     "redux": "3.7.2",
-    "redux-thunk": "2.2.0"
+    "redux-thunk": "2.2.0",
+    "styled-components": "3.2.1"
   }
 }

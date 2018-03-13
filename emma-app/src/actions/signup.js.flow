@@ -1,0 +1,30 @@
+export type UpdateUserNameText = {
+  type: 'SIGNUP_USERNAME_CHANGE',
+  payload: ?string
+}
+
+export type UpdatePasswordText = {
+  type: 'SIGNUP_PASSWORD_CHANGE',
+  payload: ?string
+}
+
+export type UpdateEmailText = {
+  type: 'SIGNUP_EMAIL_CHANGE',
+  payload: ?string
+}
+
+export type SignupUser = {
+  type: 'SIGNUP_SEND_BEGIN',
+  payload: Object
+}
+
+export type SignupSuccess = {
+  type: 'SIGNUP_SEND_SUCCESS',
+  payload: Object
+}
+
+export type SignupFail = {
+  type: 'SIGNUP_SEND_FAIL'
+}
+
+export type SignupAction = UpdateUserNameText | UpdatePasswordText | UpdateEmailText | SignupUser | SignupSuccess | SignupFail

@@ -1,3 +1,4 @@
+// @flow
 import {
   SIGNUP_USERNAME_CHANGE,
   SIGNUP_PASSWORD_CHANGE,
@@ -7,24 +8,26 @@ import {
   SIGNUP_SEND_FAIL
 } from './../constants/action-types'
 import {mainPage} from './navigation'
+import type {SignupAction} from './signup.js.flow'
+import type {Dispatch} from './../types/Store'
 
-export const updateUserNameText = (payload) => ({
+export const updateUserNameText = (payload: string): SignupAction => ({
   type: SIGNUP_USERNAME_CHANGE,
   payload
 })
 
-export const updatePasswordText = (payload) => ({
+export const updatePasswordText = (payload: string): SignupAction => ({
   type: SIGNUP_PASSWORD_CHANGE,
   payload
 })
 
-export const updateEmailText = (payload) => ({
+export const updateEmailText = (payload: string): SignupAction => ({
   type: SIGNUP_EMAIL_CHANGE,
   payload
 })
 
-export const signupUser = (payload) => {
-  return async dispatch => {
+export const signupUser = (payload: Object): SignupAction => {
+  return async (dispatch: Dispatch) => {
     dispatch({
       type: SIGNUP_SEND_BEGIN
     })
@@ -50,20 +53,16 @@ export const signupUser = (payload) => {
   }
 }
 
-const signupSuccess = (payload) => {
-  return dispatch => {
-    dispatch(mainPage())
-    dispatch({
-      type: SIGNUP_SEND_SUCCESS,
-      payload
-    })
-  }
+const signupSuccess = (payload) => (dispatch: Dispatch) => {
+  dispatch(mainPage())
+  dispatch({
+    type: SIGNUP_SEND_SUCCESS,
+    payload
+  })
 }
 
-export const signupFail = () => {
-  return dispatch => {
-    dispatch({
-      type: SIGNUP_SEND_FAIL
-    })
-  }
+export const signupFail = () => (dispatch: Dispatch) => {
+  dispatch({
+    type: SIGNUP_SEND_FAIL
+  })
 }

@@ -1,12 +1,18 @@
+// @flow
 import {
   SIGNUP_SEND_SUCCESS
 } from '../constants/action-types'
+import type {Action} from './../types/Action.js.flow'
 
-const initialState = {
+type State = {
+  user: Object
+}
+
+const initialState: State = {
   user: {}
 }
 
-const loginReducer = (state = initialState, action) => {
+const loginReducer = (state: State = initialState, action: Action) => {
   switch (action.type) {
   case SIGNUP_SEND_SUCCESS:
     return {

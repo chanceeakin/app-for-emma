@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import {Font} from 'expo'
 
-import store from './src/store.js' //Import the store
+import {store} from './src/store.js' //Import the store
 import AppNavigation from './src/navigation'
 import Skia from './assets/fonts/Skia-Regular.ttf'
 

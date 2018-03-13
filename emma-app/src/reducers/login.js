@@ -1,14 +1,21 @@
+// @ flow
 import {
   LOGIN_PASSWORD_CHANGE,
   LOGIN_USERNAME_CHANGE
 } from '../constants/action-types'
+import type { Action } from './../types/Action'
 
-const initialState = {
+type State = {
+  username: string,
+  password: string
+}
+
+const initialState: State = {
   username: '',
   password: ''
 }
 
-const loginReducer = (state = initialState, action) => {
+const loginReducer = (state: State = initialState, action: Action) => {
   switch (action.type) {
   case LOGIN_USERNAME_CHANGE:
     return {

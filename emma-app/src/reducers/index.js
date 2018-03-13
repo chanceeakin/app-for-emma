@@ -1,14 +1,18 @@
+// @ flow
 import { combineReducers } from 'redux'
 import login from './login'
 import app from './app'
 import signup from './signup'
 import NavigationReducer from './navigation'
 
-const AppReducer = combineReducers({
+
+const reducers = {
   NavigationReducer,
   app,
   login,
   signup
-})
+}
 
-export default AppReducer
+export type Reducers = typeof reducers;
+
+export default combineReducers(reducers)

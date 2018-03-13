@@ -1,3 +1,4 @@
+// @flow
 import {
   SIGNUP_PASSWORD_CHANGE,
   SIGNUP_USERNAME_CHANGE,
@@ -6,8 +7,17 @@ import {
   SIGNUP_SEND_FAIL,
   SIGNUP_SEND_SUCCESS
 } from '../constants/action-types'
+import type {Action} from './../types/Action.js.flow'
 
-const initialState = {
+type State = {
+  username: ?string,
+  password: ?string,
+  email: ?string,
+  isSendingSignup: boolean,
+  signupError: boolean
+}
+
+const initialState: State = {
   username: '',
   password: '',
   email: '',
@@ -15,7 +25,7 @@ const initialState = {
   signupError: false
 }
 
-const signupReducer = (state = initialState, action) => {
+const signupReducer = (state: State = initialState, action: Action) => {
   switch (action.type) {
   case SIGNUP_USERNAME_CHANGE:
     return {

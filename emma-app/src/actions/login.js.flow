@@ -1,0 +1,12 @@
+
+export type UpdateUserNameText = {
+  type: 'LOGIN_USERNAME_CHANGE',
+  payload: ?string
+}
+
+export type updatePasswordText = {
+  type: 'LOGIN_PASSWORD_CHANGE',
+  payload: ?string
+}
+
+export type LoginAction = UpdateUserNameText | updatePasswordText

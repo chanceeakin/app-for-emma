@@ -1,0 +1,6 @@
+export type LoadFonts = {
+  type: 'APP_FONT_LOAD'
+};
+
+
+export type AppAction = LoadFonts;

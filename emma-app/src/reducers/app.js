@@ -1,12 +1,18 @@
+// @flow
 import {
   APP_FONT_LOAD
 } from '../constants/action-types'
+import type {Action} from './../types/Action.js.flow'
 
-const initialState = {
+type State = {
+  isFontLoaded: boolean
+}
+
+const initialState: State = {
   isFontLoaded: false
 }
 
-const appReducer = (state = initialState, action) => {
+const appReducer = (state: State = initialState, action: Action) => {
   switch (action.type) {
   case APP_FONT_LOAD:
     return {

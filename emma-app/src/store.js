@@ -4,6 +4,7 @@ import {
 } from 'redux'
 import thunk from 'redux-thunk'
 import { middleware } from './utils/redux'
+import type { Store } from './types/Store'
 
 import reducers from './reducers' //Import the reducer
 
@@ -13,4 +14,4 @@ const middlewares = [
 ]
 
 // Connect our store to the reducers
-export default createStore(reducers, applyMiddleware(...middlewares))
+export const store: Store =  createStore(reducers, applyMiddleware(...middlewares))

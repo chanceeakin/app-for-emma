@@ -6,7 +6,6 @@ import {
   Text,
   TouchableOpacity
 } from 'react-native'
-import classnames from 'classnames'
 import {connect} from 'react-redux'
 import {LinearGradient} from 'expo'
 
@@ -65,7 +64,7 @@ var styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderBottomWidth: 1,
-    color: 'black',
+    color: '#fafafa',
     minWidth: 200
   },
   bigButton: {
@@ -82,6 +81,9 @@ var styles = StyleSheet.create({
   },
   signupButton: {
     padding: 5
+  },
+  text: {
+    color: '#C5CC08'
   }
 })
 
@@ -109,12 +111,15 @@ class LoginView extends Component {
             onChangeText={(text) => this.props.updateUserNameText(text)}
             value={userName}
             placeholder="User Name"
+            placeholderTextColor={'rgba(255,255,255,0.3)'}
           />
           <TextInput
             style={styles.input}
             onChangeText={(text) => this.props.updatePasswordText(text)}
             value={password}
             secureTextEntry
+            placeholder="Password"
+            placeholderTextColor={'rgba(255,255,255,0.3)'}
           />
           <TouchableOpacity
             style={styles.bigButton}
@@ -130,7 +135,7 @@ class LoginView extends Component {
           onPress={this.props.signupPage}
           style={styles.signupButton}
         >
-          <Text>
+          <Text style={styles.text}>
             No Account? Signup
           </Text>
         </TouchableOpacity>

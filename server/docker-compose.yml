@@ -5,7 +5,7 @@ services:
     container_name: goapi
     image: chanceeakin/goapi
     build:
-      context: .
+      context: ./mysql
       dockerfile: Server.Dockerfile
     ports:
       - '8080:8080'

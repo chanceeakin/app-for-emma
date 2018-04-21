@@ -8,26 +8,51 @@ var Schema = `
 	}
 	type Query {
 		hello: String!
-		books: [Book]
+		users: [User]
+		suggestions: [Suggestion]
+		suggestion(id: ID!): Suggestion
+		randomSuggestion(): Suggestion
 	}
 	type Mutation {
-		addBook(book: BookInput!): Book
+		addUser(user: UserInput!): User
+		updateUser(update: UserUpdateInput!): User
+		addSuggestion(suggestion: SuggestionInput!): Suggestion
+		removeSuggestion(id: ID!): Success!
 	}
-	type Author {
-		FirstName: String
-		LastName: String
-	}
-	type Book {
+	input UserInput {
 		ID: ID
-		Title: String
-		Views: Int
-		Author: Author
-		TestArray: [String]
-	}
-	input BookInput {
-		Title: String!
-		Views: Int!
 		FirstName: String!
 		LastName: String!
+		Email: String!
+		Password: String!
+	}
+	input UserUpdateInput {
+		ID: ID!
+		Field: String!
+		Value: String!
+	}
+	type User {
+		ID: ID
+		Email: String
+		Name: Name
+		Password: String
+	}
+	type Name {
+		First: String
+		Last: String
+	}
+	type Suggestion {
+		id: ID!
+		title: String
+		description: String
+		tags: [String]
+	}
+	input SuggestionInput {
+		title: String!
+		description: String!
+		tags: [String]
+	}
+	type Success {
+		success: Boolean
 	}
 `

@@ -9,6 +9,7 @@ import (
 	"syscall"
 )
 
+// Host is the current host string.
 const Host string = "localhost"
 
 func init() {

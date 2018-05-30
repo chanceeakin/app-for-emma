@@ -1,13 +1,12 @@
 // @flow
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 
 import type { Suggestion } from './../types/Suggestions.js.flow'
 import { fetchSuggestions } from './../actions/main'
 import colors from './../constants/colors'
 import type { MainAction } from './../actions/main.js.flow'
-import { settingsPage } from './../actions/navigation'
 import GradientWrapper from './../components/backgroundWrapper'
 
 const mapStateToProps = state => ({
@@ -15,22 +14,12 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  fetchSuggestions,
-  settingsPage
+  fetchSuggestions
 }
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    flexDirection: 'column',
-    alignItems: 'center',
-    flex: 1
-  },
-  row: {
     flex: 1,
-    minHeight: 100,
-    flexDirection: 'column',
-    width: '100%',
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -50,22 +39,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: colors.darkPurple
   },
+  row: {
+    minHeight: 100,
+    flexDirection: 'column'
+  },
   bigNumber: {
     fontSize: 48
-  },
-  settingsButton: {
-    padding: 5,
-    alignItems: 'flex-start'
-  },
-  settingsText: {
-    color: colors.inkBlue
   }
 })
 
 type Props = {
   suggestions: Suggestion[],
-  fetchSuggestions: MainAction,
-  settingsPage: Function
+  fetchSuggestions: MainAction
 };
 
 class MainView extends Component<Props> {
@@ -73,31 +58,12 @@ class MainView extends Component<Props> {
     header: null
   };
 
-  componentDidMount() {
-    this.props.fetchSuggestions()
-  }
-
   render() {
     return (
       <GradientWrapper style={styles.container}>
         <View style={styles.row}>
-          {this.props.suggestions && this.props.suggestions.length > 0 ? (
-            <Text style={[styles.title, styles.font]}>
-              {this.props.suggestions[0].title}
-            </Text>
-          ) : null}
-          {this.props.suggestions && this.props.suggestions.length > 0 ? (
-            <Text style={[styles.description, styles.font]}>
-              {this.props.suggestions[0].description}
-            </Text>
-          ) : null}
+          <Text style={[styles.title, styles.font]}>Settings</Text>
         </View>
-        <TouchableOpacity
-          onPress={this.props.settingsPage}
-          style={styles.settingsButton}
-        >
-          <Text style={styles.settingsText}>Settings</Text>
-        </TouchableOpacity>
       </GradientWrapper>
     )
   }

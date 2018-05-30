@@ -2,17 +2,24 @@ import { StackNavigator } from 'react-navigation'
 import Login from '../containers/Login'
 import Main from '../containers/Main'
 import Signup from '../containers/Signup'
+import Settings from '../containers/Settings'
 
-const navigator = StackNavigator({
-  Login: {
-    screen: Login
+const navigator = StackNavigator(
+  {
+    Login: {
+      screen: Login
+    },
+    Signup: {
+      screen: Signup
+    },
+    Main: {
+      screen: Main
+    },
+    Settings: {
+      screen: Settings
+    }
   },
-  Signup: {
-    screen: Signup
-  },
-  Main: {
-    screen: Main
-  }
-},{headerMode: 'screen'})
+  { headerMode: 'screen' }
+)
 
 export default navigator

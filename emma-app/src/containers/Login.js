@@ -4,21 +4,16 @@ import {
   StyleSheet,
   TextInput,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Keyboard
 } from 'react-native'
-import {connect} from 'react-redux'
-import {LinearGradient} from 'expo'
+import { connect } from 'react-redux'
 
+import { updateUserNameText, updatePasswordText } from './../actions/login'
 
-import {
-  updateUserNameText,
-  updatePasswordText
-} from './../actions/login'
-
-import {
-  mainPage,
-  signupPage
-} from './../actions/navigation'
+import { mainPage, signupPage } from './../actions/navigation'
+import colors from './../constants/colors'
+import GradientWrapper from './../components/backgroundWrapper'
 
 const mapStateToProps = state => ({
   userName: state.login.username,
@@ -33,114 +28,106 @@ const mapDispatchToProps = {
   signupPage
 }
 
-
-
 var styles = StyleSheet.create({
-  container:{
-    backgroundColor: '#f9f9f9',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flex: 1
-  },
-  row:{
+  row: {
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1
   },
-  title:{
+  title: {
     fontSize: 48,
     fontWeight: '600',
     marginBottom: 30,
-    color: '#C5CC08'
+    color: colors.darkPurple
   },
   font: {
-    'fontFamily': 'Skia'
+    fontFamily: 'Skia'
   },
-  description:{
+  description: {
     marginTop: 5,
-    fontSize: 14,
+    fontSize: 14
   },
   input: {
     height: 40,
     borderColor: 'gray',
     borderBottomWidth: 1,
-    color: '#fafafa',
+    color: colors.darkBlue,
     minWidth: 200
   },
   bigButton: {
     marginTop: 20,
     paddingVertical: 15,
     paddingHorizontal: 40,
-    backgroundColor: 'purple',
-    borderRadius: 5
+    backgroundColor: colors.darkBlue,
+    borderRadius: 2
   },
   bigButtonText: {
     fontSize: 23,
     fontWeight: '600',
-    color: '#C5CC08'
+    color: colors.white
   },
   signupButton: {
     padding: 5
   },
   text: {
-    color: '#C5CC08'
+    color: colors.inkBlue
   }
 })
-
 
 class LoginView extends Component {
   static navigationOptions = {
     header: null
-  }
+  };
 
   render() {
-    const {userName, password} = this.props
+    const { userName, password } = this.props
+
     return (
-      <LinearGradient
-        colors={['#041069', '#69044E']}
-        start={[0, 0]}
-        end={[1, 1]}
-        location={[0.25, 0.4, 1]}
-        style={styles.container}
-      >
+      <GradientWrapper>
         <View style={styles.row}>
-          <Text style={[styles.title,(this.props.isFontLoaded ? styles.font : null)]
-          }>Login</Text>
+          <Text
+            style={[styles.title, this.props.isFontLoaded ? styles.font : null]}
+          >
+            Login
+          </Text>
           <TextInput
             style={styles.input}
-            onChangeText={(text) => this.props.updateUserNameText(text)}
+            onChangeText={text => this.props.updateUserNameText(text)}
             value={userName}
             placeholder="User Name"
-            placeholderTextColor={'rgba(255,255,255,0.3)'}
+            placeholderTextColor={colors.white}
+            onBlur={Keyboard.dismiss}
           />
           <TextInput
             style={styles.input}
-            onChangeText={(text) => this.props.updatePasswordText(text)}
+            onChangeText={text => this.props.updatePasswordText(text)}
             value={password}
             secureTextEntry
             placeholder="Password"
-            placeholderTextColor={'rgba(255,255,255,0.3)'}
+            placeholderTextColor={colors.white}
+            onBlur={Keyboard.dismiss}
           />
           <TouchableOpacity
             style={styles.bigButton}
             onPress={this.props.mainPage}
           >
-            <Text style={styles.bigButtonText}>
+            <Text
+              style={[
+                styles.bigButtonText,
+                this.props.isFontLoaded ? styles.font : null
+              ]}
+            >
               Login
             </Text>
           </TouchableOpacity>
-
         </View>
         <TouchableOpacity
           onPress={this.props.signupPage}
           style={styles.signupButton}
         >
-          <Text style={styles.text}>
-            No Account? Signup
-          </Text>
+          <Text style={styles.text}>No Account? Signup</Text>
         </TouchableOpacity>
-
-      </LinearGradient>
+      </GradientWrapper>
     )
   }
 }

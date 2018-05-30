@@ -7,20 +7,25 @@ import (
 	"math/rand"
 )
 
+// SuggestionResolver returns the struct for dealing with suggestions
 type SuggestionResolver struct {
 	suggestion *Suggestion
 }
 
+// UpdateResolver returns the struct for success or failure
 type UpdateResolver struct {
 	success Success
 }
 
+// Success contains a boolean.
 type Success struct {
 	success bool
 }
 
+// Tags is a slice of string pointers
 type Tags []*string
 
+// Suggestion is the struct of data that makes up a suggestion.
 type Suggestion struct {
 	ID          bson.ObjectId `bson:"_id,omitempty"`
 	Description string        `bson:"description"`
@@ -28,6 +33,7 @@ type Suggestion struct {
 	Tags        Tags          `bson:"tags"`
 }
 
+// Suggestions returns all suggestions in the database
 func (r *Resolver) Suggestions() (*[]*SuggestionResolver, error) {
 	session, c := mongo.Get(Host, "suggestions")
 	defer session.Close()
@@ -48,6 +54,7 @@ func (r *Resolver) Suggestions() (*[]*SuggestionResolver, error) {
 	return nil, nil
 }
 
+// Suggestion returns a single suggestion
 func (r *Resolver) Suggestion(args *struct {
 	ID string
 }) (*SuggestionResolver, error) {
@@ -68,6 +75,7 @@ func (r *Resolver) Suggestion(args *struct {
 	return nil, nil
 }
 
+// RandomSuggestion returns a single random suggestion
 func (r *Resolver) RandomSuggestion() (*SuggestionResolver, error) {
 	session, c := mongo.Get(Host, "suggestions")
 	defer session.Close()
@@ -92,24 +100,29 @@ func (r *Resolver) RandomSuggestion() (*SuggestionResolver, error) {
 	return nil, nil
 }
 
+// ID is a SuggestionResolver primitive
 func (r *SuggestionResolver) ID() graphql.ID {
 	id := r.suggestion.ID.Hex()
 	newID := graphql.ID(id)
 	return newID
 }
 
+// Title is a SuggestionResolver primitive
 func (r *SuggestionResolver) Title() *string {
 	return &r.suggestion.Title
 }
 
+// Description is a SuggestionResolver primitive
 func (r *SuggestionResolver) Description() *string {
 	return &r.suggestion.Description
 }
 
+// Tags returns a slice of tags
 func (r *SuggestionResolver) Tags() *Tags {
 	return &r.suggestion.Tags
 }
 
+// SuggestionInput takes in added suggestion
 type SuggestionInput struct {
 	ID          *string
 	Title       string
@@ -117,6 +130,7 @@ type SuggestionInput struct {
 	Tags        *Tags
 }
 
+// AddSuggestion adds a suggestion
 func (r *Resolver) AddSuggestion(args *struct {
 	Suggestion *SuggestionInput
 }) (*SuggestionResolver, error) {
@@ -137,6 +151,7 @@ func (r *Resolver) AddSuggestion(args *struct {
 	return &SuggestionResolver{&s}, nil
 }
 
+// RemoveSuggestion deletes a suggestion
 func (r *Resolver) RemoveSuggestion(args *struct {
 	ID string
 }) (*UpdateResolver, error) {
@@ -150,6 +165,7 @@ func (r *Resolver) RemoveSuggestion(args *struct {
 	return &UpdateResolver{t}, nil
 }
 
+// Success returns an UpdateResolver primitive
 func (r *UpdateResolver) Success() *bool {
 	return &r.success.success
 }

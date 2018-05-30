@@ -6,19 +6,23 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// UserResolver returns data for a user
 type UserResolver struct {
 	user *User
 }
 
+// NameResolver returns data for a name
 type NameResolver struct {
 	name *Name
 }
 
+// Name is a struct for a users' name
 type Name struct {
 	First string `bson:"first"`
 	Last  string `bson:"last"`
 }
 
+// User is a struct for a user object
 type User struct {
 	ID       bson.ObjectId `bson:"_id,omitempty"`
 	Name     Name          `bson:"name"`
@@ -26,6 +30,7 @@ type User struct {
 	Password string        `bson:"password"`
 }
 
+// Users resolver returns all users in a given database
 func (r *Resolver) Users() (*[]*UserResolver, error) {
 	session, c := mongo.Get(Host, "user")
 	defer session.Close()
@@ -45,32 +50,39 @@ func (r *Resolver) Users() (*[]*UserResolver, error) {
 	return nil, nil
 }
 
+// ID returns the id for a user.
 func (r *UserResolver) ID() *graphql.ID {
 	id := r.user.ID.Hex()
 	newID := graphql.ID(id)
 	return &newID
 }
 
+// Email - UserResolver primitive
 func (r *UserResolver) Email() *string {
 	return &r.user.Email
 }
 
+// Password is a UserResolver primitive.
 func (r *UserResolver) Password() *string {
 	return &r.user.Password
 }
 
+// Name is a primitive for UserResolver
 func (r *UserResolver) Name() *NameResolver {
 	return &NameResolver{&r.user.Name}
 }
 
+// First - NameResolver primitive
 func (r *NameResolver) First() *string {
 	return &r.name.First
 }
 
+//Last - UserResolver primitive
 func (r *NameResolver) Last() *string {
 	return &r.name.Last
 }
 
+// UserInput for adding a user
 type UserInput struct {
 	ID        *string
 	FirstName string
@@ -79,6 +91,7 @@ type UserInput struct {
 	Password  string
 }
 
+// AddUser - resolver for adding a user to the database
 func (r *Resolver) AddUser(args *struct {
 	User *UserInput
 }) (*UserResolver, error) {
@@ -107,12 +120,14 @@ func (r *Resolver) AddUser(args *struct {
 	return &UserResolver{&u}, nil
 }
 
+// UserUpdateInput - input struct
 type UserUpdateInput struct {
 	ID    string
 	Field string
 	Value string
 }
 
+// UpdateUser - update a user
 func (r *Resolver) UpdateUser(args *struct {
 	Update *UserUpdateInput
 }) (*UserResolver, error) {

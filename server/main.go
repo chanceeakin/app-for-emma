@@ -10,7 +10,7 @@ import (
 )
 
 // Host is the current host string.
-const Host string = "localhost"
+const Host string = "0.0.0.0"
 
 func init() {
 	mongo.Init(Host)
@@ -27,7 +27,7 @@ func main() {
 	mongo.EnsureIndex(session)
 	router := InitRouter(session)
 	go func() {
-		log.Println("Starting GraphQL Server on http://localhost:8080/")
+		log.Print("Starting GraphQL Server on http://" + Host + ":8080/")
 		log.Fatal(router.ListenAndServe())
 	}()
 

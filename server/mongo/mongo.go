@@ -15,6 +15,7 @@ type Author struct {
 // Tags is a blank interface for arrays.
 type Tags []interface{}
 
+// Init function
 func Init(host string) {
 
 	log.Println("Seeding mock data to MongoDB")

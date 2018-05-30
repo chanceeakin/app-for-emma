@@ -1,0 +1,13 @@
+export type FetchSuggestions = {
+  type: 'SUGGESTION_FETCH_BEGIN'
+}
+
+export type FetchSuggestionsSuccess = {
+  type: 'SUGGESTION_FETCH_SUCCESS'
+}
+
+export type FetchSuggestionsFail = {
+  type: 'SUGGESTION_FETCH_FAIL'
+}
+
+export type MainAction = FetchSuggestions | FetchSuggestionsSuccess | FetchSuggestionsFail

@@ -1,0 +1,7 @@
+
+export type Suggestion = {
+  description: string,
+  id: string,
+  tags: Array<string>,
+  title: string
+}

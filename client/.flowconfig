@@ -1,0 +1,12 @@
+[ignore]
+.*/build/.*
+.*/tests/.*
+.*/__tests__/.*
+
+[libs]
+./flow-typed
+
+[options]
+emoji=true
+module.system.node.resolve_dirname=node_modules
+module.system.node.resolve_dirname=src

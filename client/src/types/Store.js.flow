@@ -1,0 +1,15 @@
+import type {
+  /* eslint-disable import/named */
+  Store as ReduxStore,
+  Dispatch as ReduxDispatch
+} from "redux";
+import type { Action } from "types/Action";
+import type { State } from "types/State";
+
+export type Store = ReduxStore<State, Action>;
+
+export type GetState = () => State;
+
+export type Thunk<A> = ((Dispatch, GetState) => Promise<void> | void) => A;
+
+export type Dispatch = ReduxDispatch<Action> & Thunk<Action>;

@@ -1,17 +1,25 @@
+// @flow
 import {
   INCREMENT_REQUESTED,
   INCREMENT,
   DECREMENT_REQUESTED,
   DECREMENT
 } from "constants/actionTypes";
+import type { Action } from "types/Action";
 
-const initialState = {
+type State = {
+  count: number,
+  isIncrementing: boolean,
+  isDecrementing: boolean
+};
+
+const initialState: State = {
   count: 0,
   isIncrementing: false,
   isDecrementing: false
 };
 
-export default (state = initialState, action) => {
+export default (state: State = initialState, action: Action) => {
   switch (action.type) {
     case INCREMENT_REQUESTED:
       return {

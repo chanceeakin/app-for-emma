@@ -1,6 +1,0 @@
-import { AppAction } from 'actions/app.js.flow'
-import { LoginAction } from 'actions/login.js.flow'
-import {SignupAction } from 'actions/signup.js.flow'
-import {MainAction} from 'actions/main.js.flow'
-
-export type Action = AppAction | LoginAction | SignupAction | MainAction;

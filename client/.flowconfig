@@ -2,13 +2,14 @@
 .*/build/.*
 .*/tests/.*
 .*/__tests__/.*
-.*/node_modules/.*
+.*/config/.*
+.*/public/.*
+.*/scripts/.*
 
 [libs]
 ./flow-typed
 
 [options]
-all=true
 emoji=true
 module.system.node.resolve_dirname=node_modules
 module.system.node.resolve_dirname=src

@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 import { push } from "react-router-redux";
 import { bindActionCreators } from "redux";
@@ -8,8 +9,20 @@ import {
   decrement,
   decrementAsync
 } from "actions/app";
+import type { AppAction } from "actions/app.js.flow";
 
-const Home = props => (
+type Props = {
+  count: number,
+  isIncrementing: boolean,
+  isDecrementing: boolean,
+  increment: AppAction,
+  incrementAsync: AppAction,
+  decrement: AppAction,
+  decrementAsync: AppAction,
+  changePage: Function
+};
+
+const Home = (props: Props) => (
   <div>
     <h1>Home</h1>
     <p>Count: {props.count}</p>

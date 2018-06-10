@@ -1,3 +1,0 @@
-import { AppAction } from "actions/app.js.flow";
-
-export type Action = AppAction;

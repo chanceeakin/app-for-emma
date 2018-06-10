@@ -5,15 +5,15 @@ import (
 	"log"
 	"runtime"
 
-	"app/route"
-	"app/shared/database"
-	"app/shared/email"
-	"app/shared/jsonconfig"
-	"app/shared/recaptcha"
-	"app/shared/server"
-	"app/shared/session"
-	"app/shared/view"
-	"app/shared/view/plugin"
+	"github.com/chanceeakin/app-for-emma/server/app/route"
+	"github.com/chanceeakin/app-for-emma/server/app/shared/database"
+	"github.com/chanceeakin/app-for-emma/server/app/shared/email"
+	"github.com/chanceeakin/app-for-emma/server/app/shared/jsonconfig"
+	"github.com/chanceeakin/app-for-emma/server/app/shared/recaptcha"
+	"github.com/chanceeakin/app-for-emma/server/app/shared/server"
+	"github.com/chanceeakin/app-for-emma/server/app/shared/session"
+	"github.com/chanceeakin/app-for-emma/server/app/shared/view"
+	"github.com/chanceeakin/app-for-emma/server/app/shared/view/plugin"
 )
 
 // *****************************************************************************

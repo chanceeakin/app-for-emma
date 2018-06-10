@@ -4,26 +4,20 @@ import {
   SUGGESTION_FETCH_SUCCESS,
   SUGGESTION_FETCH_FAIL
 } from './../constants/action-types'
-import callGraphQL from './../utils/graphql'
 
-export const fetchSuggestions = ():MainAction => {
+export const fetchSuggestions = (): MainAction => {
   return async dispatch => {
     dispatch({
-      type:  SUGGESTION_FETCH_BEGIN
+      type: SUGGESTION_FETCH_BEGIN
     })
     try {
-      const call = await callGraphQL(`
-      query Suggestions {
-        suggestions {
-        id
-        title
-        description
-        tags
-      }
-    }`)
+      const response = await fetch('http://localhost:8000/random-suggestion', {
+        method: 'GET'
+      })
+      const data = await response.json()
       dispatch({
         type: SUGGESTION_FETCH_SUCCESS,
-        payload: call.suggestions
+        payload: data
       })
     } catch (e) {
       dispatch({

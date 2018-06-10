@@ -9,13 +9,13 @@ import type { Suggestion } from './../types/Suggestions.js.flow'
 
 type State = {
   isCallingSuggestions: boolean,
-  suggestions: Suggestion[],
+  suggestions: Suggestion,
   isError: boolean
 };
 
 const initialState: State = {
   isCallingSuggestions: false,
-  suggestions: [],
+  suggestions: {},
   isError: false
 }
 
@@ -27,7 +27,6 @@ const appReducer = (state: State = initialState, action: Action) => {
       isCallingSuggestions: true
     }
   case SUGGESTION_FETCH_SUCCESS:
-    console.log(action.payload)
     return {
       ...state,
       isCallingSuggestions: false,

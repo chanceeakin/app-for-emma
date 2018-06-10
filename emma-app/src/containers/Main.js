@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 })
 
 type Props = {
-  suggestions: Suggestion[],
+  suggestions: Suggestion,
   fetchSuggestions: MainAction,
   settingsPage: Function
 };
@@ -81,14 +81,14 @@ class MainView extends Component<Props> {
     return (
       <GradientWrapper style={styles.container}>
         <View style={styles.row}>
-          {this.props.suggestions && this.props.suggestions.length > 0 ? (
+          {this.props.suggestions.title ? (
             <Text style={[styles.title, styles.font]}>
-              {this.props.suggestions[0].title}
+              {this.props.suggestions.title}
             </Text>
           ) : null}
-          {this.props.suggestions && this.props.suggestions.length > 0 ? (
+          {this.props.suggestions.description ? (
             <Text style={[styles.description, styles.font]}>
-              {this.props.suggestions[0].description}
+              {this.props.suggestions.description}
             </Text>
           ) : null}
         </View>

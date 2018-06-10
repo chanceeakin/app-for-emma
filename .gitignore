@@ -58,5 +58,6 @@ typings/
 .env
 
 .DS_Store
+config.json
 
 gin-bin

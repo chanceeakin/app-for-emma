@@ -1,7 +1,7 @@
 // @flow
 async function callGraphQL(query: string): Promise<Object> {
   try {
-    const response = await fetch('http://127.0.0.1:8080/graphql', {
+    const response = await fetch('http://127.0.0.1:8000/graphql', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

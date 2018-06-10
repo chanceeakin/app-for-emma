@@ -8,7 +8,7 @@ import App from "./containers/App";
 
 import "./index.css";
 
-const target: ?Element = document.querySelector("#root");
+const target: Element = document.querySelector("#root");
 
 render(
   <Provider store={store}>

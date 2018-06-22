@@ -1,24 +1,27 @@
 // @flow
 import {
   SIGNUP_PASSWORD_CHANGE,
-  SIGNUP_USERNAME_CHANGE,
+  SIGNUP_FIRSTNAME_CHANGE,
+  SIGNUP_LASTNAME_CHANGE,
   SIGNUP_EMAIL_CHANGE,
   SIGNUP_SEND_BEGIN,
   SIGNUP_SEND_FAIL,
   SIGNUP_SEND_SUCCESS
 } from '../constants/action-types'
-import type {Action} from './../types/Action.js.flow'
+import type { Action } from './../types/Action.js.flow'
 
 type State = {
-  username: ?string,
+  firstName: ?string,
+  lastName: ?string,
   password: ?string,
   email: ?string,
   isSendingSignup: boolean,
   signupError: boolean
-}
+};
 
 const initialState: State = {
-  username: '',
+  firstName: '',
+  lastName: '',
   password: '',
   email: '',
   isSendingSignup: false,
@@ -27,10 +30,15 @@ const initialState: State = {
 
 const signupReducer = (state: State = initialState, action: Action) => {
   switch (action.type) {
-  case SIGNUP_USERNAME_CHANGE:
+  case SIGNUP_FIRSTNAME_CHANGE:
     return {
       ...state,
-      username: action.payload
+      firstName: action.payload
+    }
+  case SIGNUP_LASTNAME_CHANGE:
+    return {
+      ...state,
+      lastName: action.payload
     }
   case SIGNUP_PASSWORD_CHANGE:
     return {
@@ -47,7 +55,8 @@ const signupReducer = (state: State = initialState, action: Action) => {
       ...state,
       isSendingSignup: true,
       signupError: false,
-      username: '',
+      firstName: '',
+      lastName: '',
       email: '',
       password: ''
     }

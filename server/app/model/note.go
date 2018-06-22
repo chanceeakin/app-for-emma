@@ -91,7 +91,6 @@ func NoteCreate(content string, userID string) error {
 		session := database.Mongo.Copy()
 		defer session.Close()
 		c := session.DB(database.ReadConfig().MongoDB.Database).C("note")
-
 		note := &Note{
 			ObjectID:  bson.NewObjectId(),
 			Content:   content,

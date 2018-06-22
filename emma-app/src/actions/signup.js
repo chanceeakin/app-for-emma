@@ -1,18 +1,25 @@
 // @flow
 import {
-  SIGNUP_USERNAME_CHANGE,
+  SIGNUP_FIRSTNAME_CHANGE,
+  SIGNUP_LASTNAME_CHANGE,
   SIGNUP_PASSWORD_CHANGE,
   SIGNUP_EMAIL_CHANGE,
   SIGNUP_SEND_BEGIN,
   SIGNUP_SEND_SUCCESS,
   SIGNUP_SEND_FAIL
 } from './../constants/action-types'
-import {mainPage} from './navigation'
-import type {SignupAction} from './signup.js.flow'
-import type {Dispatch} from './../types/Store'
+import { mainPage } from './navigation'
+import { apiUrl } from './../../config'
+import type { SignupAction } from './signup.js.flow'
+import type { Dispatch } from './../types/Store'
 
-export const updateUserNameText = (payload: string): SignupAction => ({
-  type: SIGNUP_USERNAME_CHANGE,
+export const updateFirstNameText = (payload: string): SignupAction => ({
+  type: SIGNUP_FIRSTNAME_CHANGE,
+  payload
+})
+
+export const updateLastNameText = (payload: string): SignupAction => ({
+  type: SIGNUP_LASTNAME_CHANGE,
   payload
 })
 
@@ -33,14 +40,15 @@ export const signupUser = (payload: Object): SignupAction => {
     })
 
     try {
-      const call = await fetch('http://192.168.0.7:8080/user', {
+      const call = await fetch(`${apiUrl}/register`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          Username: payload.username,
+          firstName: payload.firstName,
+          lastName: payload.lastName,
           Email: payload.email,
           Password: payload.password
         })
@@ -53,7 +61,7 @@ export const signupUser = (payload: Object): SignupAction => {
   }
 }
 
-const signupSuccess = (payload) => (dispatch: Dispatch) => {
+const signupSuccess = payload => (dispatch: Dispatch) => {
   dispatch(mainPage())
   dispatch({
     type: SIGNUP_SEND_SUCCESS,
@@ -61,7 +69,8 @@ const signupSuccess = (payload) => (dispatch: Dispatch) => {
   })
 }
 
-export const signupFail = () => (dispatch: Dispatch) => {
+export const signupFail = (e: Error) => (dispatch: Dispatch) => {
+  console.log(e)
   dispatch({
     type: SIGNUP_SEND_FAIL
   })

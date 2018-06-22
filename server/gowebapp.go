@@ -2,9 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"log"
-	"runtime"
-
 	"github.com/chanceeakin/app-for-emma/server/app/route"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/database"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/email"
@@ -14,6 +11,9 @@ import (
 	"github.com/chanceeakin/app-for-emma/server/app/shared/session"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/view"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/view/plugin"
+	// log "github.com/sirupsen/logrus"
+	"os"
+	"runtime"
 )
 
 // *****************************************************************************
@@ -22,7 +22,7 @@ import (
 
 func init() {
 	// Verbose logging with file name and line number
-	log.SetFlags(log.Lshortfile)
+	// log.SetFlags(log.Lshortfile)
 
 	// Use all CPU cores
 	runtime.GOMAXPROCS(runtime.NumCPU())
@@ -30,7 +30,7 @@ func init() {
 
 func main() {
 	// Load the configuration file
-	jsonconfig.Load("config.json", config)
+	jsonconfig.Load("config"+string(os.PathSeparator)+"config.json", config)
 
 	// Configure the session cookie store
 	session.Configure(config.Session)

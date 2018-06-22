@@ -4,131 +4,152 @@ import {
   StyleSheet,
   TextInput,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Keyboard
 } from 'react-native'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 import {
-  updateUserNameText,
+  updateFirstNameText,
+  updateLastNameText,
   updatePasswordText,
   updateEmailText,
   signupUser
 } from './../actions/signup'
-
-import {
-  mainPage
-} from './../actions/navigation'
+import colors from './../constants/colors'
+import { loginPage, mainPage } from './../actions/navigation'
+import GradientWrapper from './../components/backgroundWrapper'
 
 const mapStateToProps = state => ({
-  username: state.signup.username,
+  firstName: state.signup.firstName,
   password: state.signup.password,
   email: state.signup.email
 })
 
 const mapDispatchToProps = {
-  updateUserNameText,
+  updateFirstNameText,
+  updateLastNameText,
   updatePasswordText,
   updateEmailText,
   signupUser,
-  mainPage
+  mainPage,
+  loginPage
 }
 
-
-
 var styles = StyleSheet.create({
-  container:{
+  container: {
     backgroundColor: '#f9f9f9',
     alignItems: 'center',
     justifyContent: 'space-between',
     flex: 1
   },
-  row:{
+  font: {
+    fontFamily: 'Skia'
+  },
+  row: {
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1
   },
-  title:{
+  title: {
     fontSize: 48,
     fontWeight: '600',
-    marginBottom: 30
+    marginBottom: 30,
+    color: colors.darkPurple
   },
-  description:{
+  description: {
     marginTop: 5,
-    fontSize: 14,
+    fontSize: 14
   },
   input: {
     height: 40,
     borderColor: 'gray',
     borderBottomWidth: 1,
-    color: 'black',
+    color: colors.darkBlue,
     minWidth: 200
   },
   bigButton: {
     marginTop: 20,
     paddingVertical: 15,
     paddingHorizontal: 40,
-    backgroundColor: 'purple',
-    borderRadius: 5
+    backgroundColor: colors.darkBlue,
+    borderRadius: 2
   },
   bigButtonText: {
     fontSize: 23,
     fontWeight: '600',
-    color: 'white'
+    color: colors.white
+  },
+  backButton: {
+    padding: 5,
+    paddingBottom: 15
   }
 })
-
 
 class LoginView extends Component {
   static navigationOptions = {
     header: null
-  }
+  };
 
   render() {
-    const {
-      username,
-      password,
-      email
-    } = this.props
+    const { firstName, lastName, password, email } = this.props
     return (
-      <View style={styles.container}>
+      <GradientWrapper style={styles.container}>
         <View style={styles.row}>
-          <Text style={styles.title}>Signup</Text>
+          <Text
+            style={[styles.title, this.props.isFontLoaded ? styles.font : null]}
+          >
+            Signup
+          </Text>
           <TextInput
             style={styles.input}
-            onChangeText={(text) => this.props.updateUserNameText(text)}
-            value={username}
-            placeholder="Name"
+            onChangeText={text => this.props.updateFirstNameText(text)}
+            value={firstName}
+            placeholder="First Name"
+            onBlur={Keyboard.dismiss}
           />
           <TextInput
             style={styles.input}
-            onChangeText={(text) => this.props.updateEmailText(text)}
+            onChangeText={text => this.props.updateLastNameText(text)}
+            value={lastName}
+            placeholder="Last Name"
+            onBlur={Keyboard.dismiss}
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={text => this.props.updateEmailText(text)}
             value={email}
             placeholder="Email"
+            onBlur={Keyboard.dismiss}
           />
           <TextInput
             style={styles.input}
-            onChangeText={(text) => this.props.updatePasswordText(text)}
+            onChangeText={text => this.props.updatePasswordText(text)}
             value={password}
             secureTextEntry
             placeholder="Password"
+            onBlur={Keyboard.dismiss}
           />
           <TouchableOpacity
             style={styles.bigButton}
-            onPress={() => this.props.signupUser({
-              username: username,
-              email: email,
-              password: password
-            })}
+            onPress={() =>
+              this.props.signupUser({
+                firstName: firstName,
+                email: email,
+                password: password
+              })
+            }
           >
-            <Text
-              style={styles.bigButtonText}
-            >
-              Signup
-            </Text>
+            <Text style={styles.bigButtonText}>Signup</Text>
           </TouchableOpacity>
-
         </View>
-      </View>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.goBack()}
+          style={styles.backButton}
+        >
+          <Text style={styles.text}>Back</Text>
+        </TouchableOpacity>
+      </GradientWrapper>
     )
   }
 }

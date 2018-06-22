@@ -34,9 +34,7 @@ func (u *User) UserID() string {
 // UserByEmail gets user information from email
 func UserByEmail(email string) (User, error) {
 	var err error
-
 	result := User{}
-
 	if database.CheckConnection() {
 		session := database.Mongo.Copy()
 		defer session.Close()

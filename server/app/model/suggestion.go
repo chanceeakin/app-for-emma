@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/database"
 	"gopkg.in/mgo.v2/bson"
 	"time"
@@ -28,7 +27,7 @@ func (s *Suggestion) SuggestionID() string {
 }
 
 // FindRandomSuggestion returns a random suggestion from the database.
-func FindRandomSuggestion() (Suggestion, error) {
+func FindRandomSuggestion() ([]Suggestion, error) {
 	var err error
 
 	result := []Suggestion{}
@@ -43,7 +42,7 @@ func FindRandomSuggestion() (Suggestion, error) {
 		err = ErrUnavailable
 	}
 
-	return result[0], standardizeError(err)
+	return result, standardizeError(err)
 }
 
 // FindAllTags returns all tags currently in the database.
@@ -89,7 +88,7 @@ func SuggestionByID(suggestionID string) (Suggestion, error) {
 	return result, standardizeError(err)
 }
 
-// SuggestionAll gets a suggestion by ID
+// SuggestionAll gets all suggestions
 func SuggestionAll() ([]Suggestion, error) {
 	var err error
 
@@ -113,7 +112,6 @@ func SuggestionAll() ([]Suggestion, error) {
 // SuggestionCreate creates a suggestion record in the database.
 func SuggestionCreate(description string, title string, tags []string) error {
 	var err error
-	fmt.Print("In create suggestion")
 
 	now := time.Now()
 

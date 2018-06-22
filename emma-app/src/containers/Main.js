@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
   },
   settingsButton: {
     padding: 5,
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    paddingBottom: 15
   },
   settingsText: {
     color: colors.inkBlue

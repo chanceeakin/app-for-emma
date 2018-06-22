@@ -1,15 +1,16 @@
 package controller
 
 import (
-	"log"
+	"encoding/json"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 
 	"github.com/chanceeakin/app-for-emma/server/app/model"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/passhash"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/recaptcha"
+	"github.com/chanceeakin/app-for-emma/server/app/shared/response"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/session"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/view"
-
 	"github.com/josephspurrier/csrfbanana"
 )
 
@@ -97,4 +98,93 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 
 	// Display the page
 	RegisterGET(w, r)
+}
+
+type UserInput struct {
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Email     string `json:"email"`
+	Password  string `json:"password"`
+}
+
+type success struct {
+	ok bool
+}
+
+func IPhoneSignupGET(w http.ResponseWriter, r *http.Request) {
+	sess := session.Instance(r)
+	// Prevent brute force login attempts by not hitting MySQL and pretending like it was invalid :-)
+	if sess.Values["register_attempt"] != nil && sess.Values["register_attempt"].(int) >= 5 {
+		log.Println("Brute force register prevented")
+		response.SendError(w, http.StatusForbidden, "Brute Force Register prevented.")
+		return
+	}
+	token := csrfbanana.Token(w, r, sess)
+
+	w.Header().Set("csrf_token", token)
+	success := &success{ok: true}
+
+	response.SendJSON(w, success)
+}
+
+// IPhoneSignupPOST handles the registration form submission
+func IPhoneSignupPOST(w http.ResponseWriter, r *http.Request) {
+	// Get session
+	sess := session.Instance(r)
+
+	// Prevent brute force login attempts by not hitting MySQL and pretending like it was invalid :-)
+	if sess.Values["register_attempt"] != nil && sess.Values["register_attempt"].(int) >= 5 {
+		log.Println("Brute force register prevented")
+		response.SendError(w, http.StatusForbidden, "Brute Force Register prevented.")
+		return
+	}
+
+	// Validate with required fields
+	if validate, missingField := view.Validate(r, []string{"first_name", "last_name", "email", "password"}); !validate {
+		log.Println("Missing field in validation.")
+		response.SendError(w, http.StatusBadRequest, "Missing Field"+missingField)
+		return
+	}
+
+	// Get form values
+	var u UserInput
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&u); err != nil {
+		log.Println(err)
+		response.SendError(w, http.StatusBadRequest, "An error occured")
+		return
+	}
+	firstName := u.FirstName
+	lastName := u.LastName
+	email := u.Email
+	password, errp := passhash.HashString(u.Password)
+	log.Println(u)
+
+	// If password hashing failed
+	if errp != nil {
+		log.Println(errp)
+		response.SendError(w, http.StatusInternalServerError, "An error occurred")
+		return
+	}
+
+	// Get database result
+	_, err := model.UserByEmail(email)
+
+	if err == model.ErrNoResult { // If success (no user exists with that email)
+		ex := model.UserCreate(firstName, lastName, email, password)
+		// Will only error if there is a problem with the query
+		if ex != nil {
+			log.Println(ex)
+			response.SendError(w, http.StatusInternalServerError, "An error occurred")
+		} else {
+			response.Send(w, http.StatusCreated, "User created", 0, nil)
+			return
+		}
+	} else if err != nil { // Catch all other errors
+		log.Println(err)
+		response.SendError(w, http.StatusInternalServerError, "An error occurred")
+		sess.Save(r, w)
+	} else { // Else the user already exists
+		response.SendError(w, http.StatusBadRequest, "User already exists")
+	}
 }

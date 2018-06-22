@@ -67,7 +67,8 @@ var styles = StyleSheet.create({
     color: colors.white
   },
   signupButton: {
-    padding: 5
+    padding: 5,
+    paddingBottom: 15
   },
   text: {
     color: colors.inkBlue

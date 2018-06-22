@@ -10,6 +10,7 @@
 
 # create 1.0 expectations and feature Set
 
+- a user should be able to use swipe gestures to navigate
 - a user should be able to register, login, and logout from the app
   - client: set up and test each of those screens
   - add protections into the router

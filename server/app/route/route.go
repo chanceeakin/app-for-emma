@@ -78,6 +78,12 @@ func routes() *httprouter.Router {
 	r.POST("/register", hr.Handler(alice.
 		New(acl.DisallowAuth).
 		ThenFunc(controller.RegisterPOST)))
+	r.GET("/iphone-register", hr.Handler(alice.
+		New(acl.DisallowAuth).
+		ThenFunc(controller.IPhoneSignupGET)))
+	r.POST("/iphone-register", hr.Handler(alice.
+		New(acl.DisallowAuth).
+		ThenFunc(controller.IPhoneSignupPOST)))
 
 	// About
 	r.GET("/about", hr.Handler(alice.

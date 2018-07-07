@@ -46,7 +46,6 @@ func AllTagsGET(w http.ResponseWriter, r *http.Request) {
 // SuggestionReadGET displays the suggestions in the app.
 func SuggestionReadGET(w http.ResponseWriter, r *http.Request) {
 	// Get session
-
 	suggestions, err := model.SuggestionAll()
 	if err != nil {
 		log.Println(err)

@@ -78,12 +78,6 @@ func routes() *httprouter.Router {
 	r.POST("/register", hr.Handler(alice.
 		New(acl.DisallowAuth).
 		ThenFunc(controller.RegisterPOST)))
-	r.GET("/iphone-register", hr.Handler(alice.
-		New(acl.DisallowAuth).
-		ThenFunc(controller.IPhoneSignupGET)))
-	r.POST("/iphone-register", hr.Handler(alice.
-		New(acl.DisallowAuth).
-		ThenFunc(controller.IPhoneSignupPOST)))
 
 	// About
 	r.GET("/about", hr.Handler(alice.
@@ -140,6 +134,17 @@ func routes() *httprouter.Router {
 		New(acl.DisallowAnon).
 		ThenFunc(pprofhandler.Handler)))
 
+	//iphone routes
+	r.GET("/iphone-register", hr.Handler(alice.
+		New().
+		ThenFunc(controller.IPhoneSignupGET)))
+	r.POST("/iphone-register", hr.Handler(alice.
+		New().
+		ThenFunc(controller.IPhoneSignupPOST)))
+	r.POST("/iphone-login", hr.Handler(alice.
+		New().
+		ThenFunc(controller.IphoneLoginPOST)))
+
 	return r
 }
 
@@ -152,7 +157,8 @@ func middleware(h http.Handler) http.Handler {
 	cs := csrfbanana.New(h, session.Store, session.Name)
 	cs.FailureHandler(http.HandlerFunc(controller.InvalidToken))
 	cs.ClearAfterUsage(true)
-	cs.ExcludeRegexPaths([]string{"/static(.*)"})
+	cs.ExcludeRegexPaths([]string{"/static(.*)", "/iphone(.*)", "/all-tags", "/random-suggestion"})
+	// exclude the iphone paths
 	csrfbanana.TokenLength = 32
 	csrfbanana.TokenName = "token"
 	csrfbanana.SingleToken = false

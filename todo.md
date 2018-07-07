@@ -12,8 +12,9 @@
 
 - a user should be able to use swipe gestures to navigate
 - a user should be able to register, login, and logout from the app
+  - login route
+  - logout route
   - client: set up and test each of those screens
-  - add protections into the router
   - add redux state storage for authentication
 - a user should be able to change their password or email
   - client: settings page
@@ -40,7 +41,14 @@
 - CI/CD
   - explore some options once tests are in place
 - deployment
+
   - dockerize the server
   - attach these things to the llc
   - get an app store developer account
   - deploy/test
+
+  DONE!!
+
+  - TURN OFF THE EFFING CSRF PROTECTION. probably useful for some things. not EFFING EVERYTHING.
+    - activate middleware selectively, maybe.
+  - add protections into the router

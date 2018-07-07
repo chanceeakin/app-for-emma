@@ -1,12 +1,14 @@
 package controller
 
 import (
+	"encoding/json"
 	"fmt"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 
 	"github.com/chanceeakin/app-for-emma/server/app/model"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/passhash"
+	"github.com/chanceeakin/app-for-emma/server/app/shared/response"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/session"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/view"
 
@@ -109,6 +111,64 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 	LoginGET(w, r)
 }
 
+type LoginInput struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+// IphoneLoginPOST handles the login form submission
+func IphoneLoginPOST(w http.ResponseWriter, r *http.Request) {
+	// Get session
+	sess := session.Instance(r)
+
+	// Prevent brute force login attempts by not hitting MySQL and pretending like it was invalid :-)
+	if sess.Values[sessLoginAttempt] != nil && sess.Values[sessLoginAttempt].(int) >= 5 {
+		log.Println("Brute force login prevented")
+		response.SendError(w, http.StatusForbidden, "Brute Force register prevented.")
+		return
+	}
+
+	var l LoginInput
+
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&l); err != nil {
+		log.Println(err)
+		response.SendError(w, http.StatusBadRequest, "An error occured")
+		return
+	}
+	email := l.Email
+	password := l.Password
+
+	// Get database result
+	result, err := model.UserByEmail(email)
+
+	// Determine if user exists
+	if err == model.ErrNoResult {
+		loginAttempt(sess)
+		response.SendError(w, http.StatusNotFound, "No user found")
+	} else if err != nil {
+		// Display error message
+		log.Println(err)
+		response.SendError(w, http.StatusInternalServerError, "An error occurred")
+	} else if passhash.MatchString(result.Password, password) {
+		if result.StatusID != 1 {
+			// User inactive and display inactive message
+			response.Send(w, http.StatusForbidden, "User inactive", 0, nil)
+		} else {
+			// Login successfully
+			// DECLARE A RETURN VALUE
+
+			values := map[string]interface{}{"id": result.UserID(), "email": email, "first_name": result.FirstName, "role": result.Role}
+			response.SendJSON(w, values)
+			return
+		}
+	} else {
+		loginAttempt(sess)
+		response.SendError(w, http.StatusForbidden, "Incorrect Password")
+	}
+	return
+}
+
 // LogoutGET clears the session and logs the user out
 func LogoutGET(w http.ResponseWriter, r *http.Request) {
 	// Get session
@@ -118,6 +178,20 @@ func LogoutGET(w http.ResponseWriter, r *http.Request) {
 	if sess.Values["id"] != nil {
 		session.Empty(sess)
 		sess.AddFlash(view.Flash{"Goodbye!", view.FlashNotice})
+		sess.Save(r, w)
+	}
+
+	http.Redirect(w, r, "/", http.StatusFound)
+}
+
+// IphoneLogoutGET clears the session and logs the user out
+func IphoneLogoutGET(w http.ResponseWriter, r *http.Request) {
+	// Get session
+	sess := session.Instance(r)
+
+	// If user is authenticated
+	if sess.Values["id"] != nil {
+		session.Empty(sess)
 		sess.Save(r, w)
 	}
 

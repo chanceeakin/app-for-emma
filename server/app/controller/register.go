@@ -139,13 +139,6 @@ func IPhoneSignupPOST(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Validate with required fields
-	if validate, missingField := view.Validate(r, []string{"first_name", "last_name", "email", "password"}); !validate {
-		log.Println("Missing field in validation.")
-		response.SendError(w, http.StatusBadRequest, "Missing Field"+missingField)
-		return
-	}
-
 	// Get form values
 	var u UserInput
 	decoder := json.NewDecoder(r.Body)

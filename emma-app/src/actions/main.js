@@ -15,10 +15,14 @@ export const fetchSuggestions = (): MainAction => {
         method: 'GET'
       })
       const data = await response.json()
-      dispatch({
-        type: SUGGESTION_FETCH_SUCCESS,
-        payload: data
-      })
+      if (data.length > 0) {
+        dispatch({
+          type: SUGGESTION_FETCH_SUCCESS,
+          payload: data[0]
+        })
+      } else {
+        throw new Error('No suggestion found')
+      }
     } catch (e) {
       dispatch({
         type: SUGGESTION_FETCH_FAIL,

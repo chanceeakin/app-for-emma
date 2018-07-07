@@ -63,3 +63,6 @@ config.json
 server/vendor/
 
 gin-bin
+
+android/
+ios/

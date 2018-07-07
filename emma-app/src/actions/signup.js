@@ -9,6 +9,7 @@ import {
   SIGNUP_SEND_FAIL
 } from './../constants/action-types'
 import { mainPage } from './navigation'
+import { AsyncStorage } from 'react-native'
 import { apiUrl } from './../../config'
 import type { SignupAction } from './signup.js.flow'
 import type { Dispatch } from './../types/Store'
@@ -38,13 +39,25 @@ export const signupUser = (payload: Object): SignupAction => {
     dispatch({
       type: SIGNUP_SEND_BEGIN
     })
-
+    let token
     try {
-      const call = await fetch(`${apiUrl}/register`, {
+      const get = await fetch(`${apiUrl}/iphone-register`)
+      const keys = await get.headers.forEach((val, key) => {
+        if (key === 'csrf_token') {
+          token = val
+          AsyncStorage.setItem('@thisCoolApp:token', val)
+        }
+      })
+    } catch (e) {
+      dispatch(signupFail(e))
+    }
+    try {
+      const call = await fetch(`${apiUrl}/iphone-register`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': token
         },
         body: JSON.stringify({
           firstName: payload.firstName,

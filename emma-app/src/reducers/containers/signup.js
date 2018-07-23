@@ -7,8 +7,8 @@ import {
   SIGNUP_SEND_BEGIN,
   SIGNUP_SEND_FAIL,
   SIGNUP_SEND_SUCCESS
-} from '../constants/action-types'
-import type { Action } from './../types/Action.js.flow'
+} from './../../constants/action-types'
+import type { Action } from './../../types/Action.js.flow'
 
 type State = {
   firstName: ?string,

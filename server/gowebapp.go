@@ -11,7 +11,10 @@ import (
 	"github.com/chanceeakin/app-for-emma/server/app/shared/session"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/view"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/view/plugin"
+	"github.com/fatih/color"
+	"github.com/getwe/figlet4go"
 	// log "github.com/sirupsen/logrus"
+	"fmt"
 	"os"
 	"runtime"
 )
@@ -49,6 +52,24 @@ func main() {
 		plugin.NoEscape(),
 		plugin.PrettyTime(),
 		recaptcha.Plugin())
+	ascii := figlet4go.NewAsciiRender()
+
+	str := "Starting..."
+	colors := [...]color.Attribute{
+		color.FgMagenta,
+		color.FgYellow,
+		color.FgBlue,
+		color.FgCyan,
+		color.FgRed,
+		color.FgWhite,
+	}
+	options := figlet4go.NewRenderOptions()
+	options.FontColor = make([]color.Attribute, len(str))
+	for i := range options.FontColor {
+		options.FontColor[i] = colors[i%len(colors)]
+	}
+	renderStr, _ := ascii.RenderOpts(str, options)
+	fmt.Println(renderStr)
 
 	// Start the listener
 	server.Run(route.LoadHTTP(), route.LoadHTTPS(), config.Server)

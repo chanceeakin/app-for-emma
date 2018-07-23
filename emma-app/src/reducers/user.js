@@ -1,15 +1,19 @@
 // @flow
 import {
-  SIGNUP_SEND_SUCCESS
+  SIGNUP_SEND_SUCCESS,
+  LOGIN_FETCH_SUCCESS
 } from '../constants/action-types'
-import type {Action} from './../types/Action.js.flow'
+import type { Action } from './../types/Action.js.flow'
+import type { User } from './../types/User.js.flow'
 
-type State = {
-  user: Object
-}
+type State = User;
 
 const initialState: State = {
-  user: {}
+  id: '',
+  email: '',
+  firstName: '',
+  lastName: '',
+  role: ''
 }
 
 const loginReducer = (state: State = initialState, action: Action) => {
@@ -19,6 +23,8 @@ const loginReducer = (state: State = initialState, action: Action) => {
       ...state,
       user: action.payload
     }
+  case LOGIN_FETCH_SUCCESS:
+    return action.payload
   default:
     return state
   }

@@ -21,9 +21,9 @@ import { loginPage, mainPage } from './../actions/navigation'
 import GradientWrapper from './../components/backgroundWrapper'
 
 const mapStateToProps = state => ({
-  firstName: state.signup.firstName,
-  password: state.signup.password,
-  email: state.signup.email
+  firstName: state.containers.signup.firstName,
+  password: state.containers.signup.password,
+  email: state.containers.signup.email
 })
 
 const mapDispatchToProps = {

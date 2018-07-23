@@ -1,6 +1,6 @@
 // @flow
 
-type Colors = { [string]: string }
+type Colors = { [string]: string };
 
 const colors: Colors = {
   white: '#fafafa',
@@ -11,7 +11,8 @@ const colors: Colors = {
   lightOrange: '#EFC7C2',
   darkPurple: '#4C3B4D',
   darkBlue: '#114B5F',
-  inkBlue: '#0D1B2A'
+  inkBlue: '#0D1B2A',
+  error: '#CC2936'
 }
 
 export default colors

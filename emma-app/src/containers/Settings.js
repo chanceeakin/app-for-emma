@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 
 import type { Suggestion } from './../types/Suggestions.js.flow'
@@ -41,10 +41,17 @@ const styles = StyleSheet.create({
   },
   row: {
     minHeight: 100,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1
   },
   bigNumber: {
     fontSize: 48
+  },
+  backButton: {
+    padding: 5,
+    paddingBottom: 15
   }
 })
 
@@ -64,6 +71,12 @@ class MainView extends Component<Props> {
         <View style={styles.row}>
           <Text style={[styles.title, styles.font]}>Settings</Text>
         </View>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.goBack()}
+          style={styles.backButton}
+        >
+          <Text style={styles.text}>Back</Text>
+        </TouchableOpacity>
       </GradientWrapper>
     )
   }

@@ -158,7 +158,7 @@ func IphoneLoginPOST(w http.ResponseWriter, r *http.Request) {
 			// Login successfully
 			// DECLARE A RETURN VALUE
 
-			values := map[string]interface{}{"id": result.UserID(), "email": email, "first_name": result.FirstName, "role": result.Role}
+			values := map[string]interface{}{"id": result.UserID(), "email": email, "firstName": result.FirstName, "lastName": result.LastName, "role": result.Role}
 			response.SendJSON(w, values)
 			return
 		}

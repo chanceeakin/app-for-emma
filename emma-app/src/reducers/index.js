@@ -1,18 +1,17 @@
 // @ flow
 import { combineReducers } from 'redux'
-import login from './login'
 import app from './app'
-import signup from './signup'
+import containers from './containers'
 import NavigationReducer from './navigation'
+import user from './user'
 import suggestions from './suggestions'
-
 
 const reducers = {
   NavigationReducer,
   app,
-  login,
-  signup,
-  suggestions
+  containers,
+  suggestions,
+  user
 }
 
 export type Reducers = typeof reducers;

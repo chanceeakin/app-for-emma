@@ -1,12 +1,44 @@
-
 export type UpdateUserNameText = {
-  type: 'LOGIN_USERNAME_CHANGE',
+  type: "LOGIN_USERNAME_CHANGE",
   payload: ?string
-}
+};
 
 export type updatePasswordText = {
-  type: 'LOGIN_PASSWORD_CHANGE',
+  type: "LOGIN_PASSWORD_CHANGE",
   payload: ?string
-}
+};
 
-export type LoginAction = UpdateUserNameText | updatePasswordText
+export type BeginLoginPayload = {
+  email: string,
+  password: string
+};
+
+export type LoginSuccessPayload = object;
+export type LoginFailPayload = object;
+
+export type BeginLogin = {
+  type: "LOGIN_FETCH_BEGIN",
+  payload: BeginLoginPayload
+};
+
+export type LoginSuccess = {
+  type: "LOGIN_FETCH_SUCCESS",
+  payload: LoginSuccessPayload
+};
+
+export type LoginErrorClear = {
+  type: "LOGIN_ERROR_CLEAR"
+};
+
+export type LoginFail = {
+  type: "LOGIN_FETCH_FAIL",
+  payload: LoginFailPayload
+};
+
+export type LoginAction =
+  | UpdateUserNameText
+  | updatePasswordText
+  | BeginLogin
+  | LoginSuccess
+  | LoginErrorClear
+  | LoginFail;

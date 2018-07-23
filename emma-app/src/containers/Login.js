@@ -1,3 +1,4 @@
+//@flow
 import React, { Component } from 'react'
 import {
   View,
@@ -9,22 +10,29 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 
-import { updateUserNameText, updatePasswordText } from './../actions/login'
+import {
+  updateUserNameText,
+  updatePasswordText,
+  beginLogin
+} from './../actions/login'
+import type { LoginAction } from './../actions/login.js.flow'
 
 import { mainPage, signupPage } from './../actions/navigation'
 import colors from './../constants/colors'
 import GradientWrapper from './../components/backgroundWrapper'
 
 const mapStateToProps = state => ({
-  userName: state.login.username,
-  password: state.login.password,
-  isFontLoaded: state.app.isFontLoaded
+  email: state.containers.login.email,
+  password: state.containers.login.password,
+  isFontLoaded: state.app.isFontLoaded,
+  isLoginError: state.containers.login.isLoginError
 })
 
 const mapDispatchToProps = {
   updateUserNameText,
   updatePasswordText,
   mainPage,
+  beginLogin,
   signupPage
 }
 
@@ -72,16 +80,30 @@ var styles = StyleSheet.create({
   },
   text: {
     color: colors.inkBlue
+  },
+  errorButton: {
+    backgroundColor: colors.error
+  },
+  errorText: {
+    color: colors.white
   }
 })
 
-class LoginView extends Component {
+type Props = {
+  beginLogin: LoginAction,
+  updateUserNameText: LoginAction,
+  updatePasswordText: LoginAction,
+  signupPage: () => void,
+  mainPage: () => void
+};
+
+class LoginView extends Component<Props> {
   static navigationOptions = {
     header: null
   };
 
   render() {
-    const { userName, password } = this.props
+    const { email, password } = this.props
 
     return (
       <GradientWrapper>
@@ -94,9 +116,10 @@ class LoginView extends Component {
           <TextInput
             style={styles.input}
             onChangeText={text => this.props.updateUserNameText(text)}
-            value={userName}
-            placeholder="User Name"
+            value={email}
+            placeholder="Email"
             placeholderTextColor={colors.white}
+            autoCapitalize="none"
             onBlur={Keyboard.dismiss}
           />
           <TextInput
@@ -104,18 +127,29 @@ class LoginView extends Component {
             onChangeText={text => this.props.updatePasswordText(text)}
             value={password}
             secureTextEntry
+            autoCapitalize="none"
             placeholder="Password"
             placeholderTextColor={colors.white}
             onBlur={Keyboard.dismiss}
           />
           <TouchableOpacity
-            style={styles.bigButton}
-            onPress={this.props.mainPage}
+            style={[
+              styles.bigButton,
+              this.props.isLoginError ? styles.errorButton : null
+            ]}
+            onPress={() =>
+              this.props.beginLogin({
+                email: email,
+                password: password
+              })
+            }
+            disabled={this.props.isLoginError}
           >
             <Text
               style={[
                 styles.bigButtonText,
-                this.props.isFontLoaded ? styles.font : null
+                this.props.isFontLoaded ? styles.font : null,
+                this.props.isLoginError ? styles.errorText : null
               ]}
             >
               Login
@@ -126,7 +160,7 @@ class LoginView extends Component {
           onPress={this.props.signupPage}
           style={styles.signupButton}
         >
-          <Text style={styles.text}>No Account? Signup</Text>
+          <Text style={[styles.text]}>No Account? Signup</Text>
         </TouchableOpacity>
       </GradientWrapper>
     )

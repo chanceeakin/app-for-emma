@@ -2,9 +2,10 @@ export const APP_FONT_LOAD: string = 'APP_FONT_LOAD'
 
 export const LOGIN_USERNAME_CHANGE: string = 'LOGIN_USERNAME_CHANGE'
 export const LOGIN_PASSWORD_CHANGE: string = 'LOGIN_PASSWORD_CHANGE'
-export const LOGIN_SEND_BEGIN: string = 'LOGIN_SEND_BEGIN'
-export const LOGIN_SEND_SUCCESS: string = 'LOGIN_SEND_SUCCESS'
-export const LOGIN_SEND_FAIL: string = 'LOGIN_SEND_FAIL'
+export const LOGIN_FETCH_BEGIN: string = 'LOGIN_FETCH_BEGIN'
+export const LOGIN_FETCH_SUCCESS: string = 'LOGIN_FETCH_SUCCESS'
+export const LOGIN_FETCH_FAIL: string = 'LOGIN_FETCH_FAIL'
+export const LOGIN_ERROR_CLEAR: string = 'LOGIN_ERROR_CLEAR'
 
 export const SIGNUP_FIRSTNAME_CHANGE: string = 'SIGNUP_FIRSTNAME_CHANGE'
 export const SIGNUP_LASTNAME_CHANGE: string = 'SIGNUP_LASTNAME_CHANGE'

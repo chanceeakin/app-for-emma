@@ -12,11 +12,15 @@ import { loadFonts } from './src/actions/app'
 type Props = {};
 
 export default class App extends Component<Props> {
-  async componentDidMount() {
+  fontLoad = async () => {
     await Font.loadAsync({
       Skia: Skia
     })
     store.dispatch(loadFonts())
+  };
+
+  componentDidMount() {
+    this.fontLoad()
   }
 
   render() {

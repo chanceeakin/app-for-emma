@@ -6,6 +6,7 @@ import {
 } from '../constants/action-types'
 import type { Action } from './../types/Action.js.flow'
 import type { Suggestion } from './../types/Suggestions.js.flow'
+import type { Store } from './../types/Store.js.flow'
 
 type State = {
   isCallingSuggestions: boolean,
@@ -44,3 +45,7 @@ const appReducer = (state: State = initialState, action: Action) => {
 }
 
 export default appReducer
+
+export function getSuggestions(state: Store) {
+  return state.suggestions.suggestions
+}

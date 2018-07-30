@@ -144,6 +144,15 @@ func routes() *httprouter.Router {
 	r.POST("/iphone-login", hr.Handler(alice.
 		New().
 		ThenFunc(controller.IphoneLoginPOST)))
+	r.GET("/iphone-logout", hr.Handler(alice.
+		New().
+		ThenFunc(controller.IphoneLogoutGET)))
+	r.PATCH("/iphone-email-update", hr.Handler(alice.
+		New().
+		ThenFunc(controller.IphoneUpdateEmailPATCH)))
+	r.PATCH("/iphone-password-update", hr.Handler(alice.
+		New().
+		ThenFunc(controller.IphoneUpdatePasswordPATCH)))
 
 	return r
 }

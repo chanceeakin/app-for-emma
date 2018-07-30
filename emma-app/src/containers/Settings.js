@@ -5,8 +5,10 @@ import { connect } from 'react-redux'
 
 import type { Suggestion } from './../types/Suggestions.js.flow'
 import { fetchSuggestions } from './../actions/main'
+import { logout } from './../actions/settings'
 import colors from './../constants/colors'
 import type { MainAction } from './../actions/main.js.flow'
+import type { SettingsAction } from './../actions/settings.js.flow'
 import GradientWrapper from './../components/backgroundWrapper'
 
 const mapStateToProps = state => ({
@@ -14,13 +16,15 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  fetchSuggestions
+  fetchSuggestions,
+  logout
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    paddingTop: 30,
+    justifyContent: 'space-between',
     alignItems: 'center'
   },
   icon: {
@@ -30,6 +34,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Skia'
   },
   title: {
+    flex: 1,
     fontSize: 72,
     textAlign: 'center',
     color: colors.inkBlue
@@ -57,12 +62,21 @@ const styles = StyleSheet.create({
 
 type Props = {
   suggestions: Suggestion[],
-  fetchSuggestions: MainAction
+  fetchSuggestions: MainAction,
+  logout: SettingsAction
 };
 
 class MainView extends Component<Props> {
   static navigationOptions = {
     header: null
+  };
+
+  goBack = () => {
+    this.props.navigation.goBack()
+  };
+
+  handleLogout = () => {
+    this.props.logout()
   };
 
   render() {
@@ -71,10 +85,10 @@ class MainView extends Component<Props> {
         <View style={styles.row}>
           <Text style={[styles.title, styles.font]}>Settings</Text>
         </View>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.goBack()}
-          style={styles.backButton}
-        >
+        <TouchableOpacity onPress={this.handleLogout} style={styles.backButton}>
+          <Text style={styles.text}>Logout</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.goBack} style={styles.backButton}>
           <Text style={styles.text}>Back</Text>
         </TouchableOpacity>
       </GradientWrapper>

@@ -11,11 +11,6 @@
 # create 1.0 expectations and feature Set
 
 - a user should be able to use swipe gestures to navigate
-- a user should be able to register, login, and logout from the app
-  - login route
-  - logout route
-  - client: set up and test each of those screens
-  - add redux state storage for authentication
 - a user should be able to change their password or email
   - client: settings page
   - server: add update user endpoint, locked by auth: UpdateUserAuthPUT
@@ -52,3 +47,8 @@
   - TURN OFF THE EFFING CSRF PROTECTION. probably useful for some things. not EFFING EVERYTHING.
     - activate middleware selectively, maybe.
   - add protections into the router
+  - a user should be able to register, login, and logout from the app
+    _login route_
+    _logout route_
+    _client: set up and test each of those screens_
+    _add redux state storage for authentication_

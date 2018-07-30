@@ -106,6 +106,7 @@ class LoginView extends Component {
             onChangeText={text => this.props.updateFirstNameText(text)}
             value={firstName}
             placeholder="First Name"
+            placeholderTextColor={colors.inkBlue}
             onBlur={Keyboard.dismiss}
           />
           <TextInput
@@ -113,6 +114,7 @@ class LoginView extends Component {
             onChangeText={text => this.props.updateLastNameText(text)}
             value={lastName}
             placeholder="Last Name"
+            placeholderTextColor={colors.inkBlue}
             onBlur={Keyboard.dismiss}
           />
           <TextInput
@@ -120,6 +122,7 @@ class LoginView extends Component {
             onChangeText={text => this.props.updateEmailText(text)}
             value={email}
             placeholder="Email"
+            placeholderTextColor={colors.inkBlue}
             onBlur={Keyboard.dismiss}
           />
           <TextInput
@@ -128,6 +131,7 @@ class LoginView extends Component {
             value={password}
             secureTextEntry
             placeholder="Password"
+            placeholderTextColor={colors.inkBlue}
             onBlur={Keyboard.dismiss}
           />
           <TouchableOpacity

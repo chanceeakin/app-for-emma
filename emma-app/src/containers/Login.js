@@ -94,7 +94,9 @@ type Props = {
   updateUserNameText: LoginAction,
   updatePasswordText: LoginAction,
   signupPage: () => void,
-  mainPage: () => void
+  mainPage: () => void,
+  email: string,
+  password: string
 };
 
 class LoginView extends Component<Props> {
@@ -118,7 +120,7 @@ class LoginView extends Component<Props> {
             onChangeText={text => this.props.updateUserNameText(text)}
             value={email}
             placeholder="Email"
-            placeholderTextColor={colors.white}
+            placeholderTextColor={colors.inkBlue}
             autoCapitalize="none"
             onBlur={Keyboard.dismiss}
           />
@@ -129,7 +131,7 @@ class LoginView extends Component<Props> {
             secureTextEntry
             autoCapitalize="none"
             placeholder="Password"
-            placeholderTextColor={colors.white}
+            placeholderTextColor={colors.inkBlue}
             onBlur={Keyboard.dismiss}
           />
           <TouchableOpacity

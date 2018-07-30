@@ -47,6 +47,22 @@ func UserByEmail(email string) (User, error) {
 	return result, standardizeError(err)
 }
 
+// UserByID gets user information from email
+func UserByID(id bson.ObjectId) (User, error) {
+	var err error
+	result := User{}
+	if database.CheckConnection() {
+		session := database.Mongo.Copy()
+		defer session.Close()
+		c := session.DB(database.ReadConfig().MongoDB.Database).C("user")
+		err = c.Find(bson.M{"_id": id}).One(&result)
+	} else {
+		err = ErrUnavailable
+	}
+
+	return result, standardizeError(err)
+}
+
 // UserCreate creates user
 func UserCreate(firstName, lastName, email, password string) error {
 	var err error
@@ -71,6 +87,36 @@ func UserCreate(firstName, lastName, email, password string) error {
 			Role:      "User",
 		}
 		err = c.Insert(user)
+	} else {
+		err = ErrUnavailable
+	}
+	return standardizeError(err)
+}
+
+func UpdateEmail(id bson.ObjectId, email string) error {
+	var err error
+
+	if database.CheckConnection() {
+		session := database.Mongo.Copy()
+		defer session.Close()
+		c := session.DB(database.ReadConfig().MongoDB.Database).C("user")
+
+		err = c.Update(bson.M{"_id": id}, bson.M{"$set": bson.M{"email": email}})
+	} else {
+		err = ErrUnavailable
+	}
+	return standardizeError(err)
+}
+
+func UpdatePassword(id bson.ObjectId, password string) error {
+	var err error
+
+	if database.CheckConnection() {
+		session := database.Mongo.Copy()
+		defer session.Close()
+		c := session.DB(database.ReadConfig().MongoDB.Database).C("user")
+
+		err = c.Update(bson.M{"_id": id}, bson.M{"$set": bson.M{"password": password}})
 	} else {
 		err = ErrUnavailable
 	}

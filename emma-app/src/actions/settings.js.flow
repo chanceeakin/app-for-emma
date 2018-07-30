@@ -1,0 +1,45 @@
+import type { ServerSuccess } from './../types/Globals.js.flow'
+
+export type Logout = {
+  type: "LOGOUT_BEGIN"
+};
+
+// TODO: make this waaaay more granular in flow
+export type LogoutSuccess = {
+  type: "LOGOUT_SUCCESS",
+  payload: Object
+};
+
+export type LogoutFail = {
+  type: "LOGOUT_FAIL",
+  payload: Error
+};
+
+export type ChangeEmailPayload = {
+  id: string,
+  email: string
+};
+
+export type ChangeEmail = {
+  type: "EMAIL_CHANGE_FETCH_BEGIN",
+  payload: ChangeEmailPayload
+};
+
+export type ChangeEmailSuccess = {
+  type: "EMAIL_CHANGE_FETCH_SUCCESS",
+  payload: ServerSuccess,
+  email: string
+};
+
+export type ChangeEmailFail = {
+  type: "EMAIL_CHANGE_FETCH_FAIL",
+  payload: Error
+};
+
+export type SettingsAction =
+  | Logout
+  | LogoutSuccess
+  | LogoutFail
+  | ChangeEmail
+  | ChangeEmailSuccess
+  | ChangeEmailFail;

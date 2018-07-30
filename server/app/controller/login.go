@@ -53,7 +53,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 	// Prevent brute force login attempts by not hitting MySQL and pretending like it was invalid :-)
 	if sess.Values[sessLoginAttempt] != nil && sess.Values[sessLoginAttempt].(int) >= 5 {
 		log.Println("Brute force login prevented")
-		sess.AddFlash(view.Flash{"Sorry, no brute force :-)", view.FlashNotice})
+		sess.AddFlash(view.Flash{Message: "Sorry, no brute force :-)", Class: view.FlashNotice})
 		sess.Save(r, w)
 		LoginGET(w, r)
 		return
@@ -61,7 +61,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 
 	// Validate with required fields
 	if validate, missingField := view.Validate(r, []string{"email", "password"}); !validate {
-		sess.AddFlash(view.Flash{"Field missing: " + missingField, view.FlashError})
+		sess.AddFlash(view.Flash{Message: "Field missing: " + missingField, Class: view.FlashError})
 		sess.Save(r, w)
 		LoginGET(w, r)
 		return
@@ -77,22 +77,22 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 	// Determine if user exists
 	if err == model.ErrNoResult {
 		loginAttempt(sess)
-		sess.AddFlash(view.Flash{"Password is incorrect - Attempt: " + fmt.Sprintf("%v", sess.Values[sessLoginAttempt]), view.FlashWarning})
+		sess.AddFlash(view.Flash{Message: "Password is incorrect - Attempt: " + fmt.Sprintf("%v", sess.Values[sessLoginAttempt]), Class: view.FlashWarning})
 		sess.Save(r, w)
 	} else if err != nil {
 		// Display error message
 		log.Println(err)
-		sess.AddFlash(view.Flash{"There was an error. Please try again later.", view.FlashError})
+		sess.AddFlash(view.Flash{Message: "There was an error. Please try again later.", Class: view.FlashError})
 		sess.Save(r, w)
 	} else if passhash.MatchString(result.Password, password) {
 		if result.StatusID != 1 {
 			// User inactive and display inactive message
-			sess.AddFlash(view.Flash{"Account is inactive so login is disabled.", view.FlashNotice})
+			sess.AddFlash(view.Flash{Message: "Account is inactive so login is disabled.", Class: view.FlashNotice})
 			sess.Save(r, w)
 		} else {
 			// Login successfully
 			session.Empty(sess)
-			sess.AddFlash(view.Flash{"Login successful!", view.FlashSuccess})
+			sess.AddFlash(view.Flash{Message: "Login successful!", Class: view.FlashSuccess})
 			sess.Values["id"] = result.UserID()
 			sess.Values["email"] = email
 			sess.Values["first_name"] = result.FirstName
@@ -103,7 +103,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		loginAttempt(sess)
-		sess.AddFlash(view.Flash{"Password is incorrect - Attempt: " + fmt.Sprintf("%v", sess.Values[sessLoginAttempt]), view.FlashWarning})
+		sess.AddFlash(view.Flash{Message: "Password is incorrect - Attempt: " + fmt.Sprintf("%v", sess.Values[sessLoginAttempt]), Class: view.FlashWarning})
 		sess.Save(r, w)
 	}
 
@@ -111,6 +111,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 	LoginGET(w, r)
 }
 
+// LoginInput is the expected data shape for a login attempt from an iPhone.
 type LoginInput struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -157,6 +158,12 @@ func IphoneLoginPOST(w http.ResponseWriter, r *http.Request) {
 		} else {
 			// Login successfully
 			// DECLARE A RETURN VALUE
+			session.Empty(sess)
+			sess.Values["id"] = result.UserID()
+			sess.Values["email"] = email
+			sess.Values["first_name"] = result.FirstName
+			sess.Values["role"] = result.Role
+			sess.Save(r, w)
 
 			values := map[string]interface{}{"id": result.UserID(), "email": email, "firstName": result.FirstName, "lastName": result.LastName, "role": result.Role}
 			response.SendJSON(w, values)
@@ -177,7 +184,7 @@ func LogoutGET(w http.ResponseWriter, r *http.Request) {
 	// If user is authenticated
 	if sess.Values["id"] != nil {
 		session.Empty(sess)
-		sess.AddFlash(view.Flash{"Goodbye!", view.FlashNotice})
+		sess.AddFlash(view.Flash{Message: "Goodbye!", Class: view.FlashNotice})
 		sess.Save(r, w)
 	}
 
@@ -188,12 +195,13 @@ func LogoutGET(w http.ResponseWriter, r *http.Request) {
 func IphoneLogoutGET(w http.ResponseWriter, r *http.Request) {
 	// Get session
 	sess := session.Instance(r)
-
 	// If user is authenticated
 	if sess.Values["id"] != nil {
 		session.Empty(sess)
 		sess.Save(r, w)
 	}
 
-	http.Redirect(w, r, "/", http.StatusFound)
+	values := map[string]interface{}{"message": "User logged out", "success": true}
+	response.SendJSON(w, values)
+	return
 }

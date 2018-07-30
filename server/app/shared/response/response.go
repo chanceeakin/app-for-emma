@@ -79,3 +79,16 @@ func SendJSON(w http.ResponseWriter, i interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
 }
+
+// SendSuccess sends a success object for simple requests.
+func SendSuccess(w http.ResponseWriter, message string, statusCode int, success bool) {
+	vals := map[string]interface{}{"message": message, "statusCode": statusCode, "success": success}
+	js, err := json.Marshal(vals)
+	if err != nil {
+		http.Error(w, "JSON Error: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}

@@ -1,7 +1,8 @@
 // @flow
 import {
   SIGNUP_SEND_SUCCESS,
-  LOGIN_FETCH_SUCCESS
+  LOGIN_FETCH_SUCCESS,
+  LOGOUT_SUCCESS
 } from '../constants/action-types'
 import type { Action } from './../types/Action.js.flow'
 import type { User } from './../types/User.js.flow'
@@ -25,6 +26,8 @@ const loginReducer = (state: State = initialState, action: Action) => {
     }
   case LOGIN_FETCH_SUCCESS:
     return action.payload
+  case LOGOUT_SUCCESS:
+    return initialState
   default:
     return state
   }

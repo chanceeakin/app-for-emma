@@ -1,10 +1,10 @@
-import { StackNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation'
 import Login from '../containers/Login'
 import Main from '../containers/Main'
 import Signup from '../containers/Signup'
 import Settings from '../containers/Settings'
 
-const navigator = StackNavigator(
+const navigator = createStackNavigator(
   {
     Login: {
       screen: Login

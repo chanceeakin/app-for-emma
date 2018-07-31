@@ -7,7 +7,7 @@ import user from './user'
 import suggestions from './suggestions'
 
 const reducers = {
-  NavigationReducer,
+  nav: NavigationReducer,
   app,
   containers,
   suggestions,

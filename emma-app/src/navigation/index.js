@@ -1,28 +1,19 @@
-import React, { Component } from 'react'
+import {
+  createReactNavigationReduxMiddleware,
+  reduxifyNavigator
+} from 'react-navigation-redux-helpers'
 import { connect } from 'react-redux'
-import { addNavigationHelpers } from 'react-navigation'
 import NavigationStack from './Navigation-Stack'
-import {addListener} from './../utils/redux'
 
-class AppNavigation extends Component {
-  render() {
-    const { navigationState, dispatch } = this.props
-    return (
-      <NavigationStack
-        navigation={addNavigationHelpers({
-          dispatch,
-          state: navigationState,
-          addListener
-        })}
-      />
-    )
-  }
-}
+export const middleware = createReactNavigationReduxMiddleware(
+  'root',
+  state => state.nav
+)
 
-const mapStateToProps = state => {
-  return {
-    navigationState: state.NavigationReducer
-  }
-}
+const App = reduxifyNavigator(NavigationStack, 'root')
+const mapStateToProps = state => ({
+  state: state.nav
+})
+const AppWithNavigationState = connect(mapStateToProps)(App)
 
-export default connect(mapStateToProps)(AppNavigation)
+export default AppWithNavigationState

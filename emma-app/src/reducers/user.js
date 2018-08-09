@@ -2,7 +2,8 @@
 import {
   SIGNUP_SEND_SUCCESS,
   LOGIN_FETCH_SUCCESS,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  EMAIL_CHANGE_PATCH_SUCCESS
 } from '../constants/action-types'
 import type { Action } from './../types/Action.js.flow'
 import type { User } from './../types/User.js.flow'
@@ -28,6 +29,11 @@ const loginReducer = (state: State = initialState, action: Action) => {
     return action.payload
   case LOGOUT_SUCCESS:
     return initialState
+  case EMAIL_CHANGE_PATCH_SUCCESS:
+    return {
+      ...state,
+      email: action.email
+    }
   default:
     return state
   }

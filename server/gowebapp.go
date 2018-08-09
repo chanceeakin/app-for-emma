@@ -40,6 +40,7 @@ func main() {
 
 	// Connect to database
 	database.Connect(config.Database)
+	database.ConfigureMongo()
 
 	// Configure the Google reCAPTCHA prior to loading view plugins
 	recaptcha.Configure(config.Recaptcha)

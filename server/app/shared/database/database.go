@@ -68,6 +68,30 @@ type MongoDBInfo struct {
 	Database string
 }
 
+func ConfigureMongo() {
+	var err error
+
+	if CheckConnection() {
+		session := Mongo.Copy()
+		defer session.Close()
+		c := session.DB(ReadConfig().MongoDB.Database).C("user")
+		index := mgo.Index{
+			Key:        []string{"email"},
+			Unique:     true,
+			DropDups:   true,
+			Background: true,
+			Sparse:     true,
+		}
+		err = c.EnsureIndex(index)
+		if err != nil {
+			log.Println(err)
+		}
+	} else {
+		log.Println(err)
+	}
+
+}
+
 // DSN returns the Data Source Name
 func DSN(ci MySQLInfo) string {
 	// Example: root:@tcp(localhost:3306)/test

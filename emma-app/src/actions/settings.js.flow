@@ -15,24 +15,49 @@ export type LogoutFail = {
   payload: Error
 };
 
-export type ChangeEmailPayload = {
-  id: string,
-  email: string
-};
-
 export type ChangeEmail = {
-  type: "EMAIL_CHANGE_FETCH_BEGIN",
-  payload: ChangeEmailPayload
+  type: "EMAIL_CHANGE_PATCH_BEGIN"
 };
 
 export type ChangeEmailSuccess = {
-  type: "EMAIL_CHANGE_FETCH_SUCCESS",
+  type: "EMAIL_CHANGE_PATCH_SUCCESS",
   payload: ServerSuccess,
   email: string
 };
 
 export type ChangeEmailFail = {
-  type: "EMAIL_CHANGE_FETCH_FAIL",
+  type: "EMAIL_CHANGE_PATCH_FAIL",
+  payload: Error
+};
+
+export type UpdateEmailPatchTextField = {
+  type: "SETTINGS_EMAIL_TEXT_UPDATE",
+  payload: string
+};
+
+export type UpdatePasswordPatchTextField = {
+  type: "SETTINGS_PASSWORD_TEXT_UPDATE",
+  payload: string
+};
+
+export type ChangePasswordPayload = {
+  id: string,
+  password: string
+};
+
+export type ChangePassword = {
+  type: "PASSWORD_CHANGE_PATCH_BEGIN",
+  payload: ChangePasswordPayload
+};
+
+export type ChangePasswordSuccess = {
+  type: "PASSWORD_CHANGE_PATCH_SUCCESS",
+  payload: ServerSuccess,
+  password: string
+};
+
+export type ChangePasswordFail = {
+  type: "PASSWORD_CHANGE_PATCH_FAIL",
   payload: Error
 };
 
@@ -42,4 +67,9 @@ export type SettingsAction =
   | LogoutFail
   | ChangeEmail
   | ChangeEmailSuccess
-  | ChangeEmailFail;
+  | ChangeEmailFail
+  | UpdateEmailPatchTextField
+  | UpdatePasswordPatchTextField
+  | ChangePassword
+  | ChangePasswordSuccess
+  | ChangePasswordFail;

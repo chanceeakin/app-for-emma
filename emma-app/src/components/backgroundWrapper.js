@@ -1,11 +1,11 @@
 // @flow
 import React from 'react'
-import {LinearGradient} from 'expo'
-import {StyleSheet} from 'react-native'
+import { LinearGradient } from 'expo'
+import { StyleSheet } from 'react-native'
 import colors from './../constants/colors'
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     backgroundColor: colors.background,
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -15,19 +15,30 @@ const styles = StyleSheet.create({
 
 type Props = {
   children: React$Node,
-  style: ?Object
+  style: ?Object,
+  color?: string
+};
+
+const backgroundWrapper = ({ children, style, color }: Props) => {
+  const backGroundColor = () => {
+    switch (color) {
+    case 'orange':
+      return [colors.lightPeach, colors.lightOrange]
+    default:
+      return [colors.green, colors.lightGreen]
+    }
+  }
+  return (
+    <LinearGradient
+      colors={backGroundColor()}
+      start={[0, 0]}
+      end={[1, 1]}
+      location={[0.25, 0.4, 1]}
+      style={style ? style : styles.container}
+    >
+      {children}
+    </LinearGradient>
+  )
 }
-
-const backgroundWrapper = ({children, style}:Props) =>
-  <LinearGradient
-    colors={[colors.green, colors.lightGreen]}
-    start={[0, 0]}
-    end={[1, 1]}
-    location={[0.25, 0.4, 1]}
-    style={style ? style : styles.container}
-  >
-    {children}
-  </LinearGradient>
-
 
 export default backgroundWrapper

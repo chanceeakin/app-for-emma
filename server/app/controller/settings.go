@@ -22,7 +22,7 @@ type EmailInput struct {
 func IphoneUpdateEmailPATCH(w http.ResponseWriter, r *http.Request) {
 	// Get session
 	sess := session.Instance(r)
-
+	var err error
 	var u EmailInput
 
 	decoder := json.NewDecoder(r.Body)
@@ -32,28 +32,13 @@ func IphoneUpdateEmailPATCH(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// Prevent brute force login attempts by not hitting MySQL and pretending like it was invalid :-)
-	if sess.Values["id"] == nil || sess.Values["id"] != u.Id {
+	if sess.Values["id"] == nil || sess.Values["id"] != u.Id.Hex() {
 		log.Println("session mismatch")
 		response.SendError(w, http.StatusForbidden, "Session mismatch")
 		return
 	}
-
-	result, err := model.UserByEmail(u.Email)
-	if err != nil {
-		log.Println("user fetch error")
-		response.SendError(w, http.StatusInternalServerError, "Internal Server Error")
-		return
-	}
-
-	if result.Email == u.Email {
-		log.Println("Email Exists error")
-		response.SendError(w, http.StatusBadRequest, "Email already taken")
-		return
-	}
-
 	// Get database result
 	err = model.UpdateEmail(u.Id, u.Email)
-
 	if err != nil {
 		// Display error message
 		log.Println(err)

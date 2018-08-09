@@ -12,10 +12,10 @@
 
 - a user should be able to use swipe gestures to navigate
 - a user should be able to change their password or email
-  - client: settings page
-  - server: add update user endpoint, locked by auth: UpdateUserAuthPUT
+  - client: modal for change password
+  - client: modal for change email
 - a user should be able to subscribe to specific tags
-  - client: settings page (linked to all tags endpoint)
+  - client: modal on settings page (linked to all tags endpoint)
   - server: add tags to User Object
   - server: endpoint to update user tags on user object: UpdateUserTagPUT
   - server: endpoint to get random user suggestions: UserRandomSuggestionGET
@@ -52,3 +52,5 @@
     _logout route_
     _client: set up and test each of those screens_
     _add redux state storage for authentication_
+  - a users should be able to update their email and password
+  - server: add update user endpoint, locked by auth: UpdateUserAuthPUT

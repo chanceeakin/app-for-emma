@@ -8,6 +8,7 @@ import {
   LOGIN_ERROR_CLEAR
 } from './../constants/action-types'
 import { apiUrl } from './../../config'
+import { storeSession } from './../utils/asyncStorage'
 import type {
   LoginAction,
   BeginLoginPayload,
@@ -44,6 +45,7 @@ export const beginLogin = (payload: BeginLoginPayload): LoginAction => {
           password: payload.password
         })
       })
+      const cookie = await storeSession(call.headers)
       const json = await call.json()
       if (json.status && json.status > 200) {
         throw json
@@ -51,6 +53,7 @@ export const beginLogin = (payload: BeginLoginPayload): LoginAction => {
       dispatch(loginSuccess(json))
       dispatch(mainPage())
     } catch (e) {
+      console.warn(e)
       dispatch(loginFail(e))
       setTimeout(() => {
         dispatch(loginErrorClear())

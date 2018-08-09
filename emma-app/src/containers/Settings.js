@@ -1,23 +1,45 @@
 // @flow
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  Keyboard
+} from 'react-native'
 import { connect } from 'react-redux'
 
 import type { Suggestion } from './../types/Suggestions.js.flow'
-import { fetchSuggestions } from './../actions/main'
+import {
+  updateEmailPatchTextField,
+  updatePasswordPatchTextField,
+  changeEmail
+} from './../actions/settings'
 import { logout } from './../actions/settings'
+import {
+  updatedEmailSelector,
+  updatedPasswordSelector,
+  isPatchingEmailErrorSelector
+} from './../reducers/containers/settings'
 import colors from './../constants/colors'
-import type { MainAction } from './../actions/main.js.flow'
 import type { SettingsAction } from './../actions/settings.js.flow'
 import GradientWrapper from './../components/backgroundWrapper'
+import ChangeEmailModal from './../components/modals/ChangeEmail'
+import ChangePasswordModal from './../components/modals/ChangePassword'
+import LogoutModal from './../components/modals/Logout'
 
 const mapStateToProps = state => ({
-  suggestions: state.suggestions.suggestions
+  updatedEmail: updatedEmailSelector(state),
+  updatedPassword: updatedPasswordSelector(state),
+  isPatchingEmailError: isPatchingEmailErrorSelector(state)
 })
 
 const mapDispatchToProps = {
-  fetchSuggestions,
-  logout
+  updateEmailPatchTextField,
+  updatePasswordPatchTextField,
+  logout,
+  changeEmail
 }
 
 const styles = StyleSheet.create({
@@ -51,19 +73,48 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1
   },
+  bigButton: {
+    marginTop: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    backgroundColor: colors.darkBlue,
+    borderRadius: 2
+  },
+  bigButtonText: {
+    fontSize: 23,
+    fontWeight: '600',
+    color: colors.white
+  },
   bigNumber: {
     fontSize: 48
   },
   backButton: {
     padding: 5,
     paddingBottom: 15
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderBottomWidth: 1,
+    color: colors.darkBlue,
+    minWidth: 200
+  },
+  errorButton: {
+    backgroundColor: colors.error
+  },
+  errorText: {
+    color: colors.white
   }
 })
 
 type Props = {
-  suggestions: Suggestion[],
-  fetchSuggestions: MainAction,
-  logout: SettingsAction
+  logout: SettingsAction,
+  updateEmailPatchTextField: SettingsAction,
+  updatePasswordPatchTextField: SettingsAction,
+  updatedEmail: string,
+  updatedPassword: string,
+  isPatchingEmailError: boolean,
+  changeEmail: SettingsAction
 };
 
 class MainView extends Component<Props> {
@@ -75,19 +126,38 @@ class MainView extends Component<Props> {
     this.props.navigation.goBack()
   };
 
+  changeEmail = () => {
+    this.props.changeEmail()
+  };
+
   handleLogout = () => {
     this.props.logout()
   };
 
   render() {
+    const {
+      updatedEmail,
+      updatedPassword,
+      isPatchingEmailError,
+      updateEmailPatchTextField,
+      updatePasswordPatchTextField
+    } = this.props
     return (
       <GradientWrapper style={styles.container}>
         <View style={styles.row}>
           <Text style={[styles.title, styles.font]}>Settings</Text>
         </View>
-        <TouchableOpacity onPress={this.handleLogout} style={styles.backButton}>
-          <Text style={styles.text}>Logout</Text>
-        </TouchableOpacity>
+        <ChangeEmailModal
+          changeEmail={this.changeEmail}
+          updateEmailPatchTextField={updateEmailPatchTextField}
+          isPatchingEmailError={isPatchingEmailError}
+          updatedEmail={updatedEmail}
+        />
+        <ChangePasswordModal
+          updatedPassword={updatedPassword}
+          updatePasswordPatchTextField={updatePasswordPatchTextField}
+        />
+        <LogoutModal handleLogout={this.handleLogout} />
         <TouchableOpacity onPress={this.goBack} style={styles.backButton}>
           <Text style={styles.text}>Back</Text>
         </TouchableOpacity>

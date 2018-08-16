@@ -22,7 +22,7 @@ import {
   updatedPasswordSelector,
   isPatchingEmailErrorSelector
 } from './../reducers/containers/settings'
-import colors from './../constants/colors'
+import { button, colors } from './../styles'
 import type { SettingsAction } from './../actions/settings.js.flow'
 import GradientWrapper from './../components/backgroundWrapper'
 import ChangeEmailModal from './../components/modals/ChangeEmail'
@@ -41,6 +41,8 @@ const mapDispatchToProps = {
   logout,
   changeEmail
 }
+
+const { bigButton, bigButtonText } = button
 
 const styles = StyleSheet.create({
   container: {
@@ -73,18 +75,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1
   },
-  bigButton: {
-    marginTop: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    backgroundColor: colors.darkBlue,
-    borderRadius: 2
-  },
-  bigButtonText: {
-    fontSize: 23,
-    fontWeight: '600',
-    color: colors.white
-  },
+  bigButton,
+  bigButtonText,
   bigNumber: {
     fontSize: 48
   },
@@ -114,7 +106,8 @@ type Props = {
   updatedEmail: string,
   updatedPassword: string,
   isPatchingEmailError: boolean,
-  changeEmail: SettingsAction
+  changeEmail: SettingsAction,
+  navigation: any
 };
 
 class MainView extends Component<Props> {

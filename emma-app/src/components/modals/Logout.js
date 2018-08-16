@@ -9,25 +9,39 @@ import {
   StyleSheet
 } from 'react-native'
 import GradientWrapper from './../backgroundWrapper'
-import colors from './../../constants/colors'
+import { colors, button } from './../../styles'
 import type { SettingsAction } from './../../actions/settings.js.flow'
 
-const styles = StyleSheet.create({
+const { bigButton, bigButtonText, mediumButton, mediumButtonText } = button
+
+const styles: StyleSheet = StyleSheet.create({
   container: {
-    paddingTop: 22,
-    flex: 1
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
-  bigButton: {
-    marginTop: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    backgroundColor: colors.darkBlue,
-    borderRadius: 2
+  modal: {
+    flex: 1,
+    paddingTop: 30,
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
-  bigButtonText: {
-    fontSize: 23,
-    fontWeight: '600',
+  modalTitle: {
+    fontSize: 45,
+    textAlign: 'center'
+  },
+  bigButton,
+  bigButtonText,
+  mediumButton,
+  mediumButtonText,
+  errorButton: {
+    backgroundColor: colors.error
+  },
+  errorText: {
     color: colors.white
+  },
+  backButton: {
+    padding: 15
   }
 })
 
@@ -51,7 +65,7 @@ export default class ModalComponent extends Component<Props, State> {
   render() {
     const { handleLogout } = this.props
     return (
-      <View style={{ marginTop: 22 }}>
+      <View style={styles.container}>
         <Modal
           animationType="fade"
           transparent={false}
@@ -60,30 +74,31 @@ export default class ModalComponent extends Component<Props, State> {
             alert('Modal has been closed.')
           }}
         >
-          <GradientWrapper color="orange" style={styles.container}>
+          <GradientWrapper color="orange" style={styles.modal}>
+            <Text style={styles.modalTitle}>Logout</Text>
             <View>
               <TouchableOpacity onPress={handleLogout} style={styles.bigButton}>
                 <Text style={styles.bigButtonText}>Logout</Text>
               </TouchableOpacity>
-
-              <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible)
-                }}
-              >
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
             </View>
+            <TouchableHighlight
+              onPress={() => {
+                this.setModalVisible(!this.state.modalVisible)
+              }}
+            >
+              <Text>Back</Text>
+            </TouchableHighlight>
           </GradientWrapper>
         </Modal>
 
-        <TouchableHighlight
+        <TouchableOpacity
+          style={styles.mediumButton}
           onPress={() => {
             this.setModalVisible(true)
           }}
         >
-          <Text>Logout</Text>
-        </TouchableHighlight>
+          <Text style={styles.mediumButtonText}>Logout</Text>
+        </TouchableOpacity>
       </View>
     )
   }

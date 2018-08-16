@@ -18,7 +18,7 @@ import {
 import type { LoginAction } from './../actions/login.js.flow'
 
 import { mainPage, signupPage } from './../actions/navigation'
-import colors from './../constants/colors'
+import { colors, button } from './../styles'
 import GradientWrapper from './../components/backgroundWrapper'
 
 const mapStateToProps = state => ({
@@ -36,7 +36,9 @@ const mapDispatchToProps = {
   signupPage
 }
 
-var styles = StyleSheet.create({
+const { bigButton, bigButtonText } = button
+
+const styles = StyleSheet.create({
   row: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -62,18 +64,8 @@ var styles = StyleSheet.create({
     color: colors.darkBlue,
     minWidth: 200
   },
-  bigButton: {
-    marginTop: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    backgroundColor: colors.darkBlue,
-    borderRadius: 2
-  },
-  bigButtonText: {
-    fontSize: 23,
-    fontWeight: '600',
-    color: colors.white
-  },
+  bigButton,
+  bigButtonText,
   signupButton: {
     padding: 5,
     paddingBottom: 15

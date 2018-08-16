@@ -11,28 +11,24 @@ import {
   Keyboard
 } from 'react-native'
 import GradientWrapper from './../backgroundWrapper'
-import colors from './../../constants/colors'
+import { colors, button, modal as modalStyle } from './../../styles'
 import type { SettingsAction } from './../../actions/Settings.js.flow'
+
+const { bigButton, bigButtonText, mediumButton, mediumButtonText } = button
+const { modal, modalTitle } = modalStyle
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
     justifyContent: 'space-between',
     alignItems: 'center'
   },
-  bigButton: {
-    marginTop: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    backgroundColor: colors.darkBlue,
-    borderRadius: 2
-  },
-  bigButtonText: {
-    fontSize: 23,
-    fontWeight: '600',
-    color: colors.white
-  },
+  modal,
+  modalTitle,
+  bigButton,
+  bigButtonText,
+  mediumButton,
+  mediumButtonText,
   input: {
     height: 40,
     borderColor: 'gray',
@@ -45,6 +41,9 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: colors.white
+  },
+  backButton: {
+    padding: 15
   }
 })
 
@@ -76,22 +75,23 @@ export default class ModalComponent extends Component<Props, State> {
       changeEmail
     } = this.props
     return (
-      <View style={{ marginTop: 22 }}>
+      <View style={styles.container}>
         <Modal
-          animationType="slide"
+          animationType="fade"
           transparent={false}
           visible={this.state.modalVisible}
           onRequestClose={() => {
             alert('Modal has been closed.')
           }}
         >
-          <GradientWrapper color="orange" style={styles.container}>
+          <GradientWrapper color="orange" style={styles.modal}>
+            <Text style={styles.modalTitle}>Change Email</Text>
             <View>
               <TextInput
                 style={styles.input}
                 onChangeText={text => updateEmailPatchTextField(text)}
                 value={updatedEmail}
-                placeholder="Change Email"
+                placeholder="New Email"
                 placeholderTextColor={colors.inkBlue}
                 autoCapitalize="none"
                 onBlur={Keyboard.dismiss}
@@ -112,24 +112,25 @@ export default class ModalComponent extends Component<Props, State> {
                   Change Email
                 </Text>
               </TouchableOpacity>
-
-              <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible)
-                }}
-              >
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
             </View>
+            <TouchableHighlight
+              style={styles.backButton}
+              onPress={() => {
+                this.setModalVisible(!this.state.modalVisible)
+              }}
+            >
+              <Text>Back</Text>
+            </TouchableHighlight>
           </GradientWrapper>
         </Modal>
 
         <TouchableHighlight
+          style={styles.mediumButton}
           onPress={() => {
             this.setModalVisible(true)
           }}
         >
-          <Text>Change Email</Text>
+          <Text style={styles.mediumButtonText}>Change Email</Text>
         </TouchableHighlight>
       </View>
     )

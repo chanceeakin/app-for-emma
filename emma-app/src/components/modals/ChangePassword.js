@@ -11,25 +11,39 @@ import {
   TextInput
 } from 'react-native'
 import GradientWrapper from './../backgroundWrapper'
-import colors from './../../constants/colors'
+import { colors, button, modal as modalStyle } from './../../styles'
 import type { SettingsAction } from './../../actions/Settings.js.flow'
+
+const { bigButton, bigButtonText, mediumButton, mediumButtonText } = button
+const { modal, modalTitle } = modalStyle
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 22,
-    flex: 1
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
-  bigButton: {
-    marginTop: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    backgroundColor: colors.darkBlue,
-    borderRadius: 2
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderBottomWidth: 1,
+    color: colors.darkBlue,
+    minWidth: 200
   },
-  bigButtonText: {
-    fontSize: 23,
-    fontWeight: '600',
+  errorButton: {
+    backgroundColor: colors.error
+  },
+  errorText: {
     color: colors.white
+  },
+  modal,
+  modalTitle,
+  bigButton,
+  bigButtonText,
+  mediumButton,
+  mediumButtonText,
+  backButton: {
+    padding: 15
   }
 })
 
@@ -54,7 +68,7 @@ export default class ModalComponent extends Component<Props, State> {
   render() {
     const { updatePasswordPatchTextField, updatedPassword } = this.props
     return (
-      <View style={{ marginTop: 22 }}>
+      <View style={styles.container}>
         <Modal
           animationType="fade"
           transparent={false}
@@ -63,7 +77,8 @@ export default class ModalComponent extends Component<Props, State> {
             alert('Modal has been closed.')
           }}
         >
-          <GradientWrapper color="orange" style={styles.container}>
+          <GradientWrapper color="orange" style={styles.modal}>
+            <Text style={styles.modalTitle}>Change Email</Text>
             <View>
               <TextInput
                 style={styles.input}
@@ -80,22 +95,24 @@ export default class ModalComponent extends Component<Props, State> {
               </TouchableOpacity>
 
               <TouchableHighlight
+                style={styles.backButton}
                 onPress={() => {
                   this.setModalVisible(!this.state.modalVisible)
                 }}
               >
-                <Text>Hide Modal</Text>
+                <Text>Back</Text>
               </TouchableHighlight>
             </View>
           </GradientWrapper>
         </Modal>
 
         <TouchableHighlight
+          style={styles.mediumButton}
           onPress={() => {
             this.setModalVisible(true)
           }}
         >
-          <Text>Change Password</Text>
+          <Text style={styles.mediumButtonText}>Change Password</Text>
         </TouchableHighlight>
       </View>
     )

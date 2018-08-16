@@ -16,7 +16,7 @@ import {
   updateEmailText,
   signupUser
 } from './../actions/signup'
-import colors from './../constants/colors'
+import {colors} from './../styles'
 import { loginPage, mainPage } from './../actions/navigation'
 import GradientWrapper from './../components/backgroundWrapper'
 

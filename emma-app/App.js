@@ -8,6 +8,7 @@ import AppNavigation from './src/navigation'
 import Skia from './assets/fonts/Skia-Regular.ttf'
 
 import { loadFonts } from './src/actions/app'
+import styles from './src/styles'
 
 type Props = {};
 

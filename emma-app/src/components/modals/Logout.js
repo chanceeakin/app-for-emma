@@ -9,40 +9,33 @@ import {
   StyleSheet
 } from 'react-native'
 import GradientWrapper from './../backgroundWrapper'
-import { colors, button } from './../../styles'
+import { button, modal as modalStyle, pageLayout } from './../../styles'
 import type { SettingsAction } from './../../actions/settings.js.flow'
 
-const { bigButton, bigButtonText, mediumButton, mediumButtonText } = button
-
-const styles: StyleSheet = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  modal: {
-    flex: 1,
-    paddingTop: 30,
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  modalTitle: {
-    fontSize: 45,
-    textAlign: 'center'
-  },
+const {
   bigButton,
   bigButtonText,
-  mediumButton,
-  mediumButtonText,
-  errorButton: {
-    backgroundColor: colors.error
-  },
-  errorText: {
-    color: colors.white
-  },
-  backButton: {
-    padding: 15
-  }
+  settingsButton,
+  settingsButtonText,
+  errorButton,
+  errorText,
+  backButton
+} = button
+
+const { modal, modalTitle } = modalStyle
+const { container } = pageLayout
+
+const styles: StyleSheet = StyleSheet.create({
+  container,
+  modal,
+  modalTitle,
+  bigButton,
+  bigButtonText,
+  settingsButton,
+  settingsButtonText,
+  errorButton,
+  errorText,
+  backButton
 })
 
 type Props = {
@@ -82,6 +75,7 @@ export default class ModalComponent extends Component<Props, State> {
               </TouchableOpacity>
             </View>
             <TouchableHighlight
+              style={styles.backButton}
               onPress={() => {
                 this.setModalVisible(!this.state.modalVisible)
               }}
@@ -92,12 +86,12 @@ export default class ModalComponent extends Component<Props, State> {
         </Modal>
 
         <TouchableOpacity
-          style={styles.mediumButton}
+          style={styles.settingsButton}
           onPress={() => {
             this.setModalVisible(true)
           }}
         >
-          <Text style={styles.mediumButtonText}>Logout</Text>
+          <Text style={styles.settingsButtonText}>Logout</Text>
         </TouchableOpacity>
       </View>
     )

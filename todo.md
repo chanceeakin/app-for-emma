@@ -13,7 +13,6 @@
 - a user should be able to use swipe gestures to navigate
 - a user should be able to change their password or email
   - client: modal for change password
-  - client: modal for change email
 - a user should be able to subscribe to specific tags
   - client: modal on settings page (linked to all tags endpoint)
   - server: add tags to User Object
@@ -53,4 +52,5 @@
     _client: set up and test each of those screens_
     _add redux state storage for authentication_
   - a users should be able to update their email and password
+    - client: modal for change email
   - server: add update user endpoint, locked by auth: UpdateUserAuthPUT

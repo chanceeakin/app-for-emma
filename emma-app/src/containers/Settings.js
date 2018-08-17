@@ -13,16 +13,24 @@ import { connect } from 'react-redux'
 import type { Suggestion } from './../types/Suggestions.js.flow'
 import {
   updateEmailPatchTextField,
-  updatePasswordPatchTextField,
-  changeEmail
+  updateOldPasswordPatchTextField,
+  updateNewPassword1PatchTextField,
+  updateNewPassword2PatchTextField,
+  toggleEmailModal,
+  changeEmail,
+  togglePasswordModal,
+  logout
 } from './../actions/settings'
-import { logout } from './../actions/settings'
 import {
   updatedEmailSelector,
-  updatedPasswordSelector,
-  isPatchingEmailErrorSelector
+  updatedOldPasswordSelector,
+  updatedNewPassword1Selector,
+  updatedNewPassword2Selector,
+  isPatchingEmailErrorSelector,
+  emailModalSelector,
+  passwordModalSelector
 } from './../reducers/containers/settings'
-import { button, colors } from './../styles'
+import { button, colors, pageLayout } from './../styles'
 import type { SettingsAction } from './../actions/settings.js.flow'
 import GradientWrapper from './../components/backgroundWrapper'
 import ChangeEmailModal from './../components/modals/ChangeEmail'
@@ -31,26 +39,30 @@ import LogoutModal from './../components/modals/Logout'
 
 const mapStateToProps = state => ({
   updatedEmail: updatedEmailSelector(state),
-  updatedPassword: updatedPasswordSelector(state),
-  isPatchingEmailError: isPatchingEmailErrorSelector(state)
+  updatedOldPassword: updatedOldPasswordSelector(state),
+  updatedNewPassword1: updatedNewPassword1Selector(state),
+  updatedNewPassword2: updatedNewPassword2Selector(state),
+  isPatchingEmailError: isPatchingEmailErrorSelector(state),
+  isEmailModalShown: emailModalSelector(state),
+  isPasswordModalShown: passwordModalSelector(state)
 })
 
 const mapDispatchToProps = {
   updateEmailPatchTextField,
-  updatePasswordPatchTextField,
+  updateOldPasswordPatchTextField,
+  updateNewPassword1PatchTextField,
+  updateNewPassword2PatchTextField,
   logout,
-  changeEmail
+  changeEmail,
+  toggleEmailModal,
+  togglePasswordModal
 }
 
 const { bigButton, bigButtonText } = button
+const { container } = pageLayout
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 30,
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
+  container,
   icon: {
     margin: 10
   },
@@ -102,12 +114,20 @@ const styles = StyleSheet.create({
 type Props = {
   logout: SettingsAction,
   updateEmailPatchTextField: SettingsAction,
-  updatePasswordPatchTextField: SettingsAction,
+  updateOldPasswordPatchTextField: SettingsAction,
+  updateNewPassword1PatchTextField: SettingsAction,
+  updateNewPassword2PatchTextField: SettingsAction,
   updatedEmail: string,
-  updatedPassword: string,
+  updatedOldPassword: string,
+  updatedNewPassword1: string,
+  updatedNewPassword2: string,
   isPatchingEmailError: boolean,
   changeEmail: SettingsAction,
-  navigation: any
+  navigation: any,
+  toggleEmailModal: SettingsAction,
+  isEmailModalShown: boolean,
+  togglePasswordModal: SettingsAction,
+  isPasswordModalShown: boolean
 };
 
 class MainView extends Component<Props> {
@@ -130,27 +150,45 @@ class MainView extends Component<Props> {
   render() {
     const {
       updatedEmail,
-      updatedPassword,
+      updatedOldPassword,
+      updatedNewPassword1,
+      updatedNewPassword2,
       isPatchingEmailError,
       updateEmailPatchTextField,
-      updatePasswordPatchTextField
+      updateOldPasswordPatchTextField,
+      updateNewPassword1PatchTextField,
+      updateNewPassword2PatchTextField,
+      toggleEmailModal,
+      isEmailModalShown,
+      togglePasswordModal,
+      isPasswordModalShown
     } = this.props
     return (
       <GradientWrapper style={styles.container}>
         <View style={styles.row}>
           <Text style={[styles.title, styles.font]}>Settings</Text>
         </View>
-        <ChangeEmailModal
-          changeEmail={this.changeEmail}
-          updateEmailPatchTextField={updateEmailPatchTextField}
-          isPatchingEmailError={isPatchingEmailError}
-          updatedEmail={updatedEmail}
-        />
-        <ChangePasswordModal
-          updatedPassword={updatedPassword}
-          updatePasswordPatchTextField={updatePasswordPatchTextField}
-        />
-        <LogoutModal handleLogout={this.handleLogout} />
+        <View style={styles.row}>
+          <ChangeEmailModal
+            changeEmail={this.changeEmail}
+            updateEmailPatchTextField={updateEmailPatchTextField}
+            isPatchingEmailError={isPatchingEmailError}
+            updatedEmail={updatedEmail}
+            isEmailModalShown={isEmailModalShown}
+            toggleEmailModal={toggleEmailModal}
+          />
+          <ChangePasswordModal
+            updatedOldPassword={updatedOldPassword}
+            updatedNewPassword1={updatedNewPassword1}
+            updatedNewPassword2={updatedNewPassword2}
+            updateOldPasswordPatchTextField={updateOldPasswordPatchTextField}
+            updateNewPassword1PatchTextField={updateNewPassword1PatchTextField}
+            updateNewPassword2PatchTextField={updateNewPassword2PatchTextField}
+            isPasswordModalShown={isPasswordModalShown}
+            togglePasswordModal={togglePasswordModal}
+          />
+          <LogoutModal handleLogout={this.handleLogout} />
+        </View>
         <TouchableOpacity onPress={this.goBack} style={styles.backButton}>
           <Text style={styles.text}>Back</Text>
         </TouchableOpacity>

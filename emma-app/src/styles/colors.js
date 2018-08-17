@@ -12,6 +12,7 @@ const colors: Colors = {
   darkPurple: '#4C3B4D',
   darkBlue: '#114B5F',
   inkBlue: '#0D1B2A',
+  duskyRose: '#D37482',
   error: '#CC2936'
 }
 

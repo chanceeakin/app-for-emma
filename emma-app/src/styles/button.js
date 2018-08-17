@@ -13,6 +13,18 @@ const button = {
     fontWeight: '600',
     color: colors.white
   },
+  settingsButton: {
+    marginTop: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    backgroundColor: colors.duskyRose,
+    borderRadius: 5
+  },
+  settingsButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.white
+  },
   mediumButton: {
     marginTop: 20,
     paddingVertical: 10,
@@ -24,6 +36,15 @@ const button = {
     fontSize: 16,
     fontWeight: '600',
     color: colors.white
+  },
+  errorButton: {
+    backgroundColor: colors.error
+  },
+  errorText: {
+    color: colors.white
+  },
+  backButton: {
+    padding: 15
   }
 }
 

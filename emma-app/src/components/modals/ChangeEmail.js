@@ -11,75 +11,71 @@ import {
   Keyboard
 } from 'react-native'
 import GradientWrapper from './../backgroundWrapper'
-import { colors, button, modal as modalStyle } from './../../styles'
+import {
+  colors,
+  button,
+  modal as modalStyle,
+  pageLayout,
+  forms
+} from './../../styles'
 import type { SettingsAction } from './../../actions/Settings.js.flow'
 
-const { bigButton, bigButtonText, mediumButton, mediumButtonText } = button
+const {
+  bigButton,
+  bigButtonText,
+  settingsButton,
+  settingsButtonText,
+  mediumButton,
+  mediumButtonText,
+  errorButton,
+  errorText,
+  backButton
+} = button
 const { modal, modalTitle } = modalStyle
+const { input } = forms
+const { container } = pageLayout
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
+  container,
   modal,
   modalTitle,
   bigButton,
   bigButtonText,
+  settingsButton,
+  settingsButtonText,
   mediumButton,
   mediumButtonText,
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderBottomWidth: 1,
-    color: colors.darkBlue,
-    minWidth: 200
-  },
-  errorButton: {
-    backgroundColor: colors.error
-  },
-  errorText: {
-    color: colors.white
-  },
-  backButton: {
-    padding: 15
-  }
+  input,
+  errorButton,
+  errorText,
+  backButton
 })
 
 type Props = {
   updatedEmail: string,
   updateEmailPatchTextField: SettingsAction,
   isPatchingEmailError?: boolean,
-  changeEmail: () => void
+  changeEmail: () => void,
+  isEmailModalShown: boolean,
+  toggleEmailModal: SettingsAction
 };
 
-type State = {
-  modalVisible: boolean
-};
-
-export default class ModalComponent extends Component<Props, State> {
-  state = {
-    modalVisible: false
-  };
-
-  setModalVisible(visible: boolean): void {
-    this.setState({ modalVisible: visible })
-  }
-
+export default class ModalComponent extends Component<Props> {
   render() {
     const {
       updateEmailPatchTextField,
       isPatchingEmailError,
       updatedEmail,
-      changeEmail
+      changeEmail,
+      isEmailModalShown,
+      toggleEmailModal
     } = this.props
     return (
       <View style={styles.container}>
         <Modal
           animationType="fade"
           transparent={false}
-          visible={this.state.modalVisible}
+          visible={isEmailModalShown}
           onRequestClose={() => {
             alert('Modal has been closed.')
           }}
@@ -115,9 +111,7 @@ export default class ModalComponent extends Component<Props, State> {
             </View>
             <TouchableHighlight
               style={styles.backButton}
-              onPress={() => {
-                this.setModalVisible(!this.state.modalVisible)
-              }}
+              onPress={toggleEmailModal}
             >
               <Text>Back</Text>
             </TouchableHighlight>
@@ -125,12 +119,10 @@ export default class ModalComponent extends Component<Props, State> {
         </Modal>
 
         <TouchableHighlight
-          style={styles.mediumButton}
-          onPress={() => {
-            this.setModalVisible(true)
-          }}
+          style={styles.settingsButton}
+          onPress={toggleEmailModal}
         >
-          <Text style={styles.mediumButtonText}>Change Email</Text>
+          <Text style={styles.settingsButtonText}>Change Email</Text>
         </TouchableHighlight>
       </View>
     )

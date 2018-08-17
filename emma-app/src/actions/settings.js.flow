@@ -35,8 +35,18 @@ export type UpdateEmailPatchTextField = {
   payload: string
 };
 
-export type UpdatePasswordPatchTextField = {
-  type: "SETTINGS_PASSWORD_TEXT_UPDATE",
+export type UpdateNewPassword1PatchTextField = {
+  type: "SETTINGS_NEW_1_PASSWORD_TEXT_UPDATE",
+  payload: string
+};
+
+export type UpdateNewPassword2PatchTextField = {
+  type: "SETTINGS_NEW_2_PASSWORD_TEXT_UPDATE",
+  payload: string
+};
+
+export type UpdateOldPasswordPatchTextField = {
+  type: "SETTINGS_OLD_PASSWORD_TEXT_UPDATE",
   payload: string
 };
 
@@ -61,6 +71,14 @@ export type ChangePasswordFail = {
   payload: Error
 };
 
+export type TogglePasswordModal = {
+  type: "PASSWORD_CHANGE_MODAL_TOGGLE"
+};
+
+export type ToggleEmailModal = {
+  type: "EMAIL_CHANGE_MODAL_TOGGLE"
+};
+
 export type SettingsAction =
   | Logout
   | LogoutSuccess
@@ -69,7 +87,10 @@ export type SettingsAction =
   | ChangeEmailSuccess
   | ChangeEmailFail
   | UpdateEmailPatchTextField
-  | UpdatePasswordPatchTextField
+  | UpdateOldPasswordPatchTextField
+  | UpdateNewPasswordPatchTextField
   | ChangePassword
   | ChangePasswordSuccess
-  | ChangePasswordFail;
+  | ChangePasswordFail
+  | ToggleEmailModal
+  | TogglePasswordModal;

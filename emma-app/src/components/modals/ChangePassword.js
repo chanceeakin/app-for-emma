@@ -11,81 +11,103 @@ import {
   TextInput
 } from 'react-native'
 import GradientWrapper from './../backgroundWrapper'
-import { colors, button, modal as modalStyle } from './../../styles'
+import {
+  forms,
+  colors,
+  button,
+  modal as modalStyle,
+  pageLayout
+} from './../../styles'
 import type { SettingsAction } from './../../actions/Settings.js.flow'
 
-const { bigButton, bigButtonText, mediumButton, mediumButtonText } = button
+const {
+  bigButton,
+  bigButtonText,
+  settingsButton,
+  settingsButtonText,
+  errorButton,
+  errorText,
+  backButton
+} = button
 const { modal, modalTitle } = modalStyle
+const { container } = pageLayout
+const { input } = forms
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderBottomWidth: 1,
-    color: colors.darkBlue,
-    minWidth: 200
-  },
-  errorButton: {
-    backgroundColor: colors.error
-  },
-  errorText: {
-    color: colors.white
-  },
+  container,
+  input,
   modal,
   modalTitle,
   bigButton,
   bigButtonText,
-  mediumButton,
-  mediumButtonText,
-  backButton: {
-    padding: 15
-  }
+  settingsButton,
+  settingsButtonText,
+  errorButton,
+  errorText,
+  backButton
 })
 
 type Props = {
-  updatePasswordPatchTextField: SettingsAction,
-  updatedPassword: string
+  updateOldPasswordPatchTextField: SettingsAction,
+  updateNewPassword1PatchTextField: SettingsAction,
+  updateNewPassword2PatchTextField: SettingsAction,
+  updatedOldPassword: string,
+  updatedNewPassword1: string,
+  updatedNewPassword2: string,
+  isPasswordModalShown: boolean,
+  togglePasswordModal: SettingsAction
 };
-
-type State = {
-  modalVisible: boolean
-};
-
-export default class ModalComponent extends Component<Props, State> {
-  state = {
-    modalVisible: false
-  };
-
-  setModalVisible(visible: boolean): void {
-    this.setState({ modalVisible: visible })
-  }
-
+export default class ModalComponent extends Component<Props> {
   render() {
-    const { updatePasswordPatchTextField, updatedPassword } = this.props
+    const {
+      updateOldPasswordPatchTextField,
+      updatedOldPassword,
+      updateNewPassword1PatchTextField,
+      updateNewPassword2PatchTextField,
+      updatedNewPassword1,
+      updatedNewPassword2,
+      togglePasswordModal,
+      isPasswordModalShown
+    } = this.props
     return (
       <View style={styles.container}>
         <Modal
           animationType="fade"
           transparent={false}
-          visible={this.state.modalVisible}
+          visible={isPasswordModalShown}
           onRequestClose={() => {
             alert('Modal has been closed.')
           }}
         >
           <GradientWrapper color="orange" style={styles.modal}>
-            <Text style={styles.modalTitle}>Change Email</Text>
+            <Text style={styles.modalTitle}>Change Password</Text>
             <View>
               <TextInput
                 style={styles.input}
-                onChangeText={text => updatePasswordPatchTextField(text)}
-                value={updatedPassword}
+                onChangeText={text => updateOldPasswordPatchTextField(text)}
+                value={updatedOldPassword}
                 secureTextEntry
-                placeholder="Change Password"
+                placeholder="Enter Old Password"
+                placeholderTextColor={colors.inkBlue}
+                autoCapitalize="none"
+                onBlur={Keyboard.dismiss}
+              />
+              <TextInput
+                style={styles.input}
+                onChangeText={text => updateNewPassword1PatchTextField(text)}
+                value={updatedNewPassword1}
+                secureTextEntry
+                placeholder="Enter New Password"
+                placeholderTextColor={colors.inkBlue}
+                autoCapitalize="none"
+                onBlur={Keyboard.dismiss}
+              />
+              <TextInput
+                style={styles.input}
+                onChangeText={text => updateNewPassword2PatchTextField(text)}
+                value={updatedNewPassword2}
+                secureTextEntry
+                placeholder="Enter New Password Again"
                 placeholderTextColor={colors.inkBlue}
                 autoCapitalize="none"
                 onBlur={Keyboard.dismiss}
@@ -93,26 +115,22 @@ export default class ModalComponent extends Component<Props, State> {
               <TouchableOpacity style={styles.bigButton}>
                 <Text style={styles.bigButtonText}>Change Password</Text>
               </TouchableOpacity>
-
-              <TouchableHighlight
-                style={styles.backButton}
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible)
-                }}
-              >
-                <Text>Back</Text>
-              </TouchableHighlight>
             </View>
+
+            <TouchableHighlight
+              style={styles.backButton}
+              onPress={togglePasswordModal}
+            >
+              <Text>Back</Text>
+            </TouchableHighlight>
           </GradientWrapper>
         </Modal>
 
         <TouchableHighlight
-          style={styles.mediumButton}
-          onPress={() => {
-            this.setModalVisible(true)
-          }}
+          style={styles.settingsButton}
+          onPress={togglePasswordModal}
         >
-          <Text style={styles.mediumButtonText}>Change Password</Text>
+          <Text style={styles.settingsButtonText}>Change Password</Text>
         </TouchableHighlight>
       </View>
     )

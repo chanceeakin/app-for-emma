@@ -6,9 +6,9 @@ import { connect } from 'react-redux'
 import type { Suggestion } from './../types/Suggestions.js.flow'
 import { fetchSuggestions } from './../actions/main'
 import { getSuggestions } from './../reducers/suggestions'
-import {colors} from './../styles'
+import { colors } from './../styles'
 import type { MainAction } from './../actions/main.js.flow'
-import { settingsPage } from './../actions/navigation'
+import { aboutPage } from './../actions/navigation'
 import GradientWrapper from './../components/backgroundWrapper'
 
 const mapStateToProps = state => ({
@@ -17,7 +17,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchSuggestions,
-  settingsPage
+  aboutPage
 }
 
 const styles = StyleSheet.create({
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
 type Props = {
   suggestions: Suggestion,
   fetchSuggestions: MainAction,
-  settingsPage: Function
+  aboutPage: Function
 };
 
 class MainView extends Component<Props> {
@@ -95,10 +95,10 @@ class MainView extends Component<Props> {
           ) : null}
         </View>
         <TouchableOpacity
-          onPress={this.props.settingsPage}
+          onPress={this.props.aboutPage}
           style={styles.settingsButton}
         >
-          <Text style={styles.settingsText}>Settings</Text>
+          <Text style={styles.settingsText}>About</Text>
         </TouchableOpacity>
       </GradientWrapper>
     )

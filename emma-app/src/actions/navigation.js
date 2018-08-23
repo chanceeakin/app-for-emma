@@ -26,10 +26,18 @@ export const signupPage = () => (dispatch: Dispatch) => {
   )
 }
 
-export const settingsPage = () => (dispatch: Dispatch) => {
+export const aboutPage = () => (dispatch: Dispatch) => {
   dispatch(
     NavigationActions.navigate({
-      routeName: 'Settings'
+      routeName: 'About'
     })
   )
 }
+
+// export const settingsPage = () => (dispatch: Dispatch) => {
+//   dispatch(
+//     NavigationActions.navigate({
+//       routeName: 'Settings'
+//     })
+//   )
+// }

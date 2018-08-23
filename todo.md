@@ -10,22 +10,12 @@
 
 # create 1.0 expectations and feature Set
 
+- a user needs an about page
+  - figure out what the hell to put on it.
 - a user should be able to use swipe gestures to navigate
-- a user should be able to change their password or email
-  - client: modal for change password
-- a user should be able to subscribe to specific tags
-  - client: modal on settings page (linked to all tags endpoint)
-  - server: add tags to User Object
-  - server: endpoint to update user tags on user object: UpdateUserTagPUT
-  - server: endpoint to get random user suggestions: UserRandomSuggestionGET
 - a user should be able to have 1 suggestion for a 24 hour period, resetting at 4am for their local time.
+  - this should be handled client side via a TTL, stored in asyncStorage
   - client: local storage for a user's suggestions, as well as a TTL for fetching addtional suggestions.
-- a user should be able to make a suggestion from within the app
-  - client: settings page addition, or extra card for adding suggestions.
-  - server: endpoint to receive user created suggestions: UserAddSuggestionPOST
-  - add is validated to Suggestion Object and checks to prevent unvalidated suggestions from populating into the app.
-  - web: create admin page to check incoming suggestions and validate them or remove them from the library.
-    - at this time, we are not giving users the ability to know whether their suggestion went through or not.
 - splash page!
   - and general UI overhaul/streamlining.
 - logging solution
@@ -35,11 +25,31 @@
 - CI/CD
   - explore some options once tests are in place
 - deployment
-
   - dockerize the server
   - attach these things to the llc
   - get an app store developer account
   - deploy/test
+
+## 1.1
+
+- a user should be able to subscribe to specific tags
+  - client: modal on settings page (linked to all tags endpoint)
+  - server: add tags to User Object
+  - server: endpoint to update user tags on user object: UpdateUserTagPUT
+  - server: endpoint to get random user suggestions: UserRandomSuggestionGET
+- a user should be able to register, login, and logout
+- a user should be able to change their password or email
+  - client: modal for change password
+
+## 1.2
+
+- a user should be able to make a suggestion from within the app
+
+  - client: settings page addition, or extra card for adding suggestions.
+  - server: endpoint to receive user created suggestions: UserAddSuggestionPOST
+  - add is validated to Suggestion Object and checks to prevent unvalidated suggestions from populating into the app.
+  - web: create admin page to check incoming suggestions and validate them or remove them from the library.
+    - at this time, we are not giving users the ability to know whether their suggestion went through or not.
 
   DONE!!
 

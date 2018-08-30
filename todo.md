@@ -11,21 +11,22 @@
 # create 1.0 expectations and feature Set
 
 - a user needs an about page
-  - figure out what the hell to put on it.
+  - style and put copy in it.
 - a user should be able to use swipe gestures to navigate
 - a user should be able to have 1 suggestion for a 24 hour period, resetting at 4am for their local time.
   - this should be handled client side via a TTL, stored in asyncStorage
+  - put async checking logic in the action, which still fires off of componentDidMount
   - client: local storage for a user's suggestions, as well as a TTL for fetching addtional suggestions.
 - splash page!
-  - and general UI overhaul/streamlining.
+  - craft it and name app.j
+- general UI overhaul/streamlining.
 - logging solution
-  - add prometheus like [so](https://github.com/brancz/prometheus-example-app/blob/master/main.go)
+  - connect golang logs with elk stack running in docker-compose
 - testing
   - add in tests
 - CI/CD
   - explore some options once tests are in place
 - deployment
-  - dockerize the server
   - attach these things to the llc
   - get an app store developer account
   - deploy/test
@@ -56,6 +57,8 @@
   - TURN OFF THE EFFING CSRF PROTECTION. probably useful for some things. not EFFING EVERYTHING.
     - activate middleware selectively, maybe.
   - add protections into the router
+  - about page
+    - figure out what the hell to put on it.
   - a user should be able to register, login, and logout from the app
     _login route_
     _logout route_
@@ -64,3 +67,6 @@
   - a users should be able to update their email and password
     - client: modal for change email
   - server: add update user endpoint, locked by auth: UpdateUserAuthPUT
+  - deployment
+    - dockerize the server
+    - add prometheus like [so](https://github.com/brancz/prometheus-example-app/blob/master/main.go)

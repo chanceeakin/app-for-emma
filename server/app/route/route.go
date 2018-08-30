@@ -14,6 +14,7 @@ import (
 	"github.com/josephspurrier/csrfbanana"
 	"github.com/julienschmidt/httprouter"
 	"github.com/justinas/alice"
+	"github.com/prometheus/client_golang/prometheus"
 )
 
 // Load returns the routes and middleware
@@ -38,17 +39,16 @@ func redirectToHTTPS(w http.ResponseWriter, req *http.Request) {
 	http.Redirect(w, req, "https://"+req.Host, http.StatusMovedPermanently)
 }
 
+func prometheusHandler() http.Handler {
+	return prometheus.Handler()
+}
+
 // *****************************************************************************
 // Routes
 // *****************************************************************************
 
 func routes() *httprouter.Router {
 	r := httprouter.New()
-
-	// Set 404 handler
-	r.NotFound = alice.
-		New().
-		ThenFunc(controller.Error404)
 
 	// Serve static files, no directory browsing
 	r.GET("/static/*filepath", hr.Handler(alice.
@@ -153,6 +153,12 @@ func routes() *httprouter.Router {
 	r.PATCH("/iphone-password-update", hr.Handler(alice.
 		New().
 		ThenFunc(controller.IphoneUpdatePasswordPATCH)))
+
+	r.Handler("*", "/metrics", prometheusHandler())
+
+	// Set 404 handler
+	r.NotFound =
+		controller.Error404
 
 	return r
 }

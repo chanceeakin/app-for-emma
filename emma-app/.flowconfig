@@ -37,7 +37,18 @@
 <PROJECT_ROOT>/node_modules/reqwest/.*
 <PROJECT_ROOT>/node_modules/metro-bundler/.*
 
+; Ignore duplicate module providers
+; For RN Apps installed via npm, "Libraries" folder is inside
+; "node_modules/react-native" but in the source repo it is in the root
+.*/Libraries/react-native/React.js
+.*/Libraries/react-native/ReactNative.js
+.*/__tests__/.*
+
+
 [include]
+node_modules/react-native/Libraries/react-native/react-native-interface.js
+node_modules/react-native/flow
+./libdefs.js
 
 [libs]
 node_modules/react-native/Libraries/react-native/react-native-interface.js

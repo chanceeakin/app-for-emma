@@ -1,13 +1,51 @@
 export type FetchSuggestions = {
-  type: 'SUGGESTION_FETCH_BEGIN'
-}
+  type: "SUGGESTION_FETCH_BEGIN"
+};
 
 export type FetchSuggestionsSuccess = {
-  type: 'SUGGESTION_FETCH_SUCCESS'
-}
+  type: "SUGGESTION_FETCH_SUCCESS",
+  payload: any
+};
 
 export type FetchSuggestionsFail = {
-  type: 'SUGGESTION_FETCH_FAIL'
-}
+  type: "SUGGESTION_FETCH_FAIL",
+  payload: Error
+};
 
-export type MainAction = FetchSuggestions | FetchSuggestionsSuccess | FetchSuggestionsFail
+export type CheckSuggestionTime = {
+  type: "CHECK_SUGGESTION_TIME"
+};
+
+export type CheckSuggestionTimeSuccess = {
+  type: "CHECK_SUGGESTION_TIME_SUCCESS",
+  payload: Date
+};
+
+export type CheckSuggestionTimeFail = {
+  type: "CHECK_SUGGESTION_TIME_FAIL",
+  payload: Error
+};
+
+export type SetSuggestionTime = {
+  type: "SET_SUGGESTION_TIME"
+};
+
+export type SetSuggestionTimeSuccess = {
+  type: "SET_SUGGESTION_TIME_SUCCESS"
+};
+
+export type SetSuggestionTimeFail = {
+  type: "SET_SUGGESTION_TIME_FAIL",
+  payload: Error
+};
+
+export type MainAction =
+  | FetchSuggestions
+  | FetchSuggestionsSuccess
+  | FetchSuggestionsFail
+  | CheckSuggestionTime
+  | CheckSuggestionTimeSuccess
+  | CheckSuggestionTimeFail
+  | SetSuggestionTime
+  | SetSuggestionTimeSuccess
+  | SetSuggestionTimeFail;

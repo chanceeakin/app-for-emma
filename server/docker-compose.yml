@@ -1,24 +1,39 @@
-version: '3.3'
-
+version: "3.3"
 services:
-   db:
-     image: mongo:latest
-     volumes:
-       - db_data:/var/lib/mongo
-     restart: always
-     ports:
+  db:
+    image: mongo:latest
+    volumes:
+      - db_data:/var/lib/mongo
+    restart: always
+    ports:
       - "27017:27017"
-
-   suggestions:
-     depends_on:
-       - db
-     image: suggestion-server:latest
-     ports:
-       - "8000:8000"
-     restart: always
-     build: .
-     links:
+  prometheus:
+    image: quay.io/prometheus/prometheus:latest
+    ports:
+      - 9090:9090
+    volumes:
+      - "./deploy/prometheus.yml:/etc/prometheus/prometheus.yml"
+  suggestions:
+    depends_on:
       - db
-
+    image: suggestion-server:latest
+    ports:
+      - "8000:8000"
+    restart: always
+    build: .
+    links:
+      - db
+  elk:
+    image: sebp/elk
+    ports:
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
+  filebeat:
+    container_name: filebeat
+    hostname: filebeat
+    user: root
+    image: "docker.elastic.co/beats/filebeat:6.4.0"
+    restart: on-failure
 volumes:
-    db_data:
+  db_data:

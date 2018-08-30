@@ -1,5 +1,23 @@
 import { AsyncStorage } from 'react-native'
-import Cookies from 'universal-cookie'
+
+export const setItem = async (key: string, val: any): void => {
+  try {
+    await AsyncStorage.setItem(key, val)
+  } catch (e) {
+    throw e
+  }
+}
+
+export const getItem = async (key: string): any | Error => {
+  try {
+    const val: any = await AsyncStorage.getItem(key)
+    if (val !== null) {
+      return val
+    }
+  } catch (e) {
+    throw e
+  }
+}
 
 export const storeSession = async (
   headers: HTML$Headers,
@@ -17,7 +35,7 @@ export const storeSession = async (
 
 export const retrieveSession = async (): value | Error => {
   try {
-    const value = await AsyncStorage.getItem('@APP:gosess')
+    const value: any = await AsyncStorage.getItem('@APP:gosess')
     if (value !== null) {
       return value
     }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/chanceeakin/app-for-emma/server/app/route"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/database"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/email"
@@ -13,10 +14,10 @@ import (
 	"github.com/chanceeakin/app-for-emma/server/app/shared/view/plugin"
 	"github.com/fatih/color"
 	"github.com/getwe/figlet4go"
-	// log "github.com/sirupsen/logrus"
-	"fmt"
-	"os"
 	"runtime"
+
+	"github.com/bshuster-repo/logrus-logstash-hook"
+	"github.com/sirupsen/logrus"
 )
 
 // *****************************************************************************
@@ -33,7 +34,7 @@ func init() {
 
 func main() {
 	// Load the configuration file
-	jsonconfig.Load("config"+string(os.PathSeparator)+"config.json", config)
+	jsonconfig.Load("./config.json", config)
 
 	// Configure the session cookie store
 	session.Configure(config.Session)
@@ -55,7 +56,15 @@ func main() {
 		recaptcha.Plugin())
 	ascii := figlet4go.NewAsciiRender()
 
-	str := "Starting..."
+	log := logrus.New()
+	hook, err := logrustash.NewHook("tcp", "elk:5044", "suggestions")
+	if err != nil {
+		log.Println(err)
+	}
+
+	log.Hooks.Add(hook)
+
+	str := "Starting"
 	colors := [...]color.Attribute{
 		color.FgMagenta,
 		color.FgYellow,

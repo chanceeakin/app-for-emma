@@ -29,7 +29,6 @@ func (s *Suggestion) SuggestionID() string {
 // FindRandomSuggestion returns a random suggestion from the database.
 func FindRandomSuggestion() ([]Suggestion, error) {
 	var err error
-
 	result := []Suggestion{}
 
 	if database.CheckConnection() {

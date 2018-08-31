@@ -39,6 +39,21 @@ export type SetSuggestionTimeFail = {
   payload: Error
 };
 
+export type FetchAsyncStoredSuggestion = {
+  type: 'ASYNC_SUGGESTION_FETCH'
+}
+
+export type FetchAsyncSSSuccess = {
+  type: 'ASYNC_SUGGESTION_FETCH_SUCCESS',
+  payload:Suggestion
+}
+
+export type FetchAsyncSSFail = {
+  type: 'ASYNC_SUGGESTION_FETCH_FAIL',
+  payload: Error
+}
+
+
 export type MainAction =
   | FetchSuggestions
   | FetchSuggestionsSuccess
@@ -48,4 +63,7 @@ export type MainAction =
   | CheckSuggestionTimeFail
   | SetSuggestionTime
   | SetSuggestionTimeSuccess
-  | SetSuggestionTimeFail;
+  | SetSuggestionTimeFail
+  | FetchAsyncStoredSuggestion
+  | FetchAsyncSSSuccess
+  | FetchAsyncSSFail

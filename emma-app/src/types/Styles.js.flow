@@ -1,0 +1,4 @@
+
+type Styles = { [string]: number | string }
+
+export default Styles

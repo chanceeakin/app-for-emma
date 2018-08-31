@@ -1,6 +1,7 @@
 import colors from './colors'
+import type Styles from './../types/Styles.js.flow'
 
-export const forms: Object = {
+export const forms: Styles = {
   input: {
     height: 40,
     borderColor: 'gray',

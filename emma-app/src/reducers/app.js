@@ -3,6 +3,7 @@ import {
   APP_FONT_LOAD
 } from '../constants/action-types'
 import type {Action} from './../types/Action.js.flow'
+import type {Store} from './../types/Store.js.flow'
 
 type State = {
   isFontLoaded: boolean
@@ -25,3 +26,7 @@ const appReducer = (state: State = initialState, action: Action) => {
 }
 
 export default appReducer
+
+export function fontLoadedSelector(state: Store): boolean {
+  return state.app.isFontLoaded
+}

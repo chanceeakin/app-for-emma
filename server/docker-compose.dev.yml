@@ -1,0 +1,27 @@
+version: "3.3"
+services:
+  db:
+    image: mongo:latest
+    volumes:
+      - db_data:/var/lib/mongo
+    restart: always
+    ports:
+      - "27017:27017"
+  prometheus:
+    image: quay.io/prometheus/prometheus:latest
+    ports:
+      - 9090:9090
+    volumes:
+      - "./deploy/prometheus.yml:/etc/prometheus/prometheus.yml"
+  suggestions:
+    depends_on:
+      - db
+    image: suggestion-server:latest
+    ports:
+      - "8000:8000"
+    restart: always
+    build: .
+    links:
+      - db
+volumes:
+  db_data:

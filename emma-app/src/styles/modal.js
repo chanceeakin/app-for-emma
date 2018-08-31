@@ -1,4 +1,6 @@
-export const modal = {
+import type Styles from './../types/Styles.js.flow'
+
+export const modal: Styles = {
   modal: {
     flex: 1,
     paddingTop: 30,

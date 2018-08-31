@@ -1,6 +1,8 @@
+// @flow
 import colors from './colors'
+import type Styles from './../types/Styles.js.flow'
 
-const button = {
+const button: Styles = {
   bigButton: {
     marginTop: 20,
     paddingVertical: 15,

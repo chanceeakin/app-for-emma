@@ -10,7 +10,6 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 
-import type { Suggestion } from './../types/Suggestions.js.flow'
 import {
   updateEmailPatchTextField,
   updateOldPasswordPatchTextField,
@@ -30,12 +29,13 @@ import {
   emailModalSelector,
   passwordModalSelector
 } from './../reducers/containers/settings'
-import { button, colors, pageLayout } from './../styles'
+import { colors, pageLayout } from './../styles'
 import type { SettingsAction } from './../actions/settings.js.flow'
 import GradientWrapper from './../components/backgroundWrapper'
 import ChangeEmailModal from './../components/modals/ChangeEmail'
 import ChangePasswordModal from './../components/modals/ChangePassword'
 import LogoutModal from './../components/modals/Logout'
+import BackButton from './../components/primitives/BackButton'
 
 const mapStateToProps = state => ({
   updatedEmail: updatedEmailSelector(state),
@@ -58,7 +58,6 @@ const mapDispatchToProps = {
   togglePasswordModal
 }
 
-const { bigButton, bigButtonText } = button
 const { container } = pageLayout
 
 const styles = StyleSheet.create({
@@ -87,8 +86,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1
   },
-  bigButton,
-  bigButtonText,
   bigNumber: {
     fontSize: 48
   },
@@ -189,9 +186,10 @@ class MainView extends Component<Props> {
           />
           <LogoutModal handleLogout={this.handleLogout} />
         </View>
-        <TouchableOpacity onPress={this.goBack} style={styles.backButton}>
-          <Text style={styles.text}>Back</Text>
-        </TouchableOpacity>
+        <BackButton
+          title={'Back'}
+          onPress={this.goBack}
+        />
       </GradientWrapper>
     )
   }

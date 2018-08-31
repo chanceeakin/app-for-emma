@@ -1,108 +1,68 @@
 // @flow
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 
 import type { Suggestion } from './../types/Suggestions.js.flow'
-import { fetchSuggestions } from './../actions/main'
+import { pageLayout } from './../styles'
+import { checkSuggestionsTime } from './../actions/main'
 import { getSuggestions } from './../reducers/suggestions'
-import { colors } from './../styles'
 import type { MainAction } from './../actions/main.js.flow'
 import { aboutPage } from './../actions/navigation'
-import GradientWrapper from './../components/backgroundWrapper'
+import GradientWrapper from './../components/wrappers/GradientWrapper'
+import BackButton from './../components/primitives/BackButton'
+import SuggestionsComp from './../components/Suggestion'
 
 const mapStateToProps = state => ({
-  suggestions: getSuggestions(state)
+  suggestions: getSuggestions(state),
+  isFontLoaded: state.app.isFontLoaded,
 })
 
 const mapDispatchToProps = {
-  fetchSuggestions,
-  aboutPage
+  checkSuggestionsTime,
+  aboutPage,
 }
 
+const { container } = pageLayout
+
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    flexDirection: 'column',
-    alignItems: 'center',
-    flex: 1
-  },
-  row: {
-    flex: 1,
-    minHeight: 100,
-    flexDirection: 'column',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  icon: {
-    margin: 10
-  },
-  font: {
-    fontFamily: 'Skia'
-  },
-  title: {
-    fontSize: 72,
-    textAlign: 'center',
-    color: colors.inkBlue
-  },
-  description: {
-    fontSize: 30,
-    textAlign: 'center',
-    color: colors.darkPurple
-  },
-  bigNumber: {
-    fontSize: 48
-  },
-  settingsButton: {
-    padding: 5,
-    alignItems: 'flex-start',
-    paddingBottom: 15
-  },
-  settingsText: {
-    color: colors.inkBlue
-  }
+  container,
 })
 
 type Props = {
   suggestions: Suggestion,
-  fetchSuggestions: MainAction,
-  aboutPage: Function
+  checkSuggestionsTime: MainAction,
+  isFontLoaded: Boolean,
+  aboutPage: Function,
 };
 
 class MainView extends Component<Props> {
   static navigationOptions = {
-    header: null
+    header: null,
   };
 
   componentDidMount() {
-    this.props.fetchSuggestions()
+    this.props.checkSuggestionsTime()
   }
 
   render() {
+    const { isFontLoaded, suggestions, aboutPage } = this.props
+    if (!isFontLoaded) {
+      return null
+    }
     return (
       <GradientWrapper style={styles.container}>
-        <View style={styles.row}>
-          {this.props.suggestions.title ? (
-            <Text style={[styles.title, styles.font]}>
-              {this.props.suggestions.title}
-            </Text>
-          ) : null}
-          {this.props.suggestions.description ? (
-            <Text style={[styles.description, styles.font]}>
-              {this.props.suggestions.description}
-            </Text>
-          ) : null}
-        </View>
-        <TouchableOpacity
-          onPress={this.props.aboutPage}
-          style={styles.settingsButton}
-        >
-          <Text style={styles.settingsText}>About</Text>
-        </TouchableOpacity>
+        <SuggestionsComp
+          suggestions={suggestions}
+          isFontLoaded={isFontLoaded}
+        />
+        <BackButton onPress={aboutPage} title={'About'} />
       </GradientWrapper>
     )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainView)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MainView)

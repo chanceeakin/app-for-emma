@@ -2,7 +2,10 @@
 import {
   SUGGESTION_FETCH_FAIL,
   SUGGESTION_FETCH_BEGIN,
-  SUGGESTION_FETCH_SUCCESS
+  SUGGESTION_FETCH_SUCCESS,
+  ASYNC_SUGGESTION_FETCH,
+  ASYNC_SUGGESTION_FETCH_SUCCESS,
+  ASYNC_SUGGESTION_FETCH_FAIL
 } from '../constants/action-types'
 import type { Action } from './../types/Action.js.flow'
 import type { Suggestion } from './../types/Suggestions.js.flow'
@@ -23,17 +26,20 @@ const initialState: State = {
 const appReducer = (state: State = initialState, action: Action) => {
   switch (action.type) {
   case SUGGESTION_FETCH_BEGIN:
+  case ASYNC_SUGGESTION_FETCH:
     return {
       ...state,
       isCallingSuggestions: true
     }
   case SUGGESTION_FETCH_SUCCESS:
+  case ASYNC_SUGGESTION_FETCH_SUCCESS:
     return {
       ...state,
       isCallingSuggestions: false,
       suggestions: action.payload
     }
   case SUGGESTION_FETCH_FAIL:
+  case ASYNC_SUGGESTION_FETCH_FAIL:
     return {
       ...state,
       isCallingSuggestions: false,

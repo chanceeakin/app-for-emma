@@ -1,57 +1,39 @@
 // @flow
 import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
-import {
-  colors,
-  button,
-  modal as modalStyle,
-  pageLayout,
-  forms
-} from './../styles'
+import { pageLayout, font, text } from './../styles'
 import { connect } from 'react-redux'
-import GradientWrapper from './../components/backgroundWrapper'
+import GradientWrapper from './../components/wrappers/GradientWrapper'
+import { fontLoadedSelector } from './../reducers/app'
+import BackButton from './../components/primitives/BackButton'
 
 import { loginPage } from './../actions/navigation'
 
 const mapStateToProps = state => ({
-  isFontLoaded: state.app.isFontLoaded
+  isFontLoaded: fontLoadedSelector(state),
 })
 
 const mapDispatchToProps = {
-  loginPage
+  loginPage,
 }
 
-const { container } = pageLayout
-const { bigButton, bigButtonText } = button
+const { container, row } = pageLayout
+const { title } = text
 
 const styles = StyleSheet.create({
   container,
-  font: {
-    fontFamily: 'Skia'
-  },
-  title: {
-    fontSize: 72,
-    textAlign: 'center',
-    color: colors.inkBlue
-  },
-  text: {
-    fontSize: 72,
-    color: '#C5CC08',
-    textAlign: 'center',
-    fontFamily: 'Skia'
-  },
-  bigNumber: {
-    fontSize: 48
-  },
-  bigButton,
-  bigButtonText
+  row,
+  font: font.skia,
+  title,
 })
 
-type Props = {};
+type Props = {
+  navigation: any,
+};
 
 class AboutView extends Component<Props> {
   static navigationOptions = {
-    header: null
+    header: null,
   };
 
   goBack = () => {
@@ -64,12 +46,13 @@ class AboutView extends Component<Props> {
         <View style={styles.row}>
           <Text style={[styles.title, styles.font]}>About</Text>
         </View>
-        <TouchableOpacity onPress={this.goBack} style={styles.settingsButton}>
-          <Text style={styles.settingsText}>Back</Text>
-        </TouchableOpacity>
+        <BackButton onPress={this.goBack} title={'Back'} />
       </GradientWrapper>
     )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AboutView)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AboutView)

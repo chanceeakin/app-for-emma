@@ -3,7 +3,7 @@ import {
   reduxifyNavigator
 } from 'react-navigation-redux-helpers'
 import { connect } from 'react-redux'
-import NavigationStack from './Navigation-Stack'
+import NavigationStack from './NavigationStack'
 
 export const middleware = createReactNavigationReduxMiddleware(
   'root',

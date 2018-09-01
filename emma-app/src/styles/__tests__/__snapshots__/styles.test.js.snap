@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Styles renders correctly 1`] = `
+Object {
+  "button": Object {
+    "backButton": Object {
+      "padding": 15,
+    },
+    "bigButton": Object {
+      "borderColor": "#0D1B2A",
+      "borderRadius": 5,
+      "borderStyle": "solid",
+      "borderWidth": 1,
+      "marginTop": 20,
+      "paddingHorizontal": 40,
+      "paddingVertical": 15,
+    },
+    "bigButtonText": Object {
+      "color": "#0D1B2A",
+      "fontSize": 23,
+      "fontWeight": "600",
+    },
+    "errorButton": Object {
+      "backgroundColor": "#CC2936",
+    },
+    "errorText": Object {
+      "color": "#fafafa",
+    },
+    "mediumButton": Object {
+      "backgroundColor": "#114B5F",
+      "borderRadius": 5,
+      "marginTop": 20,
+      "paddingHorizontal": 30,
+      "paddingVertical": 10,
+    },
+    "mediumButtonText": Object {
+      "color": "#fafafa",
+      "fontSize": 16,
+      "fontWeight": "600",
+    },
+    "settingsButton": Object {
+      "backgroundColor": "#D37482",
+      "borderRadius": 5,
+      "marginTop": 20,
+      "paddingHorizontal": 30,
+      "paddingVertical": 10,
+    },
+    "settingsButtonText": Object {
+      "color": "#fafafa",
+      "fontSize": 16,
+      "fontWeight": "600",
+    },
+  },
+  "colors": Object {
+    "background": "#f9f9f9",
+    "darkBlue": "#114B5F",
+    "darkPurple": "#4C3B4D",
+    "duskyRose": "#D37482",
+    "error": "#CC2936",
+    "green": "#89BD9E",
+    "inkBlue": "#0D1B2A",
+    "lightGreen": "#E5FCF5",
+    "lightOrange": "#EFC7C2",
+    "lightPeach": "#FFE5D4",
+    "slateBlue": "#3A5760",
+    "white": "#fafafa",
+  },
+  "font": Object {
+    "skia": Object {
+      "fontFamily": "Skia",
+    },
+  },
+  "forms": Object {
+    "input": Object {
+      "borderBottomWidth": 1,
+      "borderColor": "gray",
+      "color": "#114B5F",
+      "height": 40,
+      "minWidth": 200,
+    },
+  },
+  "modal": Object {
+    "modal": Object {
+      "alignItems": "center",
+      "flex": 1,
+      "justifyContent": "space-between",
+      "paddingTop": 30,
+    },
+    "modalTitle": Object {
+      "fontSize": 45,
+      "textAlign": "center",
+    },
+  },
+  "pageLayout": Object {
+    "container": Object {
+      "alignItems": "center",
+      "flex": 1,
+      "justifyContent": "space-between",
+    },
+    "row": Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+      "justifyContent": "center",
+      "minHeight": 100,
+    },
+  },
+  "text": Object {
+    "description": Object {
+      "color": "#4C3B4D",
+      "fontSize": 30,
+      "textAlign": "center",
+    },
+    "title": Object {
+      "color": "#0D1B2A",
+      "fontSize": 72,
+      "textAlign": "center",
+    },
+  },
+}
+`;

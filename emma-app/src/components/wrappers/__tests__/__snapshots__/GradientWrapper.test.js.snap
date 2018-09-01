@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GradientWrapper /> renders correctly 1`] = `
+<ExponentLinearGradient
+  colors={
+    Array [
+      4287217054,
+      4293262581,
+    ]
+  }
+  endPoint={
+    Array [
+      1,
+      1,
+    ]
+  }
+  location={
+    Array [
+      0.25,
+      0.4,
+      1,
+    ]
+  }
+  locations={null}
+  startPoint={
+    Array [
+      0,
+      0,
+    ]
+  }
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#f9f9f9",
+      "flex": 1,
+      "justifyContent": "space-between",
+    }
+  }
+/>
+`;

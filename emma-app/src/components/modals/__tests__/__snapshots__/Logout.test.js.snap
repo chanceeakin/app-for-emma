@@ -1,0 +1,151 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Logout /> renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "justifyContent": "space-between",
+    }
+  }
+>
+  <Modal
+    animationType="fade"
+    hardwareAccelerated={false}
+    onRequestClose={[Function]}
+    transparent={false}
+    visible={false}
+  >
+    <ExponentLinearGradient
+      colors={
+        Array [
+          4294960596,
+          4293904322,
+        ]
+      }
+      endPoint={
+        Array [
+          1,
+          1,
+        ]
+      }
+      location={
+        Array [
+          0.25,
+          0.4,
+          1,
+        ]
+      }
+      locations={null}
+      startPoint={
+        Array [
+          0,
+          0,
+        ]
+      }
+      style={
+        Object {
+          "alignItems": "center",
+          "flex": 1,
+          "justifyContent": "space-between",
+          "paddingTop": 30,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "fontSize": 45,
+            "textAlign": "center",
+          }
+        }
+      >
+        Logout
+      </Text>
+      <View>
+        <TouchableOpacity
+          activeOpacity={0.2}
+          onPress={undefined}
+          style={
+            Object {
+              "borderColor": "#0D1B2A",
+              "borderRadius": 5,
+              "borderStyle": "solid",
+              "borderWidth": 1,
+              "marginTop": 20,
+              "paddingHorizontal": 40,
+              "paddingVertical": 15,
+            }
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "color": "#0D1B2A",
+                "fontSize": 23,
+                "fontWeight": "600",
+              }
+            }
+          >
+            Logout
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <TouchableHighlight
+        activeOpacity={0.85}
+        delayPressOut={100}
+        onPress={[Function]}
+        style={
+          Object {
+            "padding": 15,
+          }
+        }
+        underlayColor="black"
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+        >
+          Back
+        </Text>
+      </TouchableHighlight>
+    </ExponentLinearGradient>
+  </Modal>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#D37482",
+        "borderRadius": 5,
+        "marginTop": 20,
+        "paddingHorizontal": 30,
+        "paddingVertical": 10,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#fafafa",
+          "fontSize": 16,
+          "fontWeight": "600",
+        }
+      }
+    >
+      Logout
+    </Text>
+  </TouchableOpacity>
+</View>
+`;

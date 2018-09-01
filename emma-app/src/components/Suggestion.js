@@ -10,7 +10,10 @@ type Props = {
 };
 
 const styles = StyleSheet.create({
-  row: pageLayout.row,
+  row: {
+    ...pageLayout.row,
+    padding: 5,
+  },
   title: text.title,
   description: text.description,
   font: font.skia,

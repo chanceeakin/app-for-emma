@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Suggestions Component renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "column",
+      "justifyContent": "center",
+      "minHeight": 100,
+      "padding": 5,
+    }
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Array [
+        Object {
+          "color": "#0D1B2A",
+          "fontSize": 72,
+          "textAlign": "center",
+        },
+        null,
+      ]
+    }
+  >
+    hi
+  </Text>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Array [
+        Object {
+          "color": "#4C3B4D",
+          "fontSize": 30,
+          "textAlign": "center",
+        },
+        Object {
+          "fontFamily": "Skia",
+        },
+      ]
+    }
+  >
+    person actually reading my tests
+  </Text>
+</View>
+`;

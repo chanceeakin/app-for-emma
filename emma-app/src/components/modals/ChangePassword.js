@@ -8,15 +8,15 @@ import {
   StyleSheet,
   TouchableOpacity,
   Keyboard,
-  TextInput
+  TextInput,
 } from 'react-native'
-import GradientWrapper from './../backgroundWrapper'
+import GradientWrapper from './../wrappers/GradientWrapper'
 import {
   forms,
   colors,
   button,
   modal as modalStyle,
-  pageLayout
+  pageLayout,
 } from './../../styles'
 import type { SettingsAction } from './../../actions/Settings.js.flow'
 
@@ -27,7 +27,7 @@ const {
   settingsButtonText,
   errorButton,
   errorText,
-  backButton
+  backButton,
 } = button
 const { modal, modalTitle } = modalStyle
 const { container } = pageLayout
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   settingsButtonText,
   errorButton,
   errorText,
-  backButton
+  backButton,
 })
 
 type Props = {
@@ -55,7 +55,7 @@ type Props = {
   updatedNewPassword1: string,
   updatedNewPassword2: string,
   isPasswordModalShown: boolean,
-  togglePasswordModal: SettingsAction
+  togglePasswordModal: SettingsAction,
 };
 export default class ModalComponent extends Component<Props> {
   render() {
@@ -67,7 +67,7 @@ export default class ModalComponent extends Component<Props> {
       updatedNewPassword1,
       updatedNewPassword2,
       togglePasswordModal,
-      isPasswordModalShown
+      isPasswordModalShown,
     } = this.props
     return (
       <View style={styles.container}>

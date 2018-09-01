@@ -7,21 +7,12 @@ import About from '../containers/About'
 
 const navigator = createStackNavigator(
   {
-    // Login: {
-    //   screen: Login
-    // },
-    // Signup: {
-    //   screen: Signup
-    // },
     Main: {
-      screen: Main
+      screen: Main,
     },
     About: {
-      screen: About
-    }
-    // Settings: {
-    //   screen: Settings
-    // }
+      screen: About,
+    },
   },
   { headerMode: 'screen' }
 )

@@ -6,9 +6,9 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   View,
-  StyleSheet
+  StyleSheet,
 } from 'react-native'
-import GradientWrapper from './../backgroundWrapper'
+import GradientWrapper from './../wrappers/GradientWrapper'
 import { button, modal as modalStyle, pageLayout } from './../../styles'
 import type { SettingsAction } from './../../actions/settings.js.flow'
 
@@ -19,7 +19,7 @@ const {
   settingsButtonText,
   errorButton,
   errorText,
-  backButton
+  backButton,
 } = button
 
 const { modal, modalTitle } = modalStyle
@@ -35,20 +35,20 @@ const styles: StyleSheet = StyleSheet.create({
   settingsButtonText,
   errorButton,
   errorText,
-  backButton
+  backButton,
 })
 
 type Props = {
-  handleLogout: SettingsAction
+  handleLogout: SettingsAction,
 };
 
 type State = {
-  modalVisible: boolean
+  modalVisible: boolean,
 };
 
 export default class ModalComponent extends Component<Props, State> {
   state = {
-    modalVisible: false
+    modalVisible: false,
   };
 
   setModalVisible(visible: boolean): void {

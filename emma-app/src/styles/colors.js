@@ -11,9 +11,10 @@ const colors: Colors = {
   lightOrange: '#EFC7C2',
   darkPurple: '#4C3B4D',
   darkBlue: '#114B5F',
+  slateBlue: '#3A5760',
   inkBlue: '#0D1B2A',
   duskyRose: '#D37482',
-  error: '#CC2936'
+  error: '#CC2936',
 }
 
 export default colors

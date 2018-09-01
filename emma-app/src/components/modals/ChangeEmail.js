@@ -8,15 +8,15 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Keyboard
+  Keyboard,
 } from 'react-native'
-import GradientWrapper from './../backgroundWrapper'
+import GradientWrapper from './../wrappers/GradientWrapper'
 import {
   colors,
   button,
   modal as modalStyle,
   pageLayout,
-  forms
+  forms,
 } from './../../styles'
 import type { SettingsAction } from './../../actions/Settings.js.flow'
 
@@ -29,7 +29,7 @@ const {
   mediumButtonText,
   errorButton,
   errorText,
-  backButton
+  backButton,
 } = button
 const { modal, modalTitle } = modalStyle
 const { input } = forms
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   input,
   errorButton,
   errorText,
-  backButton
+  backButton,
 })
 
 type Props = {
@@ -57,7 +57,7 @@ type Props = {
   isPatchingEmailError?: boolean,
   changeEmail: () => void,
   isEmailModalShown: boolean,
-  toggleEmailModal: SettingsAction
+  toggleEmailModal: SettingsAction,
 };
 
 export default class ModalComponent extends Component<Props> {
@@ -68,7 +68,7 @@ export default class ModalComponent extends Component<Props> {
       updatedEmail,
       changeEmail,
       isEmailModalShown,
-      toggleEmailModal
+      toggleEmailModal,
     } = this.props
     return (
       <View style={styles.container}>
@@ -95,14 +95,14 @@ export default class ModalComponent extends Component<Props> {
               <TouchableOpacity
                 style={[
                   styles.bigButton,
-                  isPatchingEmailError ? styles.errorButton : null
+                  isPatchingEmailError ? styles.errorButton : null,
                 ]}
                 onPress={changeEmail}
               >
                 <Text
                   style={[
                     styles.bigButtonText,
-                    isPatchingEmailError ? styles.errorText : null
+                    isPatchingEmailError ? styles.errorText : null,
                   ]}
                 >
                   Change Email

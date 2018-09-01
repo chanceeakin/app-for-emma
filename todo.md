@@ -1,19 +1,9 @@
 # Flight todo
 
-- refactor app into primitives for greater testability
 - write unit tests/snapshots for smaller components
-- fix that date thing. figure out how to compare dates.
-- store date in redux.
-- refactor redux
 
 # create 1.0 expectations and feature Set
 
-- a user needs an about page
-  - style and put copy in it.
-- a user should be able to use swipe gestures to navigate
-- splash page!
-  - craft it and name app.js
-- general UI overhaul/streamlining.
 - logging solution
   - connect golang logs with elk stack running in docker-compose
 - testing
@@ -73,6 +63,8 @@
   - a users should be able to update their email and password
     - client: modal for change email
   - server: add update user endpoint, locked by auth: UpdateUserAuthPUT
+  - a user should be able to use swipe gestures to navigate
+    - this works for this.props.navigation.goBack()
   - deployment
     - dockerize the server
     - add prometheus like [so](https://github.com/brancz/prometheus-example-app/blob/master/main.go)
@@ -80,3 +72,8 @@
     - this should be handled client side via a TTL, stored in asyncStorage
     - put async checking logic in the action, which still fires off of componentDidMount
     - client: local storage for a user's suggestions, as well as a TTL for fetching addtional suggestions.
+  - splash page!
+    - craft it and name app.js
+  - a user needs an about page
+    - style and put copy in it.
+  - general UI overhaul/streamlining.

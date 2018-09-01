@@ -12,10 +12,11 @@ import { aboutPage } from './../actions/navigation'
 import GradientWrapper from './../components/wrappers/GradientWrapper'
 import BackButton from './../components/primitives/BackButton'
 import SuggestionsComp from './../components/Suggestion'
+import { fontLoadedSelector } from './../reducers/app'
 
 const mapStateToProps = state => ({
   suggestions: getSuggestions(state),
-  isFontLoaded: state.app.isFontLoaded,
+  isFontLoaded: fontLoadedSelector(state),
 })
 
 const mapDispatchToProps = {
@@ -42,7 +43,8 @@ class MainView extends Component<Props> {
   };
 
   componentDidMount() {
-    this.props.checkSuggestionsTime()
+    const { checkSuggestionsTime } = this.props
+    checkSuggestionsTime()
   }
 
   render() {

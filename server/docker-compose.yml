@@ -30,10 +30,10 @@ services:
       - "9200:9200"
       - "5044:5044"
   filebeat:
+    image: docker.elastic.co/beats/filebeat:6.2.3
     container_name: filebeat
-    hostname: filebeat
     user: root
-    image: "docker.elastic.co/beats/filebeat:6.4.0"
-    restart: on-failure
+    volumes:
+      - "./deploy/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
 volumes:
   db_data:

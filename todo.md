@@ -1,13 +1,10 @@
-# Flight todo
-
-- write unit tests/snapshots for smaller components
-
 # create 1.0 expectations and feature Set
 
 - logging solution
   - connect golang logs with elk stack running in docker-compose
 - testing
-  - add in tests
+  - add in tests for actions and reducers
+  - golang tests
 - CI/CD
   - explore some options once tests are in place
 - deployment

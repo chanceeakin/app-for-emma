@@ -1,7 +1,7 @@
 package main
 
 import (
-	"cloud.google.com/go/logging"
+	// "cloud.google.com/go/logging"
 	"encoding/json"
 	"github.com/chanceeakin/app-for-emma/server/app/route"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/database"
@@ -12,7 +12,7 @@ import (
 	"github.com/chanceeakin/app-for-emma/server/app/shared/session"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/view"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/view/plugin"
-	"golang.org/x/net/context"
+	// "golang.org/x/net/context"
 	"log"
 	"runtime"
 	// "google.golang.org/appengine"
@@ -53,29 +53,29 @@ func main() {
 		plugin.PrettyTime(),
 		recaptcha.Plugin())
 
-	ctx := context.Background()
+	// ctx := context.Background()
 
 	// Sets your Google Cloud Platform project ID.
-	projectID := "emma-app-216513"
+	// projectID := "emma-app-216513"
 
 	// Creates a client.
-	client, err := logging.NewClient(ctx, projectID)
-	if err != nil {
-		log.Fatalf("Failed to create client: %v", err)
-	}
-	defer client.Close()
-
-	// Sets the name of the log to write to.
-	logName := "emma-app"
-
-	logger := client.Logger(logName).StandardLogger(logging.Info)
+	// client, err := logging.NewClient(ctx, projectID)
+	// if err != nil {
+	// 	log.Fatalf("Failed to create client: %v", err)
+	// }
+	// defer client.Close()
+	//
+	// // Sets the name of the log to write to.
+	// logName := "emma-app"
+	//
+	// logger := client.Logger(logName).StandardLogger(logging.Info)
 
 	// Logs "hello world", log entry is visible at
 
 	// Start the listener
 	server.Run(route.LoadHTTP(), route.LoadHTTPS(), config.Server)
 	// appengine.Main()
-	logger.Println("Server started")
+	log.Println("Server started")
 }
 
 // *****************************************************************************

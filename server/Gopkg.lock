@@ -2,6 +2,28 @@
 
 
 [[projects]]
+  digest = "1:e663fd28e6e6f1a7c0a672fc9b668df2a2d772d880e0d392878052c825212ffa"
+  name = "cloud.google.com/go"
+  packages = [
+    "compute/metadata",
+    "internal/version",
+    "logging",
+    "logging/apiv2",
+    "logging/internal",
+  ]
+  pruneopts = "UT"
+  revision = "c728a003b238b26cef9ab6753a5dc424b331c3ad"
+  version = "v0.27.0"
+
+[[projects]]
+  digest = "1:dc27d9777febe9e63ab33a2cd15e31ce8d9463932d2472cc7097dc662dedb5ab"
+  name = "contrib.go.opencensus.io/exporter/stackdriver"
+  packages = ["propagation"]
+  pruneopts = "UT"
+  revision = "2b93072101d466aa4120b3c23c2e1b08af01541c"
+  version = "v0.6.0"
+
+[[projects]]
   branch = "master"
   digest = "1:d6afaeed1502aa28e80a4ed0981d570ad91b2579193404256ce672ed0a609e0d"
   name = "github.com/beorn7/perks"
@@ -16,14 +38,6 @@
   pruneopts = "UT"
   revision = "2f1ce7a837dcb8da3ec595b1dac9d0632f0f99e8"
   version = "v1.3.1"
-
-[[projects]]
-  digest = "1:7b81d2ed76bf960333a8020c4b8c22abd6072f0b54ad31c66e90e6a17a19315a"
-  name = "github.com/bshuster-repo/logrus-logstash-hook"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "dbc1e22735aa6ed7bd9579a407c17bc7c4a4e046"
-  version = "v0.4.1"
 
 [[projects]]
   digest = "1:865079840386857c809b72ce300be7580cb50d3d3129ce11bf9aa6ca2bc1934a"
@@ -50,12 +64,29 @@
   version = "v1.4.0"
 
 [[projects]]
-  digest = "1:97df918963298c287643883209a2c3f642e6593379f97ab400c2a2e219ab647d"
+  digest = "1:ec0bde6dc8cf3cb9254f79603bd8489c366a0a8584949cac5a73fa10b9f47c21"
   name = "github.com/golang/protobuf"
-  packages = ["proto"]
+  packages = [
+    "proto",
+    "protoc-gen-go/descriptor",
+    "ptypes",
+    "ptypes/any",
+    "ptypes/duration",
+    "ptypes/empty",
+    "ptypes/struct",
+    "ptypes/timestamp",
+  ]
   pruneopts = "UT"
   revision = "aa810b61a9c79d51363740d207bb46cf8e620ed5"
   version = "v1.2.0"
+
+[[projects]]
+  digest = "1:e145e9710a10bc114a6d3e2738aadf8de146adaa031854ffdf7bbfe15da85e63"
+  name = "github.com/googleapis/gax-go"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "317e0006254c44a0ac427cc52a0e083ff0b9622f"
+  version = "v2.0.0"
 
 [[projects]]
   digest = "1:c79fb010be38a59d657c48c6ba1d003a8aa651fa56b579d959d74573b7dff8e1"
@@ -198,6 +229,29 @@
   version = "v1.0.6"
 
 [[projects]]
+  digest = "1:8e7fcf54cc7c0c3aba7801812ae70343585b3cb663f6cb11ad50c0c28552f359"
+  name = "go.opencensus.io"
+  packages = [
+    ".",
+    "internal",
+    "internal/tagencoding",
+    "plugin/ocgrpc",
+    "plugin/ochttp",
+    "plugin/ochttp/propagation/b3",
+    "stats",
+    "stats/internal",
+    "stats/view",
+    "tag",
+    "trace",
+    "trace/internal",
+    "trace/propagation",
+    "trace/tracestate",
+  ]
+  pruneopts = "UT"
+  revision = "79993219becaa7e29e3b60cb67f5b8e82dee11d6"
+  version = "v0.17.0"
+
+[[projects]]
   branch = "master"
   digest = "1:001a4e7a40e50ff2ef32e2556bca50c4f77daa457db3ac6afc8bea9bb2122cfb"
   name = "golang.org/x/crypto"
@@ -211,6 +265,45 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:1c14517b2f106c61d75006199b46a46576058661d469658cb0f90739919641d2"
+  name = "golang.org/x/net"
+  packages = [
+    "context",
+    "context/ctxhttp",
+    "http/httpguts",
+    "http2",
+    "http2/hpack",
+    "idna",
+    "internal/timeseries",
+    "trace",
+  ]
+  pruneopts = "UT"
+  revision = "26e67e76b6c3f6ce91f7c52def5af501b4e0f3a2"
+
+[[projects]]
+  branch = "master"
+  digest = "1:f645667d687fc8bf228865a2c5455824ef05bad08841e673673ef2bb89ac5b90"
+  name = "golang.org/x/oauth2"
+  packages = [
+    ".",
+    "google",
+    "internal",
+    "jws",
+    "jwt",
+  ]
+  pruneopts = "UT"
+  revision = "d2e6202438beef2727060aa7cabdd924d92ebfd9"
+
+[[projects]]
+  branch = "master"
+  digest = "1:e0140c0c868c6e0f01c0380865194592c011fe521d6e12d78bfd33e756fe018a"
+  name = "golang.org/x/sync"
+  packages = ["semaphore"]
+  pruneopts = "UT"
+  revision = "1d60e4601c6fd243af51cc01ddf169918a5407ca"
+
+[[projects]]
+  branch = "master"
   digest = "1:9c99029818a3d4f53bcfd6c0158ca068aeacfecb29283f82a1f9c79b8d2a7da4"
   name = "golang.org/x/sys"
   packages = [
@@ -221,12 +314,120 @@
   revision = "d99a578cf41bfccdeaf48b0845c823a4b8b0ad5e"
 
 [[projects]]
-  digest = "1:c25289f43ac4a68d88b02245742347c94f1e108c534dda442188015ff80669b3"
+  digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
+  name = "golang.org/x/text"
+  packages = [
+    "collate",
+    "collate/build",
+    "internal/colltab",
+    "internal/gen",
+    "internal/tag",
+    "internal/triegen",
+    "internal/ucd",
+    "language",
+    "secure/bidirule",
+    "transform",
+    "unicode/bidi",
+    "unicode/cldr",
+    "unicode/norm",
+    "unicode/rangetable",
+  ]
+  pruneopts = "UT"
+  revision = "f21a4dfb5e38f5895301dc265a8def02365cc3d0"
+  version = "v0.3.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:1c282e477c97e1be16f3cd5962a041073969cee2711aa8c0b8188a25727c0e39"
+  name = "google.golang.org/api"
+  packages = [
+    "googleapi/transport",
+    "internal",
+    "iterator",
+    "option",
+    "support/bundler",
+    "transport",
+    "transport/grpc",
+    "transport/http",
+  ]
+  pruneopts = "UT"
+  revision = "1644ed9defba3c60a9bc80d0ce82c9595f786f76"
+
+[[projects]]
+  digest = "1:0e781d9592d20f30c4280da30f27b448b4815215f9b43b5258b763a79fb98e98"
   name = "google.golang.org/appengine"
-  packages = ["cloudsql"]
+  packages = [
+    ".",
+    "cloudsql",
+    "internal",
+    "internal/app_identity",
+    "internal/base",
+    "internal/datastore",
+    "internal/log",
+    "internal/modules",
+    "internal/remote_api",
+    "internal/socket",
+    "internal/urlfetch",
+    "socket",
+    "urlfetch",
+  ]
   pruneopts = "UT"
   revision = "b1f26356af11148e710935ed1ac8a7f5702c7612"
   version = "v1.1.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:38499e6ddf27ad72c90c2181efcd6f5a0fba0b11930600457307264d48650830"
+  name = "google.golang.org/genproto"
+  packages = [
+    "googleapis/api/annotations",
+    "googleapis/api/distribution",
+    "googleapis/api/label",
+    "googleapis/api/metric",
+    "googleapis/api/monitoredres",
+    "googleapis/logging/type",
+    "googleapis/logging/v2",
+    "googleapis/rpc/status",
+    "protobuf/field_mask",
+  ]
+  pruneopts = "UT"
+  revision = "4b56f30a1fd96a133a036b62cdd2a249883dd89b"
+
+[[projects]]
+  digest = "1:4ad047d772a7d4841687df9534a767a9e243885ed6d7d2ced6af5995a5dc44b3"
+  name = "google.golang.org/grpc"
+  packages = [
+    ".",
+    "balancer",
+    "balancer/base",
+    "balancer/roundrobin",
+    "codes",
+    "connectivity",
+    "credentials",
+    "credentials/oauth",
+    "encoding",
+    "encoding/proto",
+    "grpclog",
+    "internal",
+    "internal/backoff",
+    "internal/channelz",
+    "internal/envconfig",
+    "internal/grpcrand",
+    "internal/transport",
+    "keepalive",
+    "metadata",
+    "naming",
+    "peer",
+    "resolver",
+    "resolver/dns",
+    "resolver/passthrough",
+    "stats",
+    "status",
+    "tap",
+  ]
+  pruneopts = "UT"
+  revision = "8dea3dc473e90c8179e519d91302d0597c0ca1d1"
+  version = "v1.15.0"
 
 [[projects]]
   branch = "v2"
@@ -246,8 +447,8 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "cloud.google.com/go/logging",
     "github.com/boltdb/bolt",
-    "github.com/bshuster-repo/logrus-logstash-hook",
     "github.com/fatih/color",
     "github.com/getwe/figlet4go",
     "github.com/go-sql-driver/mysql",
@@ -261,6 +462,7 @@
     "github.com/prometheus/client_golang/prometheus",
     "github.com/sirupsen/logrus",
     "golang.org/x/crypto/bcrypt",
+    "golang.org/x/net/context",
     "gopkg.in/mgo.v2",
     "gopkg.in/mgo.v2/bson",
   ]

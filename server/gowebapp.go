@@ -1,8 +1,8 @@
 package main
 
 import (
+	"cloud.google.com/go/logging"
 	"encoding/json"
-	"fmt"
 	"github.com/chanceeakin/app-for-emma/server/app/route"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/database"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/email"
@@ -12,12 +12,10 @@ import (
 	"github.com/chanceeakin/app-for-emma/server/app/shared/session"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/view"
 	"github.com/chanceeakin/app-for-emma/server/app/shared/view/plugin"
-	"github.com/fatih/color"
-	"github.com/getwe/figlet4go"
+	"golang.org/x/net/context"
+	"log"
 	"runtime"
-
-	"github.com/bshuster-repo/logrus-logstash-hook"
-	"github.com/sirupsen/logrus"
+	// "google.golang.org/appengine"
 )
 
 // *****************************************************************************
@@ -54,35 +52,30 @@ func main() {
 		plugin.NoEscape(),
 		plugin.PrettyTime(),
 		recaptcha.Plugin())
-	ascii := figlet4go.NewAsciiRender()
 
-	log := logrus.New()
-	hook, err := logrustash.NewHook("tcp", "elk:5044", "suggestions")
+	ctx := context.Background()
+
+	// Sets your Google Cloud Platform project ID.
+	projectID := "emma-app-216513"
+
+	// Creates a client.
+	client, err := logging.NewClient(ctx, projectID)
 	if err != nil {
-		log.Println(err)
+		log.Fatalf("Failed to create client: %v", err)
 	}
+	defer client.Close()
 
-	log.Hooks.Add(hook)
+	// Sets the name of the log to write to.
+	logName := "emma-app"
 
-	str := "Starting"
-	colors := [...]color.Attribute{
-		color.FgMagenta,
-		color.FgYellow,
-		color.FgBlue,
-		color.FgCyan,
-		color.FgRed,
-		color.FgWhite,
-	}
-	options := figlet4go.NewRenderOptions()
-	options.FontColor = make([]color.Attribute, len(str))
-	for i := range options.FontColor {
-		options.FontColor[i] = colors[i%len(colors)]
-	}
-	renderStr, _ := ascii.RenderOpts(str, options)
-	fmt.Println(renderStr)
+	logger := client.Logger(logName).StandardLogger(logging.Info)
+
+	// Logs "hello world", log entry is visible at
 
 	// Start the listener
 	server.Run(route.LoadHTTP(), route.LoadHTTPS(), config.Server)
+	// appengine.Main()
+	logger.Println("Server started")
 }
 
 // *****************************************************************************

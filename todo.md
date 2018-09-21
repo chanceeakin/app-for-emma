@@ -1,10 +1,11 @@
 # create 1.0 expectations and feature Set
 
-- logging solution
-  - connect golang logs with elk stack running in docker-compose
+- google cloud engine
+  - run app via kubernetes in google cloud and on your computer
+  - add kubernetes/grafana monitoring to the kubernetes cluster
 - testing
   - add in tests for actions and reducers
-  - golang tests
+  - add tests for containers
 - CI/CD
   - explore some options once tests are in place
 - deployment
@@ -65,6 +66,7 @@
   - deployment
     - dockerize the server
     - add prometheus like [so](https://github.com/brancz/prometheus-example-app/blob/master/main.go)
+    - figure out how to network kubernetes pods
   - a user should be able to have 1 suggestion for a 24 hour period, resetting at 4am for their local time.
     - this should be handled client side via a TTL, stored in asyncStorage
     - put async checking logic in the action, which still fires off of componentDidMount

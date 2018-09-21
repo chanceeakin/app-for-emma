@@ -157,8 +157,6 @@ func routes() *httprouter.Router {
 	r.Handler("*", "/metrics", prometheusHandler())
 
 	// Set 404 handler
-	r.NotFound =
-		controller.Error404
 
 	return r
 }

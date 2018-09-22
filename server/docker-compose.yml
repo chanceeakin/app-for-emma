@@ -9,7 +9,7 @@ services:
       - db_data:/var/lib/mongo
     restart: always
     ports:
-      - 27017
+      - 27017:27017
 
   prometheus:
     networks:

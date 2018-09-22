@@ -1,8 +1,5 @@
 # create 1.0 expectations and feature Set
 
-- google cloud engine
-  - run app via kubernetes in google cloud and on your computer
-  - add kubernetes/grafana monitoring to the kubernetes cluster
 - testing
   - add in tests for actions and reducers
   - add tests for containers
@@ -76,3 +73,7 @@
   - a user needs an about page
     - style and put copy in it.
   - general UI overhaul/streamlining.
+
+- google cloud engine
+
+  - add kubernetes/grafana monitoring to the kubernetes cluster

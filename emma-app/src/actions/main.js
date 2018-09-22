@@ -11,28 +11,33 @@ import {
   CHECK_SUGGESTION_TIME_FAIL,
   SET_SUGGESTION_TIME,
   SET_SUGGESTION_TIME_SUCCESS,
-  SET_SUGGESTION_TIME_FAIL
+  SET_SUGGESTION_TIME_FAIL,
 } from './../constants/action-types'
-import {
-  TWELVE_HOURS_IN_MS
-} from './../constants/time'
+import { TWELVE_HOURS_IN_MS } from './../constants/time'
+import { apiUrl } from './../constants/urls'
 import type { Dispatch } from './../types/Store'
 import { setItem, getItem } from './../utils/asyncStorage'
 
 export const fetchSuggestions = (): MainAction => {
   return async (dispatch: Dispatch) => {
     dispatch({
-      type: SUGGESTION_FETCH_BEGIN
+      type: SUGGESTION_FETCH_BEGIN,
     })
     try {
-      const response = await fetch('http://localhost:8000/random-suggestion', {
-        method: 'GET'
+      const response = await fetch(`${apiUrl}/random-suggestion`, {
+        method: 'GET',
       })
       const data = await response.json()
       if (data.length > 0) {
         const existingSuggestion: string = await getItem('@APP/suggestion')
-        const parsedExistingSuggestion: Suggestion = await JSON.parse(existingSuggestion)
-        if (parsedExistingSuggestion && parsedExistingSuggestion.id === data[0].id) {
+        let parsedExistingSuggestion: ?Suggestion
+        if (existingSuggestion) {
+          parsedExistingSuggestion = await JSON.parse(existingSuggestion)
+        }
+        if (
+          parsedExistingSuggestion &&
+          parsedExistingSuggestion.id === data[0].id
+        ) {
           dispatch(fetchSuggestions())
         }
         const time = new Date()
@@ -42,6 +47,7 @@ export const fetchSuggestions = (): MainAction => {
         throw new Error('No suggestion found')
       }
     } catch (e) {
+      console.warn(e)
       dispatch(suggestionFetchFail(e))
     }
   }
@@ -52,7 +58,7 @@ const suggestionFetchSuccess = (payload: Suggestion): MainAction => {
     try {
       dispatch({
         type: SUGGESTION_FETCH_SUCCESS,
-        payload
+        payload,
       })
       await setItem('@APP/suggestion', JSON.stringify(payload))
     } catch (e) {
@@ -63,13 +69,13 @@ const suggestionFetchSuccess = (payload: Suggestion): MainAction => {
 
 const suggestionFetchFail = (error: Error): MainAction => ({
   type: SUGGESTION_FETCH_FAIL,
-  payload: error
+  payload: error,
 })
 
 export const checkSuggestionsTime = (): MainAction => {
   return async (dispatch: Dispatch, getState) => {
     dispatch({
-      type: CHECK_SUGGESTION_TIME
+      type: CHECK_SUGGESTION_TIME,
     })
     try {
       const time: Date = await getItem('@APP/suggestionReceivedAt')
@@ -90,18 +96,18 @@ export const checkSuggestionsTime = (): MainAction => {
 
 const checkSuggestionTimeSuccess = (payload: Date): MainAction => ({
   type: CHECK_SUGGESTION_TIME_SUCCESS,
-  payload
+  payload,
 })
 
 const checkSuggestionTimeFail = (payload: Error): MainAction => ({
   type: CHECK_SUGGESTION_TIME_FAIL,
-  payload
+  payload,
 })
 
 export const setSuggestionTime = (time: Date): MainAction => {
   return async (dispatch: Dispatch) => {
     dispatch({
-      type: SET_SUGGESTION_TIME
+      type: SET_SUGGESTION_TIME,
     })
     try {
       const result = await setItem('@APP/suggestionReceivedAt', time)
@@ -114,18 +120,18 @@ export const setSuggestionTime = (time: Date): MainAction => {
 
 const setSuggestionTimeSuccess = (payload: Date): MainAction => ({
   type: SET_SUGGESTION_TIME_SUCCESS,
-  payload
+  payload,
 })
 
 const setSuggestionTimeFail = (payload: Error): MainAction => ({
   type: SET_SUGGESTION_TIME_FAIL,
-  payload
+  payload,
 })
 
 export const fetchAsyncStoredSuggestion = (): MainAction => {
   return async dispatch => {
     dispatch({
-      type: ASYNC_SUGGESTION_FETCH
+      type: ASYNC_SUGGESTION_FETCH,
     })
     try {
       const result = await getItem('@APP/suggestion')
@@ -137,14 +143,14 @@ export const fetchAsyncStoredSuggestion = (): MainAction => {
   }
 }
 
-const fetchAsyncSSSuccess = (payload: Suggestion):MainAction => {
+const fetchAsyncSSSuccess = (payload: Suggestion): MainAction => {
   return {
     type: ASYNC_SUGGESTION_FETCH_SUCCESS,
-    payload
+    payload,
   }
 }
 
 const fetchAsyncSSFail = (payload: Error): MainAction => ({
   type: ASYNC_SUGGESTION_FETCH_FAIL,
-  payload
+  payload,
 })

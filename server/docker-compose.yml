@@ -1,4 +1,5 @@
 version: "3"
+
 services:
   db:
     networks:
@@ -8,7 +9,8 @@ services:
       - db_data:/var/lib/mongo
     restart: always
     ports:
-      - "27017:27017"
+      - 27017
+
   prometheus:
     networks:
       - backend
@@ -17,19 +19,22 @@ services:
       - 9090:9090
     volumes:
       - "./deploy/prometheus.yml:/etc/prometheus/prometheus.yml"
+
   suggestions:
     networks:
       - backend
     depends_on:
       - db
-    image: chanceeakin/suggestion-server:latest
+    image: chanceeakin/suggestion-server:0.1.2
     ports:
-      - "8000:8000"
+      - 80:8000
     restart: always
     build: .
     links:
       - db
+
 volumes:
   db_data:
+
 networks:
   backend:
